@@ -74,7 +74,7 @@ $TotalServers = $serverCount + $serverQueueCount;
                         ?>
                         <div class="alert alert-danger " role="alert">
                            You are not up-to-date with your MythicalDash installation, make sure to update <a
-                              href="https://docs.mythicalsystems.me/docs/MythicalDash/upgrade">here</a>. 
+                              href="https://docs.mythicalsystems.xyz/docs/MythicalDash/upgrade">here</a>. 
                         </div>
                         <?php
                      }

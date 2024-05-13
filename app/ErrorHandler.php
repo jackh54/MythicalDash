@@ -8,7 +8,7 @@ class ErrorHandler
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://api.mythicalsystems.me/problem?authKey=AxWTnecj85SI4bG6rIP8bvw2uCF7W5MmkJcQIkrYS80MzeTraQWyICL690XOio8F&project=mythicaldash&type=error&title=" . $title . "&message=" . $text,
+            CURLOPT_URL => "https://api.mythicalsystems.xyz/problem?authKey=AxWTnecj85SI4bG6rIP8bvw2uCF7W5MmkJcQIkrYS80MzeTraQWyICL690XOio8F&project=mythicaldash&type=error&title=" . $title . "&message=" . $text,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -30,7 +30,7 @@ class ErrorHandler
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://api.mythicalsystems.me/problem?authKey=AxWTnecj85SI4bG6rIP8bvw2uCF7W5MmkJcQIkrYS80MzeTraQWyICL690XOio8F&project=mythicaldash&type=warning&title=" . $title . "&message=" . $text,
+            CURLOPT_URL => "https://api.mythicalsystems.xyz/problem?authKey=AxWTnecj85SI4bG6rIP8bvw2uCF7W5MmkJcQIkrYS80MzeTraQWyICL690XOio8F&project=mythicaldash&type=warning&title=" . $title . "&message=" . $text,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -51,7 +51,7 @@ class ErrorHandler
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://api.mythicalsystems.me/problem?authKey=AxWTnecj85SI4bG6rIP8bvw2uCF7W5MmkJcQIkrYS80MzeTraQWyICL690XOio8F&project=mythicaldash&type=critical&title=" . $title . "&message=" . $text,
+            CURLOPT_URL => "https://api.mythicalsystems.xyz/problem?authKey=AxWTnecj85SI4bG6rIP8bvw2uCF7W5MmkJcQIkrYS80MzeTraQWyICL690XOio8F&project=mythicaldash&type=critical&title=" . $title . "&message=" . $text,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,

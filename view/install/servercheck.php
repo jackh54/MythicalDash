@@ -140,13 +140,13 @@ if ($phpVersion >= '8.1' && $phpVersion <= '8.3') {
                         </a>
                       </li>
                       <li class="menu-item">
-                        <a href="https://docs.mythicalsystems.me" class="menu-link">
+                        <a href="https://docs.mythicalsystems.xyz" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-3d-cube-sphere"></i>
                           <div data-i18n="Documentation">Documentation</div>
                         </a>
                       </li>
                       <li class="menu-item">
-                        <a href="https://auth.mythicalsystems.me" class="menu-link">
+                        <a href="https://auth.mythicalsystems.xyz" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-atom-2"></i>
                           <div data-i18n="Support Ticket">Support Ticket</div>
                         </a>
@@ -200,14 +200,14 @@ if ($phpVersion >= '8.1' && $phpVersion <= '8.3') {
                     <script>
                       document.write(new Date().getFullYear());
                     </script>
-                    made with ❤️ by <a href="https://mythicalsystems.me" target="_blank"
+                    made with ❤️ by <a href="https://mythicalsystems.xyz" target="_blank"
                       class="fw-semibold">MythicalSystems</a>
                   </div>
                   <div>
                     <a href="https://github.com/MythicalLTD/MythicalDash/blob/develop/LICENSE" class="footer-link me-4"
                       target="_blank">License</a>
                     <a href="https://github.com/mythicalltd" target="_blank" class="footer-link me-4">More Projects</a>
-                    <a href="https://docs.mythicalsystems.me/" target="_blank" class="footer-link me-4">Documentation</a>
+                    <a href="https://docs.mythicalsystems.xyz/" target="_blank" class="footer-link me-4">Documentation</a>
                     <a href="https://discord.gg/xUGNwePZmY" target="_blank"
                       class="footer-link d-none d-sm-inline-block">Support</a>
                   </div>
@@ -360,13 +360,13 @@ foreach ($requiredExtensions as $ext) {
                           </a>
                         </li>
                         <li class="menu-item">
-                          <a href="https://docs.mythicalsystems.me" class="menu-link">
+                          <a href="https://docs.mythicalsystems.xyz" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-3d-cube-sphere"></i>
                             <div data-i18n="Documentation">Documentation</div>
                           </a>
                         </li>
                         <li class="menu-item">
-                          <a href="https://auth.mythicalsystems.me" class="menu-link">
+                          <a href="https://auth.mythicalsystems.xyz" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-atom-2"></i>
                             <div data-i18n="Support Ticket">Support Ticket</div>
                           </a>
@@ -420,14 +420,14 @@ foreach ($requiredExtensions as $ext) {
                       <script>
                         document.write(new Date().getFullYear());
                       </script>
-                      made with ❤️ by <a href="https://mythicalsystems.me" target="_blank"
+                      made with ❤️ by <a href="https://mythicalsystems.xyz" target="_blank"
                         class="fw-semibold">MythicalSystems</a>
                     </div>
                     <div>
                       <a href="https://github.com/MythicalLTD/MythicalDash/blob/develop/LICENSE" class="footer-link me-4"
                         target="_blank">License</a>
                       <a href="https://github.com/mythicalltd" target="_blank" class="footer-link me-4">More Projects</a>
-                      <a href="https://docs.mythicalsystems.me/" target="_blank" class="footer-link me-4">Documentation</a>
+                      <a href="https://docs.mythicalsystems.xyz/" target="_blank" class="footer-link me-4">Documentation</a>
                       <a href="https://discord.gg/xUGNwePZmY" target="_blank"
                         class="footer-link d-none d-sm-inline-block">Support</a>
                     </div>
@@ -576,13 +576,13 @@ if (!is_writable(__DIR__)) {
                         </a>
                       </li>
                       <li class="menu-item">
-                        <a href="https://docs.mythicalsystems.me" class="menu-link">
+                        <a href="https://docs.mythicalsystems.xyz" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-3d-cube-sphere"></i>
                           <div data-i18n="Documentation">Documentation</div>
                         </a>
                       </li>
                       <li class="menu-item">
-                        <a href="https://auth.mythicalsystems.me" class="menu-link">
+                        <a href="https://auth.mythicalsystems.xyz" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-atom-2"></i>
                           <div data-i18n="Support Ticket">Support Ticket</div>
                         </a>
@@ -631,14 +631,14 @@ if (!is_writable(__DIR__)) {
                     <script>
                       document.write(new Date().getFullYear());
                     </script>
-                    made with ❤️ by <a href="https://mythicalsystems.me" target="_blank"
+                    made with ❤️ by <a href="https://mythicalsystems.xyz" target="_blank"
                       class="fw-semibold">MythicalSystems</a>
                   </div>
                   <div>
                     <a href="https://github.com/MythicalLTD/MythicalDash/blob/develop/LICENSE" class="footer-link me-4"
                       target="_blank">License</a>
                     <a href="https://github.com/mythicalltd" target="_blank" class="footer-link me-4">More Projects</a>
-                    <a href="https://docs.mythicalsystems.me/" target="_blank" class="footer-link me-4">Documentation</a>
+                    <a href="https://docs.mythicalsystems.xyz/" target="_blank" class="footer-link me-4">Documentation</a>
                     <a href="https://discord.gg/xUGNwePZmY" target="_blank"
                       class="footer-link d-none d-sm-inline-block">Support</a>
                   </div>
@@ -786,13 +786,13 @@ if (!is_writable(__DIR__)) {
                       </a>
                     </li>
                     <li class="menu-item">
-                      <a href="https://docs.mythicalsystems.me" class="menu-link">
+                      <a href="https://docs.mythicalsystems.xyz" class="menu-link">
                         <i class="menu-icon tf-icons ti ti-3d-cube-sphere"></i>
                         <div data-i18n="Documentation">Documentation</div>
                       </a>
                     </li>
                     <li class="menu-item">
-                      <a href="https://auth.mythicalsystems.me" class="menu-link">
+                      <a href="https://auth.mythicalsystems.xyz" class="menu-link">
                         <i class="menu-icon tf-icons ti ti-atom-2"></i>
                         <div data-i18n="Support Ticket">Support Ticket</div>
                       </a>
@@ -842,14 +842,14 @@ if (!is_writable(__DIR__)) {
                   <script>
                     document.write(new Date().getFullYear());
                   </script>
-                  made with ❤️ by <a href="https://mythicalsystems.me" target="_blank"
+                  made with ❤️ by <a href="https://mythicalsystems.xyz" target="_blank"
                     class="fw-semibold">MythicalSystems</a>
                 </div>
                 <div>
                   <a href="https://github.com/MythicalLTD/MythicalDash/blob/develop/LICENSE" class="footer-link me-4"
                     target="_blank">License</a>
                   <a href="https://github.com/mythicalltd" target="_blank" class="footer-link me-4">More Projects</a>
-                  <a href="https://docs.mythicalsystems.me/" target="_blank" class="footer-link me-4">Documentation</a>
+                  <a href="https://docs.mythicalsystems.xyz/" target="_blank" class="footer-link me-4">Documentation</a>
                   <a href="https://discord.gg/xUGNwePZmY" target="_blank"
                     class="footer-link d-none d-sm-inline-block">Support</a>
                 </div>

@@ -333,7 +333,7 @@ resources:
       params:
         - id: pair_786fa7c51a9847758381b99be88d5942
           name: email
-          value: admin@mythicalsystems.me
+          value: admin@mythicalsystems.xyz
           description: ""
         - id: pair_bd61ca0e3aa6445fb9c84423cbf4af37
           name: coins
@@ -422,7 +422,7 @@ resources:
       params:
         - id: pair_61239e6aebf748eaa512e784c5d06aae
           name: email
-          value: admin@mythicalsystems.me
+          value: admin@mythicalsystems.xyz
           description: ""
         - id: pair_49bc7f42e8f14355919bc9bcba11c16a
           name: coins
@@ -491,7 +491,7 @@ resources:
       params:
         - id: pair_c594e08be34c4407823b1b5e47b3e653
           name: email
-          value: admin@mythicalsystems.me
+          value: admin@mythicalsystems.xyz
           description: ""
     parameters: []
     headers:
@@ -528,7 +528,7 @@ resources:
       params:
         - id: pair_eae57274a71e470ba08874f58b9360ac
           name: email
-          value: admin@mythicalsystems.me
+          value: admin@mythicalsystems.xyz
           description: ""
     parameters: []
     headers:
@@ -565,7 +565,7 @@ resources:
       params:
         - id: pair_39a363f2bb3e4df3a116f4fd68b509b4
           name: email
-          value: admin@mythicalsystems.me
+          value: admin@mythicalsystems.xyz
           description: ""
     parameters: []
     headers:
@@ -604,7 +604,7 @@ resources:
     parameters:
       - id: pair_0253fef8faa045e5894fc2766df9e28c
         name: email
-        value: admin@mythicalsystems.me
+        value: admin@mythicalsystems.xyz
         description: ""
     headers:
       - name: Content-Type

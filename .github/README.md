@@ -9,7 +9,7 @@ Do you want MythicalDash?
 
 You can find a step-by-step installation documentation over here: 
 
-https://docs.mythicalsystems.me
+https://docs.mythicalsystems.xyz
 ## Support
 
 For support, discord server: [discord.gg/freehost](https://discord.gg/3FWyugpznc)
@@ -69,7 +69,7 @@ Yes, if you choose to install MythicalDash you agree with:
 ## Demo
 
 You can find a live deployment copy of MythicalDash here:
-- https://devclient.mythicalsystems.me
+- https://devclient.mythicalsystems.xyz
 
 ## Roadmap
 
