@@ -16,7 +16,7 @@ if (isset($_COOKIE['token']) && !$_COOKIE['token'] == "") {
         deleteTickets($conn, mysqli_real_escape_string($conn,$_COOKIE['token']));
         deleteTicketsMsgs($conn, mysqli_real_escape_string($conn,$_COOKIE['token']));
         deletePasswordsReset($conn, mysqli_real_escape_string($conn,$_COOKIE['token']));
-        deleteUserFromPterodactyl(SettingsManager::getSetting("PterodactylURL"), $user_info['panel_id'], SettingsManager::getSetting("PterodactylAPIKey"));
+        deleteUserFromPterodactyl(SettingsManager::getSetting("PterodactylURL"),  $session->getUserInfo('panel_id'), SettingsManager::getSetting("PterodactylAPIKey"));
         deleteUserFromDb($conn, mysqli_real_escape_string($conn,$_COOKIE['token']));
         header('location: /auth/logout');
         die();

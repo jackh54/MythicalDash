@@ -67,7 +67,7 @@ include(__DIR__ . '/requirements/page.php');
                            $users[] = $row;
                         }
                         usort($users, function ($a, $b) {
-                           return $b['coins'] - $a['coins'];
+                           return intval($b['coins']) - intval($a['coins']);
                         });
                         $top5Users = array_slice($users, 0, 5);
                         ?>

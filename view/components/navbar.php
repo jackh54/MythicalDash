@@ -22,6 +22,7 @@ use MythicalDash\NotificationHandler;
         </a>
       </div>
     </div>
+
     <?php $notifications = NotificationHandler::getByUserId($session->getUserInfo('id')); ?>
     <ul class="navbar-nav flex-row align-items-center ms-auto">
       <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
@@ -64,8 +65,8 @@ use MythicalDash\NotificationHandler;
                       </small>
                     </div>
                     <div class="flex-shrink-0 dropdown-notifications-actions">
-                      <a href="/notification/delete?id=<?= htmlspecialchars($notification['id']) ?>" class="dropdown-notifications-archive"><span
-                          class="ti ti-x"></span></a>
+                      <a href="/notification/delete?id=<?= htmlspecialchars($notification['id']) ?>"
+                        class="dropdown-notifications-archive"><span class="ti ti-x"></span></a>
                     </div>
                   </div>
                 </li>
@@ -75,6 +76,75 @@ use MythicalDash\NotificationHandler;
           </li>
 
         </ul>
+      </li>
+      <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
+        <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
+          data-bs-auto-close="outside" aria-expanded="false">
+          <i class="ti ti-layout-grid-add ti-md"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end py-0">
+          <div class="dropdown-menu-header border-bottom">
+            <div class="dropdown-header d-flex align-items-center py-3">
+              <h5 class="text-body mb-0 me-auto">Useful Tools</h5>
+            </div>
+          </div>
+          <div class="dropdown-shortcuts-list scrollable-container ps">
+            <div class="row row-bordered overflow-visible g-0">
+              <div class="dropdown-shortcuts-item col">
+                <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                  <i class="ti ti-ruler fs-4"></i>
+                </span>
+                <a target="_new" href="https://minecraft.tools/en/motd.php" class="stretched-link">Motd</a>
+                <small class="text-muted mb-0">Minecraft</small>
+              </div>
+              <div class="dropdown-shortcuts-item col">
+                <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                  <i class="ti ti-file-invoice fs-4"></i>
+                </span>
+                <a target="_new" href="https://mctools.org/votifier-tester"  class="stretched-link">Votifier tester</a>
+                <small class="text-muted mb-0">Minecraft</small>
+              </div>
+            </div>
+            <div class="row row-bordered overflow-visible g-0">
+              <div class="dropdown-shortcuts-item col">
+                <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                  <i class="ti ti-users fs-4"></i>
+                </span>
+                <a target="_new" href="https://www.birdflop.com/resources/rgb/" class="stretched-link">RGB Generator</a>
+                <small class="text-muted mb-0">Minecraft</small>
+              </div>
+              <div class="dropdown-shortcuts-item col">
+                <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                  <i class="ti ti-lock fs-4"></i>
+                </span>
+                <a target="_new" href="https://etcgamer.com/minecraft-symbols-emojis/" class="stretched-link">MC Emojis</a>
+                <small class="text-muted mb-0">Minecraft</small>
+              </div>
+            </div>
+            <div class="row row-bordered overflow-visible g-0">
+              <div class="dropdown-shortcuts-item col">
+                <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                  <i class="ti ti-chart-bar fs-4"></i>
+                </span>
+                <a target="_new" href="https://mcutils.com/server-icon-converter" class="stretched-link">Server Icon</a>
+                <small class="text-muted mb-0">Minecraft</small>
+              </div>
+              <div class="dropdown-shortcuts-item col">
+                <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                  <i class="ti ti-settings fs-4"></i>
+                </span>
+                <a target="_new" href="https://www.birdflop.com/resources/flags/" class="stretched-link">Flags</a>
+                <small class="text-muted mb-0">Minecraft</small>
+              </div>
+            </div>
+            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+              <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <div class="ps__rail-y" style="top: 0px; right: 0px;">
+              <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+            </div>
+          </div>
+        </div>
       </li>
       <!-- User -->
       <li class="nav-item navbar-dropdown dropdown-user dropdown">

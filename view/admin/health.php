@@ -52,42 +52,9 @@ $TotalServers = $serverCount + $serverQueueCount;
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Health</h4>
                         <?php include(__DIR__ . '/../components/alert.php') ?>
-                        <?php
-    
-                        $data = Main::getLatestReleaseInfo();
-                        if ($data && isset($data['tag_name'])) {
-                            $latestVersion = $data['tag_name'];
-                            $pr = $data['prerelease'];
-                            if ($pr == true) {
-                                $pre = " (Prerelease)";
-                            } else {
-                                $pre = null;
-                            }
-                            if ($latestVersion == SettingsManager::getSetting("version")) {
-                                ?>
-                                <div class="alert alert-success " role="alert">
-                                    You are up to date! 
-                                    <br><br> Branch: <code><?= $data['target_commitish'] ?></code> <br>Version:
-                                    <code><?php echo $data['tag_name'] . $pre ?></code>
-                                </div>
-                                <?php
-                            } else {
-                                ?>
-                                <div class="alert alert-danger " role="alert">
-                                    You are not up-to-date with your MythicalDash installation, make sure to update <a
-                                        href="https://docs.mythicalsystems.xyz/docs/MythicalDash/upgrade">here</a>.
-                                </div>
-                                <?php
-                            }
-                        } else {
-                            ?>
-                            <div class="alert alert-danger " role="alert">
-                                Failed to get the info about MythicalDash version system: <br>
-                                <code><?= $data['message'] ?></code>
-                            </div>
-                            <?php
-                        }
-                        ?>
+                        <div class="alert alert-danger " role="alert">
+                            Failed to get the info about MythicalDash version system: <br>
+                            <code>API Support Disabled</code></div>
                         <?php
                         /**
                          * Parse the PHP version to x.x format.

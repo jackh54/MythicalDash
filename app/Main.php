@@ -43,13 +43,13 @@ class Main
     public static function getLatestReleaseInfo()
     {
         $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/mythicalltd/mythicaldash/releases/latest");
-            curl_setopt($ch, CURLOPT_HTTPHEADER, ['User-Agent: MythicalDash']);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $response = curl_exec($ch);
-            curl_close($ch);
+        curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/mythicalltd/mythicaldash/releases/latest");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['User-Agent: MythicalDash']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+        curl_close($ch);
 
-            return json_decode($response, true);
+        return json_decode($response, true);
     }
 
     public static function getLang()
@@ -62,7 +62,7 @@ class Main
             $langFilePath = __DIR__ . '/../lang/' . $langConfig . '.php';
 
             if (file_exists($langFilePath)) {
-                return include($langFilePath);
+                return include ($langFilePath);
             } else {
                 self::handleLanguageError("Failed to start the dash. Please use a valid language file.");
             }

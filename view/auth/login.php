@@ -127,13 +127,13 @@ try {
   <title>
     <?= SettingsManager::getSetting("name") ?> - <?= $lang['login'] ?>
   </title>
-
 </head>
 <body>
   <div id="preloader" class="discord-preloader">
     <div class="spinner"></div>
   </div>
-  <div class="authentication-wrapper authentication-cover authentication-bg">
+
+  <div class="authentication-wrapper authentication-cover ">
     <div class="authentication-inner row">
       <div class="d-flex col-12 col-lg-5 align-items-center p-sm-5 p-4 center">
         <div class="w-px-400 mx-auto">

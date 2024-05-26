@@ -2,7 +2,7 @@ name: Build and PHP APP
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "legacy" ]
   workflow_dispatch:
 
 env:

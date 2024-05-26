@@ -39,7 +39,6 @@ namespace MythicalDash
                 {
                     logo = "https://avatars.githubusercontent.com/u/117385445";
                 }
-
                 Console.Write("Pterodactyl URL [");
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write($"https://panel.yourhost.net");
@@ -50,6 +49,13 @@ namespace MythicalDash
                 if (string.IsNullOrWhiteSpace(panelurl))
                 {
                     panelurl = "https://panel.yourhost.net";
+                }
+
+                if (panelurl.EndsWith("/"))
+                {
+                    panelurl = panelurl.TrimEnd('/');
+                    Console.WriteLine("Removed trailing slash from Pterodactyl URL.");
+                    Console.WriteLine("Next time be more careful with the URL.");
                 }
 
                 Console.Write("Pterodactyl API [");

@@ -2,8 +2,8 @@
 use MythicalDash\SettingsManager;
 use MythicalDash\Main;
 
-include(__DIR__ . '/../requirements/page.php');
-include(__DIR__ . '/../requirements/admin.php');
+include (__DIR__ . '/../requirements/page.php');
+include (__DIR__ . '/../requirements/admin.php');
 
 $userCountQuery = "SELECT COUNT(*) AS user_count FROM mythicaldash_users";
 $userCountResult = $conn->query($userCountQuery);
@@ -34,7 +34,7 @@ $TotalServers = $serverCount + $serverQueueCount;
    <meta charset="utf-8" />
    <meta name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-   <?php include(__DIR__ . '/../requirements/head.php'); ?>
+   <?php include (__DIR__ . '/../requirements/head.php'); ?>
    <title>
       <?= SettingsManager::getSetting("name") ?> - Admin
    </title>
@@ -46,48 +46,17 @@ $TotalServers = $serverCount + $serverQueueCount;
    </div>-->
    <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
-         <?php include(__DIR__ . '/../components/sidebar.php') ?>
+         <?php include (__DIR__ . '/../components/sidebar.php') ?>
          <div class="layout-page">
-            <?php include(__DIR__ . '/../components/navbar.php') ?>
+            <?php include (__DIR__ . '/../components/navbar.php') ?>
             <div class="content-wrapper">
                <div class="container-xxl flex-grow-1 container-p-y">
                   <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Statistics</h4>
-                  <?php include(__DIR__ . '/../components/alert.php') ?>
-                  <?php
-                  $data = Main::getLatestReleaseInfo();
-                  if ($data && isset($data['tag_name'])) {
-                     $latestVersion = $data['tag_name'];
-                     $pr = $data['prerelease'];
-                     if ($pr == true) {
-                        $pre = " (Prerelease)";
-                     } else {
-                        $pre = null;
-                     }  
-                     if ($latestVersion == SettingsManager::getSetting("version")) {
-                        ?>
-                        <div class="alert alert-success " role="alert">
-                           You are up to date!
-                           <br><br> Branch: <code><?= $data['target_commitish'] ?></code> <br>Version: <code><?php echo $data['tag_name'].$pre ?></code>
-                        </div>
-                        <?php
-                     } else {
-                        ?>
-                        <div class="alert alert-danger " role="alert">
-                           You are not up-to-date with your MythicalDash installation, make sure to update <a
-                              href="https://docs.mythicalsystems.xyz/docs/MythicalDash/upgrade">here</a>. 
-                        </div>
-                        <?php
-                     }
-                  } else {
-                     ?>
-                     <div class="alert alert-danger " role="alert">
-                        Failed to get the info about MythicalDash version system: <br>
-                        <code><?= $data['message'] ?></code>
-
-                     </div>
-                     <?php
-                  }
-                  ?>
+                  <?php include (__DIR__ . '/../components/alert.php') ?>
+                  <div class="alert alert-danger " role="alert">
+                     Failed to get the info about MythicalDash version system: <br>
+                     <code>API Support Disabled</code>
+                  </div>
                   <div class="">
                      <!-- Statistics -->
                      <div class="card h-100">
@@ -156,7 +125,7 @@ $TotalServers = $serverCount + $serverQueueCount;
                      </div>
                   </div>
                </div>
-               <?php include(__DIR__ . '/../components/footer.php') ?>
+               <?php include (__DIR__ . '/../components/footer.php') ?>
                <div class="content-backdrop fade"></div>
             </div>
          </div>
@@ -164,7 +133,7 @@ $TotalServers = $serverCount + $serverQueueCount;
       <div class="layout-overlay layout-menu-toggle"></div>
       <div class="drag-target"></div>
    </div>
-   <?php include(__DIR__ . '/../requirements/footer.php') ?>
+   <?php include (__DIR__ . '/../requirements/footer.php') ?>
    <script src="<?= $appURL ?>/assets/js/dashboards-ecommerce.js"></script>
    <script>
       function updateElapsedTime() {

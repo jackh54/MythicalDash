@@ -12,7 +12,7 @@ You can find a step-by-step installation documentation over here: 
 https://docs.mythicalsystems.xyz
 ## Support
 
-For support, discord server: [discord.gg/freehost](https://discord.gg/3FWyugpznc)
+For support, discord server: [discord.gg/mythicalsystems](https://discord.mythicalsystems.xyz)
 
 
 ## Optimizations
@@ -61,15 +61,15 @@ Well, we created a table to compare the most commonly used pterodactyl clients, 
 
 Yes, if you choose to install MythicalDash you agree with:
 
-- [Github Security Policy](https://github.com/MythicalLTD/MythicalDash/blob/develop/.github/SECURITY.md)
-- [Github MIT License](https://github.com/MythicalLTD/MythicalDash/blob/develop/LICENSE)
+- [Github Security Policy](https://github.com/MythicalLTD/MythicalDash/blob/legacy/.github/SECURITY.md)
+- [Github MIT License](https://github.com/MythicalLTD/MythicalDash/blob/legacy/LICENSE)
 - [MythicalGuard TOS](https://github.com/MythicalLTD/mythicalguard?tab=readme-ov-file#usage-restrictions-and-guidelines)
 
 
 ## Demo
 
 You can find a live deployment copy of MythicalDash here:
-- https://devclient.mythicalsystems.xyz
+- https://mythicaldash.mythicalsystems.xyz
 
 ## Roadmap
 
@@ -84,26 +84,21 @@ Contributions are always welcome!
 This project is used by the following companies:
 
 - MythicalSystems
-- Free2Host
-
 
 ## Screenshots
 
-- ![App Screenshot1](https://i.imgur.com/fLIYnqK.png)
-- ![App Screenshot2](https://i.imgur.com/k3hBOut.png)
-- ![App Screenshot3](https://i.imgur.com/QDr6jk5.png)
-- ![App Screenshot4](https://i.imgur.com/1o5WNHo.png)
-- ![App Screenshot5](https://i.imgur.com/YcEb4YE.png)
-- ![App Screenshot6](https://i.imgur.com/KuJMgZk.png)
-- ![App Screenshot7](https://i.imgur.com/Nf0aFAt.png)
-- ![App Screenshot8](https://i.imgur.com/GwVkHbT.png)
-- ![App Screenshot9](https://i.imgur.com/mVBrtV5.png)
-- ![App Screenshot10](https://i.imgur.com/70rXiHt.png)
-- ![App Screenshot11](https://i.imgur.com/WrroKW3.png)
+- ![App Screenshot1](/.github/imgs/1.png)
+- ![App Screenshot2](/.github/imgs/2.png)
+- ![App Screenshot3](/.github/imgs/3.png)
+- ![App Screenshot4](/.github/imgs/4.png)
+- ![App Screenshot5](/.github/imgs/5.png)
+- ![App Screenshot6](/.github/imgs/6.png)
+- ![App Screenshot7](/.github/imgs/7.jpg)
+- ![App Screenshot8](/.github/imgs/8.gif)
 
 ## API Reference
 
-We did not write specific API documentation, but you can use [Insomnia](https://insomnia.rest/download) to see more info on what requests you can execute with our API. Here you can download the JSON for the Insomnia client: https://raw.githubusercontent.com/MythicalLTD/MythicalDash/develop/Insomnia.json
+We did not write specific API documentation, but you can use [Insomnia](https://insomnia.rest/download) to see more info on what requests you can execute with our API. Here you can download the JSON for the Insomnia client: https://raw.githubusercontent.com/MythicalLTD/MythicalDash/legacy/Insomnia_2024-02-29.yaml
 
 ## Tech Stack
 
@@ -123,7 +118,7 @@ Here is a list of the core components that MythicalDash uses to run!
 Page dialogs are a simple method to navigate into the dash by using page ids!
 
 ## Why shall i use them?
-Well you do not have to use them if you do not want to use them, but there are just for developers or ppl that get annoyed in trying to find something in the UI!
+Well you do not have to use them if you do not want to use them, but there are just for legacyers or ppl that get annoyed in trying to find something in the UI!
 
 ## Are there some reservations?
 Yes here there are:
@@ -167,5 +162,5 @@ Where here is a list:
 
 ## Serial Code:
 ```bash
-1 740 704 993
+1 036 044 163
 ```

@@ -9,11 +9,29 @@ use MythicalDash\Telemetry;
 use MythicalDash\SessionManager;
 use MythicalDash\Database\Connect;
 
+
+
 try {
     $conn = new Connect();
     $conn = $conn->connectToDatabase();
     $session = new SessionManager();
     session_start();
+    $check_users_query = "SELECT COUNT(*) as count FROM mythicaldash_users";
+    $result = mysqli_query($conn, $check_users_query);
+    $row = mysqli_fetch_assoc($result);
+    $user_count = $row['count'];
+
+    if ($user_count == 0) {
+        $role = "Administrator";
+        ?>
+        <script>
+            alert("It looks like there are no users in the database!\nThe first account that you will register will get administrator by deafult\nPlease do not use the same username or email from the pterodactyl panel\nPlease use a email and a username only for mythicaldash and shall never match with the panel one!\nAlso please make sure that your panel is empty because users will not be able to register in the dash if there is already a panel user with the same email or username!");
+        </script>
+        <?php
+    } else {
+        $role = "User";
+    }
+
     $csrf = new MythicalSystems\Utils\CSRFHandler;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -100,11 +118,6 @@ try {
                                     $conn->query("INSERT INTO mythicaldash_login_logs (ipaddr, userkey) VALUES ('" . mysqli_real_escape_string($conn, $session->getIP()) . "', '" . mysqli_real_escape_string($conn, $skey) . "')");
                                     $default = "https://www.gravatar.com/avatar/00000000000000000000000000000000";
                                     $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default);
-                                    if (file_exists("FIRST_USER")) {
-                                        $role = "Administrator";
-                                    } else {
-                                        $role = "User";
-                                    }
                                     $conn->query("INSERT INTO `mythicaldash_users` 
                                 (`panel_id`,
                                 `email`,
@@ -184,7 +197,7 @@ try {
         }
     }
 } catch (Exception $e) {
-    header("location: /auth/register?e=" . $lang['login_error_unknown']."<br><code>".$e->getMessage()."</code>");
+    header("location: /auth/register?e=" . $lang['login_error_unknown'] . "<br><code>" . $e->getMessage() . "</code>");
     ErrorHandler::Error("Register ", $e);
     die();
 }
@@ -197,7 +210,7 @@ try {
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <?php include(__DIR__ . '/../requirements/head.php'); ?>
+    <?php include (__DIR__ . '/../requirements/head.php'); ?>
     <title>
         <?= SettingsManager::getSetting("name") ?> - <?= $lang['register'] ?>
     </title>
@@ -208,7 +221,7 @@ try {
     <div id="preloader" class="discord-preloader">
         <div class="spinner"></div>
     </div>
-    <div class="authentication-wrapper authentication-cover authentication-bg">
+    <div class="authentication-wrapper authentication-cover">
         <div class="authentication-inner row">
             <div class="d-flex col-12 col-lg-5 align-items-center p-sm-5 p-4 center">
                 <div class="w-px-400 mx-auto">
@@ -250,9 +263,11 @@ try {
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
                                 <label class="form-check-label" for="terms-conditions">
-                                <?= $lang['terms_agree'] ?> <a type="button" class="text-primary" data-bs-toggle="modal"
-                                        data-bs-target="#tos"><?= $lang['terms_of_service'] ?></a> &amp; <a type="button"
-                                        class="text-primary" data-bs-toggle="modal" data-bs-target="#pp"><?= $lang['privacy_policy'] ?></a>
+                                    <?= $lang['terms_agree'] ?> <a type="button" class="text-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#tos"><?= $lang['terms_of_service'] ?></a> &amp; <a
+                                        type="button" class="text-primary" data-bs-toggle="modal"
+                                        data-bs-target="#pp"><?= $lang['privacy_policy'] ?></a>
                                 </label>
                             </div>
                         </div>
@@ -260,14 +275,16 @@ try {
                         if (SettingsManager::getSetting("enable_turnstile") == "true") {
                             ?>
                             <center>
-                                <div class="cf-turnstile" data-sitekey="<?= SettingsManager::getSetting("turnstile_sitekey") ?>"></div>
+                                <div class="cf-turnstile"
+                                    data-sitekey="<?= SettingsManager::getSetting("turnstile_sitekey") ?>"></div>
                             </center>
                             &nbsp;
                             <?php
                         }
                         ?>
                         <?= $csrf->input('register-form'); ?>
-                        <button type="submit" value="true" name="sign_up" class="btn btn-primary d-grid w-100"> <?= $lang['register'] ?></button>
+                        <button type="submit" value="true" name="sign_up" class="btn btn-primary d-grid w-100">
+                            <?= $lang['register'] ?></button>
                     </form>
                     <?php
                     if (isset($_GET['e'])) {
@@ -297,7 +314,7 @@ try {
                         <div class="text-center mb-4">
                             <h3 class="mb-2"><?= $lang['terms_of_service'] ?></h3>
                             <p>
-                            <?= SettingsManager::getSetting("terms_of_service") ?>
+                                <?= SettingsManager::getSetting("terms_of_service") ?>
                         </div>
                         <div class="col-12 text-center">
                             <button type="button" data-bs-toggle="modal" data-bs-target="#pp"
@@ -317,7 +334,7 @@ try {
                         <div class="text-center mb-4">
                             <h3 class="mb-2"><?= $lang['privacy_policy'] ?></h3>
                             <p>
-                            <?= SettingsManager::getSetting("privacy_policy") ?>
+                                <?= SettingsManager::getSetting("privacy_policy") ?>
                         </div>
                         <div class="col-12 text-center">
                             <button type="button" data-bs-toggle="modal" data-bs-target="#tos" name="id" value=""
@@ -330,7 +347,7 @@ try {
             </div>
         </div>
     </div>
-    <?php include(__DIR__ . '/../requirements/footer.php'); ?>
+    <?php include (__DIR__ . '/../requirements/footer.php'); ?>
     <script src="<?= $appURL ?>/assets/js/pages-auth.js"></script>
 </body>
 

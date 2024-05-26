@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                             include(__DIR__ . '/../components/snow.php');
                         }
                         ?>
-                        <div class="authentication-wrapper authentication-cover authentication-bg">
+                        <div class="authentication-wrapper authentication-cover ">
                             <div class="authentication-inner row">
                                 <div class="d-none d-lg-flex col-lg-7 p-0">
                                     <div class="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
