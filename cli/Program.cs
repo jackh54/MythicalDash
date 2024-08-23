@@ -191,6 +191,17 @@ namespace MythicalDash
                     logger.Log(LogType.Error, "Failed to update config: " + ex.Message);
                     Environment.Exit(0x0);
                 }
+            } else if (args.Contains("-logs:showall")) {
+                try
+                {
+                    iconsole.showalllogs();
+                    Environment.Exit(0x0);
+                }
+                catch (Exception ex)
+                {
+                    logger.Log(LogType.Error, "Failed to show all logs: " + ex.Message);
+                    Environment.Exit(0x0);
+                }
             }
             else if (args.Contains("-console:disable"))
             {
@@ -379,6 +390,7 @@ namespace MythicalDash
                 Console.WriteLine("‖    -debug:enable              ‖ Enables the debug mode to display error messages for MythicalDash.                     ‖");
                 Console.WriteLine("‖    -console:disable           ‖ Disables the browser's inspect element or console from being used on MythicalDash.     ‖");
                 Console.WriteLine("‖    -console:enable            ‖ Enables the browser's inspect element or console on MythicalDash.                      ‖");
+                Console.WriteLine("‖    -logs:showall              ‖ Shows all logs from the database.                                                      ‖");
                 Console.WriteLine("‖    -debug:disable             ‖ Disables the debug mode to hide error messages for MythicalDash.                       ‖");
                 Console.WriteLine("‖    -debug:silent:on           ‖ Hides the debug mode online status messages from being disabled.                       ‖");
                 Console.WriteLine("‖    -debug:silent:off          ‖ Shows the debug mode online status messages from being enabled.                        ‖");

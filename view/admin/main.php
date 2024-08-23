@@ -53,10 +53,7 @@ $TotalServers = $serverCount + $serverQueueCount;
                <div class="container-xxl flex-grow-1 container-p-y">
                   <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Statistics</h4>
                   <?php include (__DIR__ . '/../components/alert.php') ?>
-                  <div class="alert alert-danger " role="alert">
-                     Failed to get the info about MythicalDash version system: <br>
-                     <code>API Support Disabled</code>
-                  </div>
+
                   <div class="">
                      <!-- Statistics -->
                      <div class="card h-100">

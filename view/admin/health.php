@@ -1,28 +1,12 @@
 <?php
+
 use MythicalDash\SettingsManager;
 use MythicalDash\Main;
+
 include(__DIR__ . '/../requirements/page.php');
 include(__DIR__ . '/../requirements/admin.php');
 
-$userCountQuery = "SELECT COUNT(*) AS user_count FROM mythicaldash_users";
-$userCountResult = $conn->query($userCountQuery);
-$userCount = $userCountResult->fetch_assoc()['user_count'];
-$ticketCountQuery = "SELECT COUNT(*) AS ticket_count FROM mythicaldash_tickets";
-$ticketCountResult = $conn->query($ticketCountQuery);
-$ticketCount = $ticketCountResult->fetch_assoc()['ticket_count'];
-$serverCountQuery = "SELECT COUNT(*) AS servers FROM mythicaldash_servers";
-$serverCountResult = $conn->query($serverCountQuery);
-$serverCount = $serverCountResult->fetch_assoc()['servers'];
-$serverQueueQuery = "SELECT COUNT(*) AS serversq FROM mythicaldash_servers_queue";
-$serverQueueCountResult = $conn->query($serverQueueQuery);
-$serverQueueCount = $serverQueueCountResult->fetch_assoc()['serversq'];
-$locationsQuery = "SELECT COUNT(*) AS locations FROM mythicaldash_locations";
-$locationsCountResult = $conn->query($locationsQuery);
-$locationsCount = $locationsCountResult->fetch_assoc()['locations'];
-$eggsQuery = "SELECT COUNT(*) AS eggs FROM mythicaldash_eggs";
-$eggsCountResult = $conn->query($eggsQuery);
-$eggCount = $eggsCountResult->fetch_assoc()['eggs'];
-$TotalServers = $serverCount + $serverQueueCount;
+
 ?>
 <!DOCTYPE html>
 
@@ -52,9 +36,7 @@ $TotalServers = $serverCount + $serverQueueCount;
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Health</h4>
                         <?php include(__DIR__ . '/../components/alert.php') ?>
-                        <div class="alert alert-danger " role="alert">
-                            Failed to get the info about MythicalDash version system: <br>
-                            <code>API Support Disabled</code></div>
+
                         <?php
                         /**
                          * Parse the PHP version to x.x format.
@@ -74,120 +56,156 @@ $TotalServers = $serverCount + $serverQueueCount;
 
                         $phpVersion = parse_php_version();
                         if ($phpVersion >= '8.1' && $phpVersion <= '8.3') {
-                            ?>
+                        ?>
                             <div class="alert alert-success " role="alert">
-                                    Your php version "<?= $phpVersion ?>" is supported by MythicalDash.
+                                Your php version "<?= $phpVersion ?>" is supported by MythicalDash.
                             </div>
-                            <?php
+                        <?php
                         } else {
-                            ?>
+                        ?>
                             <div class="alert alert-danger " role="alert">
                                 You are using an outdated version of PHP please update.
                             </div>
-                            <?php
+                        <?php
                         }
                         ?>
-                        <?php 
+                        <?php
                         if (is_writable(__DIR__)) {
-                            ?>
+                        ?>
                             <div class="alert alert-success " role="alert">
-                                    You have the right permissions for the MythicalDash directory.
+                                You have the right permissions for the MythicalDash directory.
                             </div>
-                            <?php
+                        <?php
                         } else {
-                            ?>
+                        ?>
                             <div class="alert alert-danger " role="alert">
                                 Please give us permission to the dashbaord directory <code>chown -R www-data:www-data /var/www/mythicaldash/*</code>.
                             </div>
-                            <?php
+                        <?php
                         }
                         ?>
-                        <?php 
+                        <?php
                         if (Main::isHTTPS()) {
-                            ?>
+                        ?>
                             <div class="alert alert-success " role="alert">
                                 You are using HTTPS for a secure connection!
                             </div>
-                            <?php
+                        <?php
                         } else {
-                            ?>
+                        ?>
                             <div class="alert alert-danger " role="alert">
                                 You are not using HTTPS!
                             </div>
-                            <?php
+                        <?php
                         }
                         ?>
-                        <?php 
-                        if (file_exists(__DIR__.'/../../public/assets/js/MythicalGuard.js')) {
-                            ?>
+                        <?php
+                        if (file_exists(__DIR__ . '/../../public/assets/js/MythicalGuard.js')) {
+                        ?>
                             <div class="alert alert-success " role="alert">
                                 You are using MythicalGuard!
                             </div>
-                            <?php
+                        <?php
                         } else {
-                            ?>
+                        ?>
                             <div class="alert alert-danger " role="alert">
                                 You are not using MythicalGuard!
                             </div>
-                            <?php
+                        <?php
                         }
                         ?>
-                        <?php 
+                        <?php
                         if (SettingsManager::getSetting("enable_anti_vpn") == "true") {
-                            ?>
+                        ?>
                             <div class="alert alert-success " role="alert">
                                 You are using Anti-VPN Protection!
                             </div>
-                            <?php
+                        <?php
                         } else {
-                            ?>
+                        ?>
                             <div class="alert alert-danger " role="alert">
                                 You are not using Anti-VPN Protection!
                             </div>
-                            <?php
+                        <?php
                         }
                         ?>
-                        <?php 
+                        <?php
                         if (SettingsManager::getSetting("enable_alting") == "true") {
-                            ?>
+                        ?>
                             <div class="alert alert-success " role="alert">
                                 You are using anti alting protection!
                             </div>
-                            <?php
+                        <?php
                         } else {
-                            ?>
+                        ?>
                             <div class="alert alert-danger " role="alert">
-                                You are not using anti alting protection!                     
+                                You are not using anti alting protection!
                             </div>
-                            <?php
+                        <?php
                         }
                         ?>
-                        <?php 
+                        <?php
                         if (SettingsManager::getSetting("enable_turnstile") == "true") {
-                            ?>
+                        ?>
                             <div class="alert alert-success " role="alert">
                                 You are using anti bot protection!
                             </div>
-                            <?php
+                        <?php
                         } else {
-                            ?>
+                        ?>
                             <div class="alert alert-danger " role="alert">
-                                You are not using anti bot protection!                     
+                                You are not using anti bot protection!
                             </div>
-                            <?php
+                        <?php
                         }
                         ?>
+                        
+                        <div class="card">
+                            <h5 class="card-header">
+                                Latest Error Logs
+                                <!--<a href="/admin/users/new" class="btn btn-primary float-end">Create New User</a>-->
+                            </h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Title</th>
+                                            <th>Text</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        <?php
+                                        $result = $conn->query("SELECT * FROM mythicaldash_logs LIMIT 15");
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo '<tr>';
+                                                echo '<td>' . $row['id'] . '</td>';
+                                                echo '<td>' . $row['title'] . '</td>';
+                                                echo '<td>' . $row['text'] . '</td>';
+                                                echo '<td>' . $row['date'] . '</td>';
+                                                echo '</tr>';
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='5'>No users found.</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                                        <br>
+                        <?php include(__DIR__ . '/../components/footer.php') ?>
+                        <div class="content-backdrop fade"></div>
                     </div>
-                    <?php include(__DIR__ . '/../components/footer.php') ?>
-                    <div class="content-backdrop fade"></div>
                 </div>
             </div>
+            <div class="layout-overlay layout-menu-toggle"></div>
+            <div class="drag-target"></div>
         </div>
-        <div class="layout-overlay layout-menu-toggle"></div>
-        <div class="drag-target"></div>
-    </div>
-    <?php include(__DIR__ . '/../requirements/footer.php') ?>
-    <script src="<?= $appURL ?>/assets/js/dashboards-ecommerce.js"></script>
+        <?php include(__DIR__ . '/../requirements/footer.php') ?>
+        <script src="<?= $appURL ?>/assets/js/dashboards-ecommerce.js"></script>
 </body>
 
 </html>

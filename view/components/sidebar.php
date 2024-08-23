@@ -1,4 +1,5 @@
 <?php
+
 use MythicalDash\SettingsManager;
 
 function is_active_page($page_urls)
@@ -54,7 +55,7 @@ function is_active_page($page_urls)
       </a>
       <ul class="menu-sub">
         <?php if (SettingsManager::getSetting("enable_afk") == "true") {
-          ?>
+        ?>
           <li class="menu-item <?php echo is_active_page(['/earn/afk']) ? 'active' : ''; ?>">
             <a href="/earn/afk" class="menu-link">
               <div>
@@ -62,7 +63,7 @@ function is_active_page($page_urls)
               </div>
             </a>
           </li>
-          <?php
+        <?php
         } ?>
 
         <li class="menu-item <?php echo is_active_page(['/earn/redeem']) ? 'active' : ''; ?>">
@@ -73,20 +74,20 @@ function is_active_page($page_urls)
           </a>
         </li>
         <?php if (SettingsManager::getSetting("linkvertise_enabled") == "true") {
-          ?>
+        ?>
           <li class="menu-item <?php echo is_active_page(['/earn/linkvertise']) ? 'active' : ''; ?>">
             <a href="/earn/linkvertise" class="menu-link">
               <div>Linkvertise</div>
             </a>
           </li>
-          <?php
+        <?php
         } ?>
       </ul>
     </li>
     <li class="menu-item <?php echo is_active_page(['/store']) ? 'active' : ''; ?>">
       <a href="/store" class="menu-link">
         <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
-        <div>Store</div>
+        <div> <?= $lang['store'] ?></div>
       </a>
     </li>
     <li class="menu-item  <?php echo is_active_page(['/help-center']) ? 'active' : ''; ?>">
@@ -151,14 +152,14 @@ function is_active_page($page_urls)
     <?php
     $websiteSetting = SettingsManager::getSetting('website');
     if ($websiteSetting !== "none" && $websiteSetting !== "") {
-      ?>
+    ?>
       <li class="menu-item ">
         <a href="<?= $websiteSetting ?>" target="_blank" class="menu-link">
           <i class="menu-icon tf-icons ti ti-globe"></i>
           <div>WebSite</div>
         </a>
       </li>
-      <?php
+    <?php
     } ?>
     <li class="menu-item ">
       <a href="<?= SettingsManager::getSetting('PterodactylURL') ?>" target="_blank" class="menu-link">
@@ -175,30 +176,30 @@ function is_active_page($page_urls)
     <?php
     $statusSetting = SettingsManager::getSetting('status');
     if ($statusSetting !== "none" && $statusSetting !== "") {
-      ?>
+    ?>
       <li class="menu-item ">
         <a href="<?= $statusSetting ?>" target="_blank" class="menu-link">
           <i class="menu-icon tf-icons ti ti-clock"></i>
           <div>Status Page</div>
         </a>
       </li>
-      <?php
+    <?php
     } ?>
     <?php
     $twitterSetting = SettingsManager::getSetting('x');
     if ($twitterSetting !== "none" && $twitterSetting !== "") {
-      ?>
+    ?>
       <li class="menu-item ">
         <a href="<?= $twitterSetting ?>" target="_blank" class="menu-link">
           <i class="menu-icon tf-icons ti ti-brand-twitter"></i>
           <div>Twitter (X)</div>
         </a>
       </li>
-      <?php
+    <?php
     } ?>
     <?php
     if ($session->getUserInfo("role") == "Administrator") {
-      ?>
+    ?>
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Administration Tools</span>
       </li>
@@ -220,15 +221,13 @@ function is_active_page($page_urls)
           <div>Application API</div>
         </a>
       </li>
-      <li
-        class="menu-item <?php echo is_active_page(['/admin/users', '/admin/users/edit', '/admin/users/new']) ? 'active' : ''; ?>">
+      <li class="menu-item <?php echo is_active_page(['/admin/users', '/admin/users/edit', '/admin/users/new']) ? 'active' : ''; ?>">
         <a href="/admin/users" class="menu-link">
           <i class="menu-icon tf-icons ti ti-users"></i>
           <div>Users</div>
         </a>
       </li>
-      <li
-        class="menu-item  <?php echo is_active_page(['/admin/servers', '/admin/servers/logs', '/admin/servers/queue']) ? 'active' : ''; ?>">
+      <li class="menu-item  <?php echo is_active_page(['/admin/servers', '/admin/servers/logs', '/admin/servers/queue']) ? 'active' : ''; ?>">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons ti ti-server"></i>
           <div>Servers</div>
@@ -286,12 +285,12 @@ function is_active_page($page_urls)
           <div>Settings</div>
         </a>
       </li>
-      <?php
+    <?php
     }
     ?>
     <?php
     if ($session->getUserInfo("role") == "Support" || $session->getUserInfo("role") == "Administrator") {
-      ?>
+    ?>
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Support Tools</span>
       </li>
@@ -301,7 +300,7 @@ function is_active_page($page_urls)
           <div>Tickets</div>
         </a>
       </li>
-      <?php
+    <?php
     }
     ?>
   </ul>

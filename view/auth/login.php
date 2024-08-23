@@ -2,7 +2,7 @@
 use MythicalDash\SettingsManager;
 use MythicalDash\SessionManager;
 use MythicalDash\Database\Connect;
-use MythicalSystems\CloudFlare\TurnStile;
+
 try {
   $conn = new Connect();
   $conn = $conn->connectToDatabase();
@@ -15,7 +15,7 @@ try {
         if (SettingsManager::getSetting("enable_turnstile") == "false") {
           $captcha_success = 1;
         } else {
-          $captcha_success = TurnStile::validate($_POST["cf-turnstile-response"], $session->getIP(), SettingsManager::getSetting("turnstile_secretkey"));
+          $captcha_success = \MythicalSystems\CloudFlare\Turnstile::validate($_POST["cf-turnstile-response"], $session->getIP(), SettingsManager::getSetting("turnstile_secretkey"));
         }
         if ($captcha_success) {
           $email = mysqli_real_escape_string($conn, $_POST['email']);

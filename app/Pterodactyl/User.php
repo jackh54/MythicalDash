@@ -1,6 +1,7 @@
 <?php
 namespace MythicalDash\Pterodactyl;
 
+use MythicalDash\Logger;
 use MythicalDash\Pterodactyl\Connection;
 
 class User extends Connection
@@ -56,9 +57,10 @@ class User extends Connection
                 foreach ($errorResponse['errors'] as $error) {
                     $errorMessages[] = $error['detail'];
                 }
-
+                Logger::log("Pterodactyl Panel User Creation Error", "Failed to create a user in the Pterodactyl Panel: " . implode("|", $errorMessages));
                 return implode("|", $errorMessages);
             } else {
+                Logger::log("Pterodactyl Panel User Creation Error", "Failed to create a user in the Pterodactyl Panel: " . $response);
                 return "Unexpected error: " . $statusCode;
             }
         } else {

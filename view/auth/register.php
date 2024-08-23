@@ -1,8 +1,8 @@
 <?php
+
 use MythicalDash\ErrorHandler;
 use MythicalDash\Pterodactyl\Connection;
 use MythicalDash\Pterodactyl\User;
-use MythicalSystems\CloudFlare\TurnStile;
 use MythicalDash\SettingsManager;
 use MythicalDash\Encryption;
 use MythicalDash\Telemetry;
@@ -23,11 +23,11 @@ try {
 
     if ($user_count == 0) {
         $role = "Administrator";
-        ?>
+?>
         <script>
             alert("It looks like there are no users in the database!\nThe first account that you will register will get administrator by deafult\nPlease do not use the same username or email from the pterodactyl panel\nPlease use a email and a username only for mythicaldash and shall never match with the panel one!\nAlso please make sure that your panel is empty because users will not be able to register in the dash if there is already a panel user with the same email or username!");
         </script>
-        <?php
+<?php
     } else {
         $role = "User";
     }
@@ -40,7 +40,7 @@ try {
                 if (SettingsManager::getSetting("enable_turnstile") == "false") {
                     $captcha_success = 1;
                 } else {
-                    $captcha_success = TurnStile::validate($_POST["cf-turnstile-response"], $session->getIP(), SettingsManager::getSetting("turnstile_secretkey"));
+                    $captcha_success = \MythicalSystems\CloudFlare\Turnstile::validate($_POST["cf-turnstile-response"], $session->getIP(), SettingsManager::getSetting("turnstile_secretkey"));
                 }
                 if ($captcha_success) {
                     if (!SettingsManager::getSetting("PterodactylURL") == "" && !SettingsManager::getSetting("PterodactylAPIKey") == "") {
@@ -118,45 +118,7 @@ try {
                                     $conn->query("INSERT INTO mythicaldash_login_logs (ipaddr, userkey) VALUES ('" . mysqli_real_escape_string($conn, $session->getIP()) . "', '" . mysqli_real_escape_string($conn, $skey) . "')");
                                     $default = "https://www.gravatar.com/avatar/00000000000000000000000000000000";
                                     $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?d=" . urlencode($default);
-                                    $conn->query("INSERT INTO `mythicaldash_users` 
-                                (`panel_id`,
-                                `email`,
-                                `username`,
-                                `first_name`,
-                                `last_name`,
-                                `password`,
-                                `api_key`,
-                                `avatar`,
-                                `role`,
-                                `coins`,
-                                `ram`,
-                                `disk`,
-                                `cpu`,
-                                `server_limit`,
-                                `ports`,
-                                `databases`,
-                                `backups`,
-                                `first_ip`
-                                ) VALUES (
-                                '" . mysqli_real_escape_string($conn, $panel_id) . "',
-                                '" . mysqli_real_escape_string($conn, $email) . "', 
-                                '" . mysqli_real_escape_string($conn, $username) . "',
-                                '" . mysqli_real_escape_string($conn, Encryption::encrypt($first_name, $ekey)) . "',
-                                '" . mysqli_real_escape_string($conn, Encryption::encrypt($last_name, $ekey)) . "',
-                                '" . mysqli_real_escape_string($conn, $password) . "',
-                                '" . mysqli_real_escape_string($conn, $skey) . "',
-                                '" . mysqli_real_escape_string($conn, $grav_url) . "',
-                                '" . mysqli_real_escape_string($conn, $role) . "',
-                                '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_coins")) . "',
-                                '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_memory")) . "',
-                                '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_disk_space")) . "',
-                                '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_cpu")) . "',
-                                '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_server_limit")) . "',
-                                '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_port")) . "',
-                                '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_db")) . "',
-                                '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_backups")) . "',
-                                '" . mysqli_real_escape_string($conn, $session->getIP()) . "'
-                                );");
+                                    $conn->query("INSERT INTO `mythicaldash_users`  (`panel_id`, `email`, `username`, `first_name`, `last_name`, `password`, `api_key`, `avatar`, `role`, `coins`, `ram`, `disk`, `cpu`, `server_limit`, `ports`, `databases`, `backups`, `first_ip` ) VALUES ( '" . mysqli_real_escape_string($conn, $panel_id) . "', '" . mysqli_real_escape_string($conn, $email) . "',  '" . mysqli_real_escape_string($conn, $username) . "', '" . mysqli_real_escape_string($conn, Encryption::encrypt($first_name, $ekey)) . "', '" . mysqli_real_escape_string($conn, Encryption::encrypt($last_name, $ekey)) . "', '" . mysqli_real_escape_string($conn, $password) . "', '" . mysqli_real_escape_string($conn, $skey) . "', '" . mysqli_real_escape_string($conn, $grav_url) . "', '" . mysqli_real_escape_string($conn, $role) . "', '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_coins")) . "', '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_memory")) . "', '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_disk_space")) . "', '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_cpu")) . "', '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_server_limit")) . "', '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_port")) . "', '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_db")) . "', '" . mysqli_real_escape_string($conn, SettingsManager::getSetting("def_backups")) . "', '" . mysqli_real_escape_string($conn, $session->getIP()) . "' );");
                                     $conn->close();
                                     if (file_exists("FIRST_USER")) {
                                         unlink("FIRST_USER");
@@ -169,7 +131,6 @@ try {
                                     $conn->close();
                                     die();
                                 }
-
                             } else {
                                 header('location: /auth/register?e=' . $lang['username_or_email_exists']);
                                 $conn->close();
@@ -210,7 +171,7 @@ try {
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <?php include (__DIR__ . '/../requirements/head.php'); ?>
+    <?php include(__DIR__ . '/../requirements/head.php'); ?>
     <title>
         <?= SettingsManager::getSetting("name") ?> - <?= $lang['register'] ?>
     </title>
@@ -273,13 +234,13 @@ try {
                         </div>
                         <?php
                         if (SettingsManager::getSetting("enable_turnstile") == "true") {
-                            ?>
+                        ?>
                             <center>
                                 <div class="cf-turnstile"
                                     data-sitekey="<?= SettingsManager::getSetting("turnstile_sitekey") ?>"></div>
                             </center>
                             &nbsp;
-                            <?php
+                        <?php
                         }
                         ?>
                         <?= $csrf->input('register-form'); ?>
@@ -288,13 +249,12 @@ try {
                     </form>
                     <?php
                     if (isset($_GET['e'])) {
-                        ?>
+                    ?>
                         <div class="text-center alert alert-danger" role="alert">
                             <?= htmlspecialchars($_GET['e']) ?>
                         </div>
-                        <?php
+                    <?php
                     } else {
-
                     }
                     ?>
                     <p class="text-center">
@@ -347,7 +307,7 @@ try {
             </div>
         </div>
     </div>
-    <?php include (__DIR__ . '/../requirements/footer.php'); ?>
+    <?php include(__DIR__ . '/../requirements/footer.php'); ?>
     <script src="<?= $appURL ?>/assets/js/pages-auth.js"></script>
 </body>
 

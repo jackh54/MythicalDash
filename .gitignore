@@ -22,3 +22,4 @@ migrates.ini
 /mythicaldash_backup.sql
 /caches/notifications.json
 /.mono/
+public/DEMO_CLIENT

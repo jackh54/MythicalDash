@@ -1,6 +1,7 @@
 <?php 
 namespace MythicalDash\Pterodactyl;
 use MythicalDash\SettingsManager;
+use MythicalDash\Logger;
 
 class Connection {
 
@@ -24,7 +25,7 @@ class Connection {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => self::$pterodactyl_url . "/api/application/locations",
+            CURLOPT_URL => self::$pterodactyl_url . "/api/application/nests",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -44,10 +45,17 @@ class Connection {
         curl_close($curl);
 
         if ($err) {
+            Logger::log("Pterodactyl Panel Connection Error","Failed to connect to the Pterodactyl Panel: ".$err.$response);
             return false; 
         } else {
             $responseData = json_decode($response, true);
-            return isset($responseData['object']) && $responseData['object'] === 'list';
+            $check = isset($responseData['object']) && $responseData['object'] === 'list';
+            if ($check) {
+                return true;
+            } else {
+                Logger::log("Pterodactyl Panel Connection Error","Failed to connect to the Pterodactyl Panel: ".$response);
+                return false;
+            }
         }
     }
 }

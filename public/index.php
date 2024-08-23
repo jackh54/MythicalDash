@@ -11,6 +11,7 @@ try {
 use MythicalDash\Main;
 use MythicalDash\ErrorHandler;
 use MythicalDash\AddonsManager;
+use MythicalDash\Logger;
 
 if (!Main::isHTTPS()) {
     ErrorHandler::ShowCritical("We are sorry, but the dash can only run on HTTPS, not HTTP.");
@@ -56,7 +57,6 @@ if (file_exists('FIRST_INSTALL')) {
     }
 
     $addonsManager->processAddonRoutes($router);
-
     $router->add("/(.*)", function () {
         require("../include/main.php");
         require("../view/errors/404.php");

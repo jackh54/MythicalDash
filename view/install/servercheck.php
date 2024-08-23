@@ -134,7 +134,7 @@ if ($phpVersion >= '8.1' && $phpVersion <= '8.3') {
                     </a>
                     <ul class="menu-sub">
                       <li class="menu-item">
-                        <a href="https://discord.gg/xUGNwePZmY" class="menu-link">
+                        <a href="https://discord.mythicalsystems.xyz" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-brand-discord"></i>
                           <div data-i18n="Discord">Discord</div>
                         </a>
@@ -181,9 +181,7 @@ if ($phpVersion >= '8.1' && $phpVersion <= '8.3') {
                 run
                 MythicalDash:</p>
               <div class="alert alert-danger text-center">apt -y install php8.2
-                php8.2-{common,cli,gd,mysql,opcache,soap,mbstring,bcmath,xml,fpm,curl,zip,xmlrpc,imagick,dev,imap,intl} &&
-                sudo
-                a2enmod php8.1</div>
+                php8.2-{common,cli,gd,mysql,opcache,soap,mbstring,bcmath,xml,fpm,curl,zip,xmlrpc,imagick,dev,imap,intl}</div>
               <div class="text-center">
                 <br>
                 <a href="/server/check" class="btn btn-primary">&nbsp; Reload &nbsp;</a>
@@ -208,7 +206,7 @@ if ($phpVersion >= '8.1' && $phpVersion <= '8.3') {
                       target="_blank">License</a>
                     <a href="https://github.com/mythicalltd" target="_blank" class="footer-link me-4">More Projects</a>
                     <a href="https://docs.mythicalsystems.xyz/" target="_blank" class="footer-link me-4">Documentation</a>
-                    <a href="https://discord.gg/xUGNwePZmY" target="_blank"
+                    <a href="https://discord.mythicalsystems.xyz" target="_blank"
                       class="footer-link d-none d-sm-inline-block">Support</a>
                   </div>
                 </div>
@@ -354,7 +352,7 @@ foreach ($requiredExtensions as $ext) {
                       </a>
                       <ul class="menu-sub">
                         <li class="menu-item">
-                          <a href="https://discord.gg/xUGNwePZmY" class="menu-link">
+                          <a href="https://discord.mythicalsystems.xyz" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-brand-discord"></i>
                             <div data-i18n="Discord">Discord</div>
                           </a>
@@ -428,7 +426,7 @@ foreach ($requiredExtensions as $ext) {
                         target="_blank">License</a>
                       <a href="https://github.com/mythicalltd" target="_blank" class="footer-link me-4">More Projects</a>
                       <a href="https://docs.mythicalsystems.xyz/" target="_blank" class="footer-link me-4">Documentation</a>
-                      <a href="https://discord.gg/xUGNwePZmY" target="_blank"
+                      <a href="https://discord.mythicalsystems.xyz" target="_blank"
                         class="footer-link d-none d-sm-inline-block">Support</a>
                     </div>
                   </div>
@@ -570,7 +568,7 @@ if (!is_writable(__DIR__)) {
                     </a>
                     <ul class="menu-sub">
                       <li class="menu-item">
-                        <a href="https://discord.gg/xUGNwePZmY" class="menu-link">
+                        <a href="https://discord.mythicalsystems.xyz" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-brand-discord"></i>
                           <div data-i18n="Discord">Discord</div>
                         </a>
@@ -639,7 +637,7 @@ if (!is_writable(__DIR__)) {
                       target="_blank">License</a>
                     <a href="https://github.com/mythicalltd" target="_blank" class="footer-link me-4">More Projects</a>
                     <a href="https://docs.mythicalsystems.xyz/" target="_blank" class="footer-link me-4">Documentation</a>
-                    <a href="https://discord.gg/xUGNwePZmY" target="_blank"
+                    <a href="https://discord.mythicalsystems.xyz" target="_blank"
                       class="footer-link d-none d-sm-inline-block">Support</a>
                   </div>
                 </div>
@@ -780,7 +778,7 @@ if (!is_writable(__DIR__)) {
                   </a>
                   <ul class="menu-sub">
                     <li class="menu-item">
-                      <a href="https://discord.gg/xUGNwePZmY" class="menu-link">
+                      <a href="https://discord.mythicalsystems.xyz" class="menu-link">
                         <i class="menu-icon tf-icons ti ti-brand-discord"></i>
                         <div data-i18n="Discord">Discord</div>
                       </a>
@@ -850,7 +848,7 @@ if (!is_writable(__DIR__)) {
                     target="_blank">License</a>
                   <a href="https://github.com/mythicalltd" target="_blank" class="footer-link me-4">More Projects</a>
                   <a href="https://docs.mythicalsystems.xyz/" target="_blank" class="footer-link me-4">Documentation</a>
-                  <a href="https://discord.gg/xUGNwePZmY" target="_blank"
+                  <a href="https://discord.mythicalsystems.xyz" target="_blank"
                     class="footer-link d-none d-sm-inline-block">Support</a>
                 </div>
               </div>

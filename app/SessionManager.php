@@ -52,7 +52,7 @@ class SessionManager
 
     private function redirectToLogin($fullUrl)
     {
-        Cookie::deleteAllCookies();
+        setcookie('token', '', time() -  (10 * 365 * 24 * 60 * 60 * 60), '/');
         header('location: /auth/login?r=' . $fullUrl);
         die();
     }
