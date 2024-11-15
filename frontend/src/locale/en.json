@@ -1,0 +1,102 @@
+{
+    "auth": {
+        "pages": {
+            "login": {
+                "alerts": {
+                    "success": {
+                        "title": "Success",
+                        "login_success": "You have successfully logged in"
+                    },
+                    "error":  {
+                        "title": "Error",
+                        "missing_fields": "Please fill in all fields",
+                        "invalid_credentials": "Invalid credentials",
+                        "generic": "An error occurred. Please try again later"
+                        
+                    }
+                },
+                "page": {
+                    "title": "Login",
+                    "form": {
+                        "email": {
+                            "label": "Email or Username",
+                            "placeholder": "Enter your email or username"
+                        },
+                        "password": {
+                            "label": "Password",
+                            "placeholder": "Enter your password"
+                        },
+                        "forgot_password": "Forgot password?",
+                        "login_button": {
+                            "label": "Login",
+                            "loading": "Logging in..."
+                        },
+                        "register": {
+                            "label": "Don't have an account?",
+                            "link": "Register"
+                        }
+                    }
+                }
+            }, 
+            "register": {
+                "alerts": {
+                    "success": {
+                        "title": "Success",
+                        "register_success": "You have successfully registered"
+                    },
+                    "error":  {
+                        "title": "Error",
+                        "missing_fields": "Please fill in all fields",
+                        "email_exists": "Email already exists",
+                        "username_exists": "Username already exists",
+                        "generic": "An error occurred. Please try again later"
+                        
+                    }
+                },
+                "page": {
+                    "title": "Register",
+                    "form": {
+                        "email": {
+                            "label": "Email",
+                            "placeholder": "Enter your email"
+                        },
+                        "firstName": {
+                            "label": "First Name",
+                            "placeholder": "Enter your first name"
+                        },
+                        "lastName": {
+                            "label": "Last Name",
+                            "placeholder": "Enter your last name"
+                        },
+                        "username": {
+                            "label": "Username",
+                            "placeholder": "Enter your username"
+                        },
+                        "password": {
+                            "label": "Password",
+                            "placeholder": "Enter your password"
+                        },
+                        "confirm_password": {
+                            "label": "Confirm Password",
+                            "placeholder": "Confirm your password"
+                        },
+                        "register_button": {
+                            "label": "Register",
+                            "loading": "Registering..."
+                        },
+                        "login": {
+                            "label": "Already have an account?",
+                            "link": "Login"
+                        }
+                    }
+                }
+            },
+            "forgot-password": {
+
+            },
+            "reset-password": {
+
+            }
+        }
+    }
+}
