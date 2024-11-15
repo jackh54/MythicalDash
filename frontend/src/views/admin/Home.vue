@@ -4,7 +4,7 @@
             <!-- Welcome Section -->
             <div class="flex justify-between items-center">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-100">Welcome to MythicalFramework</h1>
+                    <h1 class="text-2xl font-bold text-gray-100">Welcome to MythicalDash</h1>
                     <p class="text-gray-400">Here's what's happening with your systems today.</p>
                 </div>
             </div>

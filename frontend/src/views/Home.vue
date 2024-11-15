@@ -1,83 +1,123 @@
 <template>
     <LayoutDashboard>
-        <div class="space-y-6">
-            <!-- Welcome Section -->
-            <div class="flex justify-between items-center">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-100">Welcome to MythicalFramework</h1>
-                    <p class="text-gray-400">Here's what's happening with your systems today.</p>
-                </div>
 
+        <div class="p-6">
+            <h1 class="text-3xl font-bold mb-2">My Dashboard</h1>
+            <div class="text-gray-400">
+                <RouterLink to="/" class="hover:text-gray-300">Portal Home</RouterLink>
+                <span class="mx-2">/</span>
+                <span>Client Area</span>
             </div>
+        </div>
 
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div v-for="(stat, index) in stats" :key="index"
-                    class="p-6 rounded-lg bg-gradient-to-br from-gray-900/50 to-gray-800/50 border border-gray-700/50 hover:border-purple-500/50 transition-colors group">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="text-gray-400 text-sm">{{ stat.label }}</span>
-                        <div
-                            class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                            <component :is="stat.icon" class="w-4 h-4" />
+        <div class="px-6 grid gap-6 lg:grid-cols-4">
+            <!-- Left Column -->
+            <div class="space-y-6">
+                <!-- Support PIN -->
+                <CardComponent>
+                    <h2 class="text-gray-400 mb-2">Support Pin</h2>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[#7cff4d] text-2xl font-mono">637238</span>
+                        <button class="text-gray-400 hover:text-gray-300">
+                            <RefreshCcwIcon class="w-4 h-4" />
+                        </button>
+                    </div>
+                </CardComponent>
+                <!-- Profile Card -->
+                <CardComponent>
+                    <div class="flex flex-col items-center text-center">
+                        <img src="https://github.com/mythicalltd.png?height=80&width=80" alt="Profile"
+                            class="w-20 h-20 rounded-full mb-4" />
+                        <div class="text-2xl font-semibold mb-1">#1</div>
+                        <div class="text-xl mb-4">MyhticalSystems LTD</div>
+                        <div class="text-gray-400 text-sm space-y-1 mb-4">
+                            <div>Cassian Gherman</div>
+                            <div>Example Address</div>
+                            <div>Graz, Steiermark, 8053</div>
+                            <div>Austria</div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded">Update</button>
+                            <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded">Logout</button>
                         </div>
                     </div>
-                    <div class="text-2xl font-bold text-gray-100 mb-2">{{ stat.value }}</div>
-                    <div class="flex items-center gap-2 text-sm">
-                        <span :class="stat.trend === 'up' ? 'text-green-400' : 'text-red-400'">
-                            <component :is="stat.trend === 'up' ? TrendingUpIcon : TrendingDownIcon"
-                                class="w-4 h-4 inline" />
-                            {{ stat.percentage }}%
-                        </span>
-                        <span class="text-gray-400">vs last month</span>
-                    </div>
-                </div>
+                </CardComponent>
             </div>
+            <!-- Main Content -->
+            <div class="lg:col-span-3 space-y-6">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <CardComponent>
+                        <ServerIcon class="w-5 h-5 text-blue-400 mb-4" />
+                        <div class="text-4xl font-bold text-blue-400 mb-2">2</div>
+                        <div class="text-gray-400">Services</div>
+                    </CardComponent>
+                    <CardComponent>
+                        <GlobeIcon class="w-5 h-5 text-blue-400 mb-4" />
+                        <div class="text-4xl font-bold text-blue-400 mb-2">0</div>
+                        <div class="text-gray-400">Domains</div>
+                    </CardComponent>
+                    <CardComponent>
+                        <FileTextIcon class="w-5 h-5 text-blue-400 mb-4" />
+                        <div class="text-4xl font-bold text-blue-400 mb-2">0</div>
+                        <div class="text-gray-400">Unpaid Invoices</div>
+                    </CardComponent>
+                    <CardComponent>
+                        <TicketIcon class="w-5 h-5 text-blue-400 mb-4" />
+                        <div class="text-4xl font-bold text-blue-400 mb-2">1</div>
+                        <div class="text-gray-400">Tickets</div>
+                    </CardComponent>
+                </div>
 
-
+                <!-- Active Products -->
+                <CardComponent>
+                    <div class="p-4 border-b border-gray-800">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-semibold">Your Active Products/Services</h2>
+                            <MenuIcon class="w-5 h-5 text-gray-400" />
+                        </div>
+                    </div>
+                    <div class="p-4 space-y-4">
+                        <div v-for="(server, index) in servers" :key="index"
+                            class="flex items-center justify-between py-3 border-b border-gray-800 last:border-0">
+                            <div>
+                                <div class="font-medium">{{ server.name }}</div>
+                                <div class="text-sm text-gray-400">{{ server.hostname }}</div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-sm">Active</span>
+                                <button class="px-4 py-1 bg-gray-800 hover:bg-gray-700 rounded">Manage</button>
+                            </div>
+                        </div>
+                    </div>
+                </CardComponent>
+            </div>
         </div>
     </LayoutDashboard>
 </template>
 
 <script setup>
 import LayoutDashboard from '../components/LayoutDashboard.vue'
+import CardComponent from '@/components/ui/Card/CardComponent.vue'
 import {
-    Users as UsersIcon,
+    RefreshCcw as RefreshCcwIcon,
     Server as ServerIcon,
-    Activity as ActivityIcon,
-    Shield as ShieldIcon,
-    TrendingUp as TrendingUpIcon,
-    TrendingDown as TrendingDownIcon,
+    Globe as GlobeIcon,
+    FileText as FileTextIcon,
+    Ticket as TicketIcon,
+    Crown as CrownIcon,
+    Menu as MenuIcon,
+    MessageCircle as DiscordIcon
 } from 'lucide-vue-next'
 
-
-const stats = [
+const servers = [
     {
-        label: 'Total Users',
-        value: '3,721',
-        percentage: 12,
-        trend: 'up',
-        icon: UsersIcon
+        name: 'Storage Root Server Frankfurt - Storage KVM S',
+        hostname: 'backup2.mythical.systems'
     },
     {
-        label: 'Active Servers',
-        value: '156',
-        percentage: 8,
-        trend: 'up',
-        icon: ServerIcon
-    },
-    {
-        label: 'System Load',
-        value: '67%',
-        percentage: 5,
-        trend: 'down',
-        icon: ActivityIcon
-    },
-    {
-        label: 'Security Score',
-        value: '98/100',
-        percentage: 15,
-        trend: 'up',
-        icon: ShieldIcon
+        name: 'Storage Root Server Frankfurt - Storage KVM S',
+        hostname: 'backup.mythical.systems'
     }
 ]
 

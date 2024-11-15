@@ -7,7 +7,7 @@
     "settings": {
         "php.version": "8.3",
         "cSpell.words": [
-            "mythicalframework"
+            "MythicalDash"
         ],
         "cSpell.useGitignore": true,
         "cSpell.ignorePaths": [
@@ -42,7 +42,7 @@
             "lkrms.pretty-php",
             "bradlc.vscode-tailwindcss",
             "zarifprogrammer.tailwind-snippets",
-            "mythicalsystems.mythicalframework-utils"
+            "mythicalsystems.MythicalDash-utils"
         ]
     }
 }

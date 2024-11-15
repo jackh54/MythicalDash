@@ -6,7 +6,7 @@
             <div class="bg-gray-800/50 rounded-lg p-6 border border-gray-700/50">
                 <div class="mb-6">
                     <p class="text-gray-300 mb-4">
-                        Please read this End User License Agreement carefully before using MythicalFramework.
+                        Please read this End User License Agreement carefully before using MythicalDash.
                     </p>
                     <div class="h-96 overflow-y-auto bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
                         <div class="prose prose-invert" v-html="eulaContent"></div>
@@ -127,14 +127,14 @@ const eulaContent = `
 const acceptEula = () => {
     if (agreed.value) {
         modalTitle.value = 'EULA Accepted'
-        modalMessage.value = 'Thank you for accepting the EULA. You can now proceed to use MythicalFramework.'
+        modalMessage.value = 'Thank you for accepting the EULA. You can now proceed to use MythicalDash.'
         showModal.value = true
     }
 }
 
 const denyEula = () => {
     modalTitle.value = 'EULA Denied'
-    modalMessage.value = 'You have chosen not to accept the EULA. Please uninstall MythicalFramework.'
+    modalMessage.value = 'You have chosen not to accept the EULA. Please uninstall MythicalDash.'
     showModal.value = true
 }
 

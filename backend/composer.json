@@ -1,0 +1,42 @@
+{
+    "name": "mythicalsystems/mythicaldash",
+    "description": "Open-Source Client Area like WHMCS",
+    "type": "project",
+    "homepage": "https://github.com/mythicalltd/myhticaldash",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "MythicalDash\\": "app/"
+        }
+    },
+    "config": {
+        "vendor-dir": "storage/packages"
+    },
+    "authors": [
+        {
+            "name": "NaysKutzu",
+            "email": "ghermancassian2008@gmail.com",
+            "role": "Developer",
+            "homepage": "https://nayskutzu.xyz"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "mythicalsystems/core": "^1.0"
+    },
+    "prefer-stable": true,
+    "support": {
+        "wiki": "https://docs.mythical.systems",
+        "chat": "https://discord.mythical.systems",
+        "issues": "https://github.com/mythicalltd/mythicalcore/issues",
+        "docs": "https://docs.mythical.systems",
+        "forum": "https://discord.mythical.systems"
+    },
+    "funding": [
+        {
+            "type": "GitHub",
+            "url": "https://github.com/sponsors/nayskutzu"
+        }
+    ]
+}
