@@ -1,72 +1,96 @@
 <?php
 
+/*
+ * This file is part of MythicalDash.
+ * Please view the LICENSE file that was distributed with this source code.
+ *
+ * MIT License
+ *
+ * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
+ * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
+ * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 namespace MythicalDash\Cli\Commands;
 
-use MythicalDash\Chat\Database;
 use MythicalDash\Cli\App;
+use MythicalDash\Chat\Database;
 use MythicalDash\Cli\CommandBuilder;
-
 
 class Migrate extends App implements CommandBuilder
 {
-
-    /**
-     * @inheritDoc
-     */
     public static function execute(array $args): void
-    {   
+    {
         $cliApp = App::getInstance();
-        if (!file_exists(__DIR__."/../../../storage/.env")) {
-            $cliApp->send("The .env file does not exist. Please create one before running this command");
-            die();
-        }  
+        if (!file_exists(__DIR__ . '/../../../storage/.env')) {
+            $cliApp->send('The .env file does not exist. Please create one before running this command');
+            exit;
+        }
         $sqlScript = self::getMigrationSQL();
-        require_once __DIR__."/../../../boot/kernel.php";
+        require_once __DIR__ . '/../../../boot/kernel.php';
         try {
             \MythicalDash\App::getInstance(true)->loadEnv();
-            $db = new Database( $_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
+            $db = new Database($_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
         } catch (\Exception $e) {
             $cliApp->send('&cFailed to connect to the database: &r' . $e->getMessage());
-            die();
+            exit;
         }
         $cliApp->send('&aConnected to the database!');
 
         /**
-         * Check if the migrations table exists
+         * Check if the migrations table exists.
          */
         try {
             $query = $db->getPdo()->query("SHOW TABLES LIKE 'mythicaldash_migrations'");
             if ($query->rowCount() > 0) {
-                $cliApp->send("&7The migrations table already exists!");
+                $cliApp->send('&7The migrations table already exists!');
             } else {
                 $db->getPdo()->exec(statement: $sqlScript);
-                $cliApp->send("&7The migrations table has been created!");
+                $cliApp->send('&7The migrations table has been created!');
             }
         } catch (\Exception $e) {
             $cliApp->send('&cFailed to create the migrations table: &r' . $e->getMessage());
-            die();
+            exit;
         }
         /**
-         * Get all the migration scripts
+         * Get all the migration scripts.
          */
-        $migrations = scandir(__DIR__."/../../../storage/migrations/");
+        $migrations = scandir(__DIR__ . '/../../../storage/migrations/');
         foreach ($migrations as $migration) {
             /**
-             * Skip the . and .. directories
+             * Skip the . and .. directories.
              */
-            if ($migration == "." || $migration == "..") {
+            if ($migration == '.' || $migration == '..') {
                 continue;
             }
             /**
-             * Get the migration content
+             * Get the migration content.
              */
             $migration = __DIR__ . "/../../../storage/migrations/$migration";
             $migrationContent = file_get_contents($migration);
-            $migrationName = explode("/", $migration);
+            $migrationName = explode('/', $migration);
             $migrationName = end($migrationName);
 
             /**
-             * Check if the migration was already executed
+             * Check if the migration was already executed.
              */
             $stmt = $db->getPdo()->prepare("SELECT COUNT(*) FROM mythicaldash_migrations WHERE script = :script AND migrated = 'true'");
             $stmt->execute(['script' => $migrationName]);
@@ -78,49 +102,46 @@ class Migrate extends App implements CommandBuilder
             }
 
             /**
-             * Execute the migration
+             * Execute the migration.
              */
             try {
                 $db->getPdo()->exec($migrationContent);
                 $cliApp->send("&7Migration executed successfully: &e$migrationName");
             } catch (\Exception $e) {
                 $cliApp->send('&cFailed to execute migration: &8[&4' . $migrationName . '&8] &r' . $e->getMessage());
-                die();
+                exit;
             }
 
             /**
-             * Save the migration to the database
+             * Save the migration to the database.
              */
             try {
-                $stmt = $db->getPdo()->prepare("INSERT INTO mythicaldash_migrations (script, migrated) VALUES (:script, :migrated)");
+                $stmt = $db->getPdo()->prepare('INSERT INTO mythicaldash_migrations (script, migrated) VALUES (:script, :migrated)');
                 $stmt->execute([
                     'script' => $migrationName,
-                    'migrated' => 'true'
+                    'migrated' => 'true',
                 ]);
-                $cliApp->send("&aMigration saved to the database!");
+                $cliApp->send('&aMigration saved to the database!');
             } catch (\Exception $e) {
                 $cliApp->send('&cFailed to save the migration to the database: &r' . $e->getMessage());
-                die();
+                exit;
             }
         }
-        $cliApp->send("&aAll migrations have been executed!");
+        $cliApp->send('&aAll migrations have been executed!');
     }
-    /**
-     * @inheritDoc
-     */
+
     public static function getDescription(): string
     {
-        return "Migrate the database to the latest version";
+        return 'Migrate the database to the latest version';
     }
-    /**
-     * @inheritDoc
-     */
+
     public static function getSubCommands(int $index): array
     {
         return [];
     }
 
-    private static function getMigrationSQL() : string {
+    private static function getMigrationSQL(): string
+    {
         return "CREATE TABLE IF NOT EXISTS `mythicaldash_migrations` (`id` INT NOT NULL AUTO_INCREMENT COMMENT 'The id of the migration!' , `script` TEXT NOT NULL COMMENT 'The script to be migrated!' , `migrated` ENUM('true','false') NOT NULL DEFAULT 'true' COMMENT 'Did we migrate this already?' , `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date from when this was executed!' , PRIMARY KEY (`id`)) ENGINE = InnoDB COMMENT = 'The migrations table is table where save the sql migrations!';";
     }
 }

@@ -1,8 +1,33 @@
 <?php
-/**
- * This file is loaded by the framework before the application is started.
- */
 
+/*
+ * This file is part of MythicalDash.
+ * Please view the LICENSE file that was distributed with this source code.
+ *
+ * MIT License
+ *
+ * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
+ * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
+ * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 try {
     if (file_exists(APP_DIR . '/storage/packages')) {
@@ -15,55 +40,53 @@ try {
     exit;
 }
 
-
 ini_set('expose_php', 'off');
 header_remove('X-Powered-By');
 header_remove('Server');
 
-
 if (!is_writable(__DIR__)) {
-    die('Please make sure the root directory is writable.');
+    exit('Please make sure the root directory is writable.');
 }
 
 if (!is_writable(__DIR__ . '/../storage')) {
-    die('Please make sure the storage directory is writable.');
+    exit('Please make sure the storage directory is writable.');
 }
 
 if (!extension_loaded('mysqli')) {
-    die('MySQL extension is not installed!');
+    exit('MySQL extension is not installed!');
 }
 
 if (!extension_loaded('curl')) {
-    die('Curl extension is not installed!');
+    exit('Curl extension is not installed!');
 }
 
 if (!extension_loaded('gd')) {
-    die('GD extension is not installed!');
+    exit('GD extension is not installed!');
 }
 
 if (!extension_loaded('mbstring')) {
-    die('MBString extension is not installed!');
+    exit('MBString extension is not installed!');
 }
 
 if (!extension_loaded('openssl')) {
-    die('OpenSSL extension is not installed!');
+    exit('OpenSSL extension is not installed!');
 }
 
 if (!extension_loaded('zip')) {
-    die('Zip extension is not installed!');
+    exit('Zip extension is not installed!');
 }
 
 if (!extension_loaded('bcmath')) {
-    die('Bcmath extension is not installed!');
+    exit('Bcmath extension is not installed!');
 }
 
 if (!extension_loaded('json')) {
-    die('JSON extension is not installed!');
+    exit('JSON extension is not installed!');
 }
 
 if (!extension_loaded('sodium')) {
-    die('sodium extension is not installed!');
+    exit('sodium extension is not installed!');
 }
 if (version_compare(PHP_VERSION, '8.1.0', '<')) {
-    die('This application requires at least PHP 8.1.0');
+    exit('This application requires at least PHP 8.1.0');
 }

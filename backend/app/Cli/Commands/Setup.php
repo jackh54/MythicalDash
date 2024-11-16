@@ -1,41 +1,60 @@
 <?php
 
+/*
+ * This file is part of MythicalDash.
+ * Please view the LICENSE file that was distributed with this source code.
+ *
+ * MIT License
+ *
+ * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
+ * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
+ * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 namespace MythicalDash\Cli\Commands;
 
 use MythicalDash\Cli\App;
 use MythicalDash\Cli\CommandBuilder;
-use MythicalSystems\Utils\EncryptionHandler;
 use MythicalSystems\Utils\XChaCha20;
 
 class Setup extends App implements CommandBuilder
 {
-
-    /**
-     * @inheritDoc
-     */
     public static function execute(array $args): void
     {
         $cliApp = App::getInstance();
         if (file_exists(__DIR__ . '/../../../storage/.env')) {
             $cliApp->send('&aThe application is already setup!');
-            die();
+            exit;
         }
 
         self::createDBConnection($cliApp);
 
-
         $cliApp->send('&aThe application has been setup!');
     }
-    /**
-     * @inheritDoc
-     */
+
     public static function getDescription(): string
     {
-        return "Setup the application!";
+        return 'Setup the application!';
     }
-    /**
-     * @inheritDoc
-     */
+
     public static function getSubCommands(int $index): array
     {
         return [];
@@ -50,16 +69,13 @@ class Setup extends App implements CommandBuilder
         $defultDBUser = 'mythical';
         $defultDBPassword = '';
 
-
-
         $cliApp->send("&7Please enter the database encryption &8[&e$defultEncryption&8]&7");
         $dbEncryption = readline('> ') ?: $defultEncryption;
         $allowedEncryptions = ['xchacha20'];
         if (!in_array($dbEncryption, $allowedEncryptions)) {
-            $cliApp->send("&cInvalid database encryption.");
-            die();
+            $cliApp->send('&cInvalid database encryption.');
+            exit;
         }
-
 
         $cliApp->send("&7Please enter the database name &8[&e$defultDBName&8]&7");
         $defultDBName = readline('> ') ?: $defultDBName;
@@ -80,24 +96,22 @@ class Setup extends App implements CommandBuilder
             $dsn = "mysql:host=$defultDBHost;port=$defultDBPort;dbname=$defultDBName";
             $pdo = new \PDO($dsn, $defultDBUser, $defultDBPassword);
             $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            $cliApp->send("&aSuccessfully connected to the MySQL database.");
+            $cliApp->send('&aSuccessfully connected to the MySQL database.');
         } catch (\PDOException $e) {
-            $cliApp->send("&cFailed to connect to the MySQL database: " . $e->getMessage());
-            die();
+            $cliApp->send('&cFailed to connect to the MySQL database: ' . $e->getMessage());
+            exit;
         }
 
+        $envTemplate = 'DATABASE_HOST=' . $defultDBHost . '
+DATABASE_PORT=' . $defultDBPort . '
+DATABASE_USER=' . $defultDBUser . '
+DATABASE_PASSWORD=' . $defultDBPassword . '
+DATABASE_DATABASE=' . $defultDBName . '
+DATABASE_ENCRYPTION=' . $dbEncryption . '
+DATABASE_ENCRYPTION_KEY=' . XChaCha20::generateStrongKey(true) . '';
 
-
-        $envTemplate = "DATABASE_HOST=" . $defultDBHost . "
-DATABASE_PORT=" . $defultDBPort . "
-DATABASE_USER=" . $defultDBUser . "
-DATABASE_PASSWORD=" . $defultDBPassword . "
-DATABASE_DATABASE=" . $defultDBName . "
-DATABASE_ENCRYPTION=" . $dbEncryption . "
-DATABASE_ENCRYPTION_KEY=" . XChaCha20::generateStrongKey(true) . "";
-
-        $cliApp->send("&aEnvironment file created successfully.");
-        $cliApp->send("&aEncryption key generated successfully.");
+        $cliApp->send('&aEnvironment file created successfully.');
+        $cliApp->send('&aEncryption key generated successfully.');
 
         $envFile = fopen(__DIR__ . '/../../../storage/.env', 'w');
         fwrite($envFile, $envTemplate);

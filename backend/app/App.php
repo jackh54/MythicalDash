@@ -1,8 +1,38 @@
 <?php
+
+/*
+ * This file is part of MythicalDash.
+ * Please view the LICENSE file that was distributed with this source code.
+ *
+ * MIT License
+ *
+ * (c) MythicalSystems <mythicalsystems.xyz> - All rights reserved
+ * (c) NaysKutzu <nayskutzu.xyz> - All rights reserved
+ * (c) Cassian Gherman <nayskutzu.xyz> - All rights reserved
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 namespace MythicalDash;
 
-use MythicalDash\Chat\Database;
 use Router\Router as rt;
+use MythicalDash\Chat\Database;
 
 class App extends \MythicalSystems\Api\Api
 {
@@ -10,24 +40,24 @@ class App extends \MythicalSystems\Api\Api
     public Database $db;
 
     public function __construct(bool $softBoot)
-    {        
+    {
         /**
-         * Load the environment variables
+         * Load the environment variables.
          */
         $this->loadEnv();
 
         /**
-         * Instance
+         * Instance.
          */
         self::$instance = $this;
 
         /**
-         * Soft boot
-         * 
+         * Soft boot.
+         *
          * If the soft boot is true, we do not want to initialize the database connection or the router.
-         * 
+         *
          * This is usefull for commands or other things that do not require the database connection.
-         * 
+         *
          * This is also a lite way to boot the application without initializing the database connection or the router!.
          */
         if ($softBoot) {
@@ -35,10 +65,10 @@ class App extends \MythicalSystems\Api\Api
         }
 
         /**
-         * Database Connection
+         * Database Connection.
          */
         try {
-            $this->db = new Database( $_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
+            $this->db = new Database($_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
         } catch (\Exception $e) {
             self::InternalServerError($e->getMessage(), null);
         }
@@ -56,10 +86,8 @@ class App extends \MythicalSystems\Api\Api
 
     /**
      * Register all api endpoints.
-     * 
+     *
      * @param rt $router The router instance
-     * 
-     * @return void
      */
     public function registerApiRoutes(rt $router): void
     {
@@ -155,16 +183,15 @@ class App extends \MythicalSystems\Api\Api
 
         return '';
     }
+
     /**
-     * 
-     * Load the environment variables
-     * 
-     * @return void
+     * Load the environment variables.
      */
-    public function loadEnv() : void {
+    public function loadEnv(): void
+    {
         try {
-            if (file_exists(__DIR__.'/../storage/.env')) {
-                $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__.'/../storage/');
+            if (file_exists(__DIR__ . '/../storage/.env')) {
+                $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../storage/');
                 $dotenv->load();
             } else {
                 echo 'No .env file found';
@@ -177,16 +204,14 @@ class App extends \MythicalSystems\Api\Api
     }
 
     /**
-     * 
-     * Get the instance of the App class
-     * 
-     * @return \MythicalDash\App
+     * Get the instance of the App class.
      */
     public static function getInstance(bool $softBoot): App
     {
         if (!isset(self::$instance)) {
             self::$instance = new self($softBoot);
         }
+
         return self::$instance;
     }
 }
