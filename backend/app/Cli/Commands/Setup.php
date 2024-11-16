@@ -99,7 +99,7 @@ DATABASE_ENCRYPTION_KEY=" . XChaCha20::generateStrongKey(true) . "";
         $cliApp->send("&aEnvironment file created successfully.");
         $cliApp->send("&aEncryption key generated successfully.");
 
-        $envFile = fopen(__DIR__ . '/../../../storage/.envt', 'w');
+        $envFile = fopen(__DIR__ . '/../../../storage/.env', 'w');
         fwrite($envFile, $envTemplate);
         fclose($envFile);
     }

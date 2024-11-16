@@ -9,24 +9,39 @@ class App extends \MythicalSystems\Api\Api
     public static App $instance;
     public Database $db;
 
-    public function __construct()
-    {
-        self::init();
+    public function __construct(bool $softBoot)
+    {        
+        /**
+         * Load the environment variables
+         */
+        $this->loadEnv();
+
         /**
          * Instance
          */
         self::$instance = $this;
-        
+
+        /**
+         * Soft boot
+         * 
+         * If the soft boot is true, we do not want to initialize the database connection or the router.
+         * 
+         * This is usefull for commands or other things that do not require the database connection.
+         * 
+         * This is also a lite way to boot the application without initializing the database connection or the router!.
+         */
+        if ($softBoot) {
+            return;
+        }
+
         /**
          * Database Connection
          */
         try {
-            $this->db = new Database($_ENV['DATABASE_DRIVER'], $_ENV['DATABASE_HOST'], $_ENV['DATABASE_NAME'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
+            $this->db = new Database( $_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
         } catch (\Exception $e) {
             self::InternalServerError($e->getMessage(), null);
         }
-
-        
 
         $router = new rt();
         $this->registerApiRoutes($router);
@@ -142,12 +157,36 @@ class App extends \MythicalSystems\Api\Api
     }
     /**
      * 
+     * Load the environment variables
+     * 
+     * @return void
+     */
+    public function loadEnv() : void {
+        try {
+            if (file_exists(__DIR__.'/../storage/.env')) {
+                $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__.'/../storage/');
+                $dotenv->load();
+            } else {
+                echo 'No .env file found';
+                exit;
+            }
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            exit;
+        }
+    }
+
+    /**
+     * 
      * Get the instance of the App class
      * 
      * @return \MythicalDash\App
      */
-    public static function getInstance(): App
+    public static function getInstance(bool $softBoot): App
     {
+        if (!isset(self::$instance)) {
+            self::$instance = new self($softBoot);
+        }
         return self::$instance;
     }
 }

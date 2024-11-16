@@ -20,23 +20,8 @@ class Database {
      *
      * @throws Exception If an unsupported database type is provided or the connection fails.
      */
-    public function __construct($dbType, $host, $dbName, $username = null, $password = null) {
-        if (!in_array($dbType, ['mysql', 'sqlite'])) {
-            throw new Exception("Unsupported database type: $dbType");
-        }
-        $dsn = '';
-        switch ($dbType) {
-            case 'sqlite':
-                $dsn = "sqlite:$host";
-                break;
-            case 'mysql':
-                $dsn = "mysql:host=$host;dbname=$dbName";
-                break;
-            // Add other database types here
-            default:
-                throw new Exception("Unsupported database type: $dbType");
-        }
-
+    public function __construct($host, $dbName, $username = null, $password = null) {
+        $dsn = "mysql:host=$host;dbname=$dbName";
         try {
             $this->pdo = new PDO($dsn, $username, $password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
