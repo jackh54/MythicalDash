@@ -35,6 +35,7 @@ use Router\Router as rt;
 use MythicalDash\Chat\Database;
 use MythicalDash\Config\ConfigFactory;
 use MythicalDash\Logger\LoggerFactory;
+use MythicalDash\Plugins\PluginCompiler;
 
 class App extends \MythicalSystems\Api\Api
 {
@@ -79,6 +80,8 @@ class App extends \MythicalSystems\Api\Api
             $this->getConfig()->setSetting('app:url', $_SERVER['HTTP_HOST']);
         }
 
+        new PluginCompiler();
+
         $router = new rt();
         $this->registerApiRoutes($router);
 
@@ -97,9 +100,9 @@ class App extends \MythicalSystems\Api\Api
      */
     public function registerApiRoutes(rt $router): void
     {
-        $admin_folder = __DIR__ . '/../Api/Admin';
-        $user_folder = __DIR__ . '/../Api/User';
-        $system_folder = __DIR__ . '/../Api/System';
+        $admin_folder = __DIR__ . '/Api/Admin';
+        $user_folder = __DIR__ . '/Api/User';
+        $system_folder = __DIR__ . '/Api/System';
 
         $admin_files = scandir($admin_folder);
         $user_files = scandir($user_folder);

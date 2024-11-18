@@ -32,26 +32,31 @@
 namespace MythicalDash\Plugins;
 
 use MythicalDash\App;
+use MythicalDash\Plugins\utils\PluginConfigReader;
 
 class PluginReader
 {
     public string $path;
+    public string $name;
+
     public App $app;
 
     public function __construct(string $path)
     {
         $this->app = App::getInstance(true);
-        $this->path = $path;
+        $this->name = $path;
+        $this->path = APP_ADDONS_DIR . '/' . $path;
+
         if ($this->exists()) {
             if ($this->configExist()) {
                 if ($this->processRequiredValues()) {
-    
-                } else {
-                    $this->app->getLogger()->error("Plugin at path: " . $this->path . " is missing required values.");
-                }
-            }
-            $this->app->getLogger()->error('Plugin config not found at path: ' . $this->path);
 
+                } else {
+                    $this->app->getLogger()->error('Plugin at path: ' . $this->path . ' is missing required values.');
+                }
+            } else {
+                $this->app->getLogger()->error('Plugin config not found at path: ' . $this->path);
+            }
         } else {
             $this->app->getLogger()->error('Plugin not found at path: ' . $this->path);
         }
@@ -78,49 +83,80 @@ class PluginReader
     /**
      * Get the value of the config.
      *
-     * @param string $where where to get the value from
-     *
-     * @return string The value of the config
+     * @return PluginConfigReader The value of the config
      */
-    private function getConfigValue(string $where): string
+    private function getConfig(): PluginConfigReader
     {
-        $config = new \MythicalSystems\Utils\BungeeConfigApi($this->path . '/MythicalDash.yml');
-
-        return $config->getString($where);
+        return new PluginConfigReader($this->path . '/MythicalDash.yml');
     }
+
     /**
      *  Get the required values for the plugin.
-     * 
+     *
      * @return array The required values for the plugin
      */
-    private function requiredValues(): array
+    private function requiredValuesString(): array
     {
         return [
-            "Plugin.name",
-            "Plugin.description",
-            "Plugin.identifier",
-            "Plugin.version",
-            "Plugin.flags",
-            "Plugin.stability",
-            "Plugin.authors",
-            "Plugin.requirements"
+            'Plugin.name',
+            'Plugin.description',
+            'Plugin.identifier',
+            'Plugin.stability',
         ];
     }
+
     /**
-     * 
+     * Get the required values for the plugin.
+     */
+    private function requiredValuesInt(): array
+    {
+        return [
+            'Plugin.version',
+        ];
+    }
+
+    /**
+     * Get the required values for the plugin.
+     */
+    private function requiredValuesArray(): array
+    {
+        return [
+            'Plugin.flags',
+            'Plugin.authors',
+            'Plugin.requirements',
+        ];
+    }
+
+    /**
      * Process the required values for the plugin.
-     * 
-     * @return bool
      */
     private function processRequiredValues(): bool
     {
-        foreach ($this->requiredValues() as $value) {
-            $configValue = $this->getConfigValue($value);
-            if (empty($configValue)) {
-                $this->app->getLogger()->error("Required config value '{$value}' is not set or is empty in plugin at path: " . $this->path);
+        foreach ($this->requiredValuesString() as $value) {
+            $awnserString = $this->getConfig()->getString($value);
+            if (!is_string($awnserString) || strlen($awnserString) === 0) {
+                $this->app->getLogger()->error("Required config value '{$value}' is not set or is empty in plugin at path: " . $this->path . ' got: ' . $awnserString);
+
                 return false;
             }
+            foreach ($this->requiredValuesArray() as $value) {
+                $awnserArray = $this->getConfig()->getArray($value);
+                if (!is_array($awnserArray) || count($awnserArray) === 0) {
+                    $this->app->getLogger()->error("Required config value '{$value}' is not set or is empty in plugin at path: " . $this->path . ' got: ' . $awnserArray);
+
+                    return false;
+                }
+                foreach ($this->requiredValuesInt() as $value) {
+                    $awnserInt = $this->getConfig()->getInt($value);
+                    if (!is_int($awnserInt) || $awnserInt <= 0) {
+                        $this->app->getLogger()->error("Required config value '{$value}' is not set or is invalid in plugin at path: " . $this->path . ' got: ' . $awnserInt);
+
+                        return false;
+                    }
+                }
+            }
         }
+
         return true;
     }
 }

@@ -34,10 +34,14 @@ use MythicalDash\App;
 /**
  * Define the environment path.
  */
-define('ENV_PATH', __DIR__ . '/../storage/');
 define('APP_START', microtime(true));
-define('APP_DIR', __DIR__ . '/..');
-
+define('APP_PUBLIC', $_SERVER['DOCUMENT_ROOT']);
+define('APP_DIR', APP_PUBLIC . '/../');
+define('APP_STORAGE_DIR', APP_DIR . 'storage/');
+define('APP_CACHE_DIR', APP_STORAGE_DIR . 'cache');
+define('APP_CRON_DIR', APP_STORAGE_DIR . 'cron');
+define('APP_LOGS_DIR', APP_STORAGE_DIR . 'logs');
+define('APP_ADDONS_DIR', APP_STORAGE_DIR . 'addons');
 /**
  * Require the kernel.
  */

@@ -2,7 +2,7 @@ Plugin:
   name: "BackupSystem"
   description: "A backup system for MythicalDash"
   identifier: "systems.mythical.backupsystem"
-  version: "1.0.0"
+  version: 1.0.0
   flags: 
     - "HAS_CRON"
   stability: "rc"
