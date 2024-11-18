@@ -39,6 +39,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
 
     public function __construct(string $commandName, array $args)
     {
+        $this->handleCustomCommands($commandName, $args);
         self::$instance = $this;
 
         $commandName = ucfirst($commandName);
@@ -79,5 +80,82 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
     public static function getInstance(): App
     {
         return self::$instance;
+    }
+
+    /**
+     * Custom commands handler.
+     *
+     * This method is used to handle custom commands that are not part of the CLI.
+     *
+     * The following commands are handled:
+     * - frontend:build
+     * - frontend:watch
+     * - backend:lint
+     *
+     * DO NOT REMOVE OR MODIFY THIS METHOD.
+     * IF YOU DO NOT KNOW WHAT YOU ARE DOING, DO NOT MODIFY THIS METHOD.
+     */
+    private function handleCustomCommands(string $cmdName, array $subCmd): void
+    {
+        if ($cmdName == 'frontend:build') {
+            $process = popen('cd frontend && yarn build 2>&1', 'r');
+            if (is_resource($process)) {
+                while (!feof($process)) {
+                    $output = fgets($process);
+                    $this->sendOutput($this->prefix . $output);
+                }
+                $returnVar = pclose($process);
+                if ($returnVar !== 0) {
+                    $this->sendOutput('Failed to build frontend.');
+                    $this->sendOutput("\n");
+                } else {
+                    $this->sendOutput('Frontend built successfully.');
+                    $this->sendOutput("\n");
+                }
+            } else {
+                $this->sendOutput($this->prefix . 'Failed to start build process.');
+            }
+
+            exit;
+        } elseif ($cmdName == 'frontend:watch') {
+            $process = popen('cd frontend && yarn watch 2>&1', 'r');
+            if (is_resource($process)) {
+                while (!feof($process)) {
+                    $output = fgets($process);
+                    $this->sendOutput($this->prefix . $output);
+                }
+                $returnVar = pclose($process);
+                if ($returnVar !== 0) {
+                    $this->sendOutput('Failed to watch frontend.');
+                    $this->sendOutput("\n");
+                } else {
+                    $this->sendOutput('Frontend is now being watched.');
+                    $this->sendOutput("\n");
+                }
+            } else {
+                $this->sendOutput($this->prefix . 'Failed to start watch process.');
+            }
+
+            exit;
+        } elseif ($cmdName == 'backend:lint') {
+            $process = popen('cd backend && export COMPOSER_ALLOW_SUPERUSER=1 && composer run lint 2>&1', 'r');
+            if (is_resource($process)) {
+                while (!feof($process)) {
+                    $output = fgets($process);
+                    $this->sendOutput($this->prefix . $output);
+                }
+                $returnVar = pclose($process);
+                if ($returnVar !== 0) {
+                    $this->sendOutput('Failed to lint backend.');
+                    $this->sendOutput("\n");
+                } else {
+                    $this->sendOutput('Backend linted successfully.');
+                    $this->sendOutput("\n");
+                }
+            } else {
+                $this->sendOutput($this->prefix . 'Failed to start lint process.');
+            }
+            exit;
+        }
     }
 }

@@ -41,11 +41,11 @@ class Migrate extends App implements CommandBuilder
     {
         $cliApp = App::getInstance();
         if (!file_exists(__DIR__ . '/../../../storage/.env')) {
+            \MythicalDash\App::getInstance(true)->getLogger()->warning('Executed a command without a .env file');
             $cliApp->send('The .env file does not exist. Please create one before running this command');
             exit;
         }
         $sqlScript = self::getMigrationSQL();
-        require_once __DIR__ . '/../../../boot/kernel.php';
         try {
             \MythicalDash\App::getInstance(true)->loadEnv();
             $db = new Database($_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
@@ -142,6 +142,12 @@ class Migrate extends App implements CommandBuilder
 
     private static function getMigrationSQL(): string
     {
-        return "CREATE TABLE IF NOT EXISTS `mythicaldash_migrations` (`id` INT NOT NULL AUTO_INCREMENT COMMENT 'The id of the migration!' , `script` TEXT NOT NULL COMMENT 'The script to be migrated!' , `migrated` ENUM('true','false') NOT NULL DEFAULT 'true' COMMENT 'Did we migrate this already?' , `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date from when this was executed!' , PRIMARY KEY (`id`)) ENGINE = InnoDB COMMENT = 'The migrations table is table where save the sql migrations!';";
+        return "CREATE TABLE IF NOT EXISTS `mythicaldash_migrations` (
+            `id` INT NOT NULL AUTO_INCREMENT COMMENT 'The id of the migration!',
+            `script` TEXT NOT NULL COMMENT 'The script to be migrated!',
+            `migrated` ENUM('true','false') NOT NULL DEFAULT 'true' COMMENT 'Did we migrate this already?',
+            `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date from when this was executed!',
+            PRIMARY KEY (`id`)
+        ) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT = 'The migrations table is table where save the sql migrations!';";
     }
 }

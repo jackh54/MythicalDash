@@ -29,26 +29,51 @@
  * SOFTWARE.
  */
 
-use MythicalDash\App;
+namespace MythicalDash\Plugins\interfaces;
+
+use MythicalDash\Plugins\PluginEvent;
 
 /**
- * Define the environment path.
+ * Interface PluginTemplate.
+ *
+ * This interface defines the structure for plugin lifecycle events.
  */
-define('ENV_PATH', __DIR__ . '/../storage/');
-define('APP_START', microtime(true));
-define('APP_DIR', __DIR__ . '/..');
+interface PluginTemplate
+{
+    /**
+     * Handle a plugin event.
+     *
+     * @param PluginEvent $event the event to handle
+     *
+     * @return void
+     */
+    public function Event(PluginEvent $event);
 
-/**
- * Require the kernel.
- */
-require_once APP_DIR . '/boot/kernel.php';
+    /**
+     * Called when the plugin is enabled.
+     *
+     * @return void
+     */
+    public function onEnable();
 
-/**
- * Start the APP.
- */
-try {
-    new App(false);
-} catch (Exception $e) {
-    echo $e->getMessage();
-    exit;
+    /**
+     * Called when the plugin is disabled.
+     *
+     * @return void
+     */
+    public function onDisable();
+
+    /**
+     * Called when the plugin is installed.
+     *
+     * @return void
+     */
+    public function onInstall();
+
+    /**
+     * Called when the plugin is uninstalled.
+     *
+     * @return void
+     */
+    public function onUninstall();
 }

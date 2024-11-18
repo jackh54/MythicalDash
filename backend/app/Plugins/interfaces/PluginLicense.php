@@ -29,26 +29,15 @@
  * SOFTWARE.
  */
 
-use MythicalDash\App;
+namespace MythicalDash\Plugins\interfaces;
 
-/**
- * Define the environment path.
- */
-define('ENV_PATH', __DIR__ . '/../storage/');
-define('APP_START', microtime(true));
-define('APP_DIR', __DIR__ . '/..');
-
-/**
- * Require the kernel.
- */
-require_once APP_DIR . '/boot/kernel.php';
-
-/**
- * Start the APP.
- */
-try {
-    new App(false);
-} catch (Exception $e) {
-    echo $e->getMessage();
-    exit;
+interface PluginLicense
+{
+    public const MIT_LICENSE = 'MIT License';
+    public const GPL_LICENSE = 'GNU General Public License (GPL)';
+    public const APACHE_LICENSE = 'Apache License 2.0';
+    public const LGPL_LICENSE = 'GNU Lesser General Public License (LGPL)';
+    public const IDGFK_LICENSE = 'I Don\'t Give a F**k';
+    public const GLWTS_LICENSE = 'Good Luck With That Shit';
+    public const OTHER = 'Other';
 }

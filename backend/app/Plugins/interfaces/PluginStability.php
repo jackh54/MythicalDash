@@ -29,26 +29,13 @@
  * SOFTWARE.
  */
 
-use MythicalDash\App;
+namespace MythicalDash\Plugins\interfaces;
 
-/**
- * Define the environment path.
- */
-define('ENV_PATH', __DIR__ . '/../storage/');
-define('APP_START', microtime(true));
-define('APP_DIR', __DIR__ . '/..');
-
-/**
- * Require the kernel.
- */
-require_once APP_DIR . '/boot/kernel.php';
-
-/**
- * Start the APP.
- */
-try {
-    new App(false);
-} catch (Exception $e) {
-    echo $e->getMessage();
-    exit;
+interface PluginStability
+{
+    public const ALPHA = 'alpha';
+    public const BETA = 'beta';
+    public const DEV = 'dev';
+    public const RC = 'rc';
+    public const STABLE = 'stable';
 }

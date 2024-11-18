@@ -29,26 +29,64 @@
  * SOFTWARE.
  */
 
-use MythicalDash\App;
+namespace MythicalDash\Logger;
 
-/**
- * Define the environment path.
- */
-define('ENV_PATH', __DIR__ . '/../storage/');
-define('APP_START', microtime(true));
-define('APP_DIR', __DIR__ . '/..');
+class LoggerFactory
+{
+    public $logFile;
 
-/**
- * Require the kernel.
- */
-require_once APP_DIR . '/boot/kernel.php';
+    public function __construct(string $logFile)
+    {
+        $this->logFile = $logFile;
+        if ($this->doesLogFileExist()) {
+            $this->createLogFile();
+        }
+    }
 
-/**
- * Start the APP.
- */
-try {
-    new App(false);
-} catch (Exception $e) {
-    echo $e->getMessage();
-    exit;
+    public function info(string $message): void
+    {
+        $this->appendLog('[INFO] ' . $message);
+    }
+
+    public function warning(string $message): void
+    {
+        $this->appendLog('[WARNING] ' . $message);
+    }
+
+    public function error(string $message): void
+    {
+        $this->appendLog('[ERROR] ' . $message);
+    }
+
+    public function critical(string $message): void
+    {
+        $this->appendLog('[CRITICAL] ' . $message);
+    }
+
+    public function debug(string $message): void
+    {
+        $this->appendLog('[DEBUG] ' . $message);
+    }
+
+    private function getFormattedDate(): string
+    {
+        return date('Y-m-d H:i:s');
+    }
+
+    private function appendLog(string $message): void
+    {
+        file_put_contents($this->logFile, '| (' . $this->getFormattedDate() . ') ' . $message . PHP_EOL, FILE_APPEND);
+    }
+
+    private function createLogFile(): void
+    {
+        if (!$this->doesLogFileExist()) {
+            file_put_contents($this->logFile, '');
+        }
+    }
+
+    private function doesLogFileExist(): bool
+    {
+        return file_exists($this->logFile);
+    }
 }

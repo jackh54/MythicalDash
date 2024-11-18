@@ -1,0 +1,21 @@
+Plugin:
+  name: "BackupSystem"
+  description: "A backup system for MythicalDash"
+  identifier: "systems.mythical.backupsystem"
+  version: "1.0.0"
+  flags: 
+    - "HAS_CRON"
+  stability: "rc"
+  authors: 
+    - "NaysKutzu"
+  requirements: 
+    - "xyz.mythical.mythicaldash >= 1.0.0"
+  icon: "https://github.com/mythicalltd.png"
+  license: "MIT"
+Components:
+  cli:
+    path: "cli"
+  routes:
+    path: "routes"
+  cron:
+    path: "cron"

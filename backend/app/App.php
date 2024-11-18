@@ -33,6 +33,8 @@ namespace MythicalDash;
 
 use Router\Router as rt;
 use MythicalDash\Chat\Database;
+use MythicalDash\Config\ConfigFactory;
+use MythicalDash\Logger\LoggerFactory;
 
 class App extends \MythicalSystems\Api\Api
 {
@@ -71,6 +73,10 @@ class App extends \MythicalSystems\Api\Api
             $this->db = new Database($_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
         } catch (\Exception $e) {
             self::InternalServerError($e->getMessage(), null);
+        }
+
+        if ($this->getConfig()->getSetting('app:url', null) == null) {
+            $this->getConfig()->setSetting('app:url', $_SERVER['HTTP_HOST']);
         }
 
         $router = new rt();
@@ -201,6 +207,25 @@ class App extends \MythicalSystems\Api\Api
             echo $e->getMessage();
             exit;
         }
+    }
+
+    /**
+     * Get the config factory.
+     */
+    public function getConfig(): ConfigFactory
+    {
+        if (isset(self::$instance->db)) {
+            return new ConfigFactory(self::$instance->db->getPdo());
+        }
+        throw new \Exception('Database connection is not initialized.');
+    }
+
+    /**
+     * Get the logger factory.
+     */
+    public function getLogger(): LoggerFactory
+    {
+        return new LoggerFactory(__DIR__ . '/../storage/logs/mythicaldash.log');
     }
 
     /**
