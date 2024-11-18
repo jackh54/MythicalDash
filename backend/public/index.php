@@ -30,7 +30,6 @@
  */
 
 use MythicalDash\App;
-
 /**
  * Define the environment path.
  */
@@ -42,6 +41,9 @@ define('APP_CACHE_DIR', APP_STORAGE_DIR . 'cache');
 define('APP_CRON_DIR', APP_STORAGE_DIR . 'cron');
 define('APP_LOGS_DIR', APP_STORAGE_DIR . 'logs');
 define('APP_ADDONS_DIR', APP_STORAGE_DIR . 'addons');
+define('APP_SOURCECODE_DIR', APP_DIR . 'app');
+define('APP_ROUTES_DIR', APP_SOURCECODE_DIR . '/Api');
+
 /**
  * Require the kernel.
  */

@@ -35,12 +35,12 @@
                         </button>
 
                         <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
-                                <Wand2Icon class="w-5 h-5" />
+                            <div class="w-8 h-8 flex items-center justify-center">
+                                <img :src="getSetting('app_logo')" alt="MythicalDash" class="h-6 w-6" />
                             </div>
                             <span
                                 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
-                                MythicalSystems
+                                {{ getSetting('app_name') }}
                             </span>
                             <!-- Search Bar (Desktop) -->
                             <div class="hidden lg:block absolute left-1/2 transform -translate-x-1/2">
@@ -210,8 +210,11 @@ import {
 } from 'lucide-vue-next'
 import Swal from 'sweetalert2'
 
-
 const loading = ref(true)
+
+function getSetting(key) {
+    return localStorage.getItem(key).replace(/^"|"$/g, '');
+}
 
 // Mobile Sidebar State
 const isSidebarOpen = ref(false)
