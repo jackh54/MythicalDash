@@ -21,13 +21,15 @@
 
             <FormInput id="password" type="password" v-model="form.password"
                 :placeholder="t('auth.pages.register.page.form.password.placeholder')" required />
-
+            <input type="hidden" name="csrf" :value="CSRF_TOKEN"></input>
             <button type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
                 :disabled="loading">
                 {{ loading ? t('auth.pages.register.page.form.register_button.loading') :
                     t('auth.pages.register.page.form.register_button.label') }}
             </button>
+
+            <TurnStile v-if="Settings.getSetting('turnstile_enabled') == 'true'"></TurnStile>
 
             <p class="mt-4 text-center text-sm text-gray-400">
                 {{ t('auth.pages.register.page.form.login.label') }}
@@ -45,6 +47,18 @@ import Layout from './../../components/Layout.vue'
 import FormCard from './../../components/Auth/FormCard.vue'
 import FormInput from './../../components/Auth/FormInput.vue'
 import { useI18n } from 'vue-i18n'
+import Swal from 'sweetalert2'
+import Auth from '@/mythicaldash/Auth/Register.js';
+import Settings from '@/mythicaldash/Settings.js';
+import TurnStile from '@/components/ui/CloudFlare/TurnStile.vue';
+
+const CSRF_TOKEN = ref('');
+
+Auth.getToken().then(token => {
+    CSRF_TOKEN.value = token;
+});
+
+
 const { t } = useI18n()
 
 const loading = ref(false)
@@ -59,7 +73,17 @@ const form = reactive({
 const handleSubmit = async () => {
     loading.value = true
     try {
-        // Implement your register logic here
+        
+        if (!form.firstName || !form.lastName || !form.username || !form.email || !form.password) {
+            Swal.fire({
+                icon: 'error',
+                title: 'All fields are required',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            throw new Error('All fields are required')
+        }
+
         await new Promise(resolve => setTimeout(resolve, 1000))
         console.log('Register submitted:', form)
     } catch (error) {

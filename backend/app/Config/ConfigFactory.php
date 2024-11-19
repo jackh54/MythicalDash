@@ -92,11 +92,12 @@ class ConfigFactory
     public function setSetting(string $name, string $value): bool
     {
         $existingSetting = $this->getSetting($name, null);
-        if ($existingSetting) {
-            throw new \Exception("The setting '{$name}' already exists and cannot be duplicated.");
-        }
         $encrypted_value = XChaCha20::encrypt($value, $this->encryption_key);
-        $stmt = $this->db->prepare("INSERT INTO {$this->table_name} (name, value, date) VALUES (:name, :value, NOW())");
+        if ($existingSetting) {
+            $stmt = $this->db->prepare("UPDATE {$this->table_name} SET value = :value, date = NOW() WHERE name = :name");
+        } else {
+            $stmt = $this->db->prepare("INSERT INTO {$this->table_name} (name, value, date) VALUES (:name, :value, NOW())");
+        }
         $result = $stmt->execute(['name' => $name, 'value' => $encrypted_value]);
         if ($result) {
             // Update the cache

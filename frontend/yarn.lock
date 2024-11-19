@@ -1959,6 +1959,11 @@ vue-sweetalert2@^5.0.11:
   dependencies:
     sweetalert2 "11.4.4"
 
+vue-turnstile@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/vue-turnstile/-/vue-turnstile-1.0.11.tgz#6b72cbeb25732b32f771d18a9a9ac7998c9bec07"
+  integrity sha512-iaTBoZ5oUqtNRto6bmbn6FQvW0h/sK7mPUJc1Qn4em+cELXN59U2FQTcpWfKssV3OY6lEZzmCpcn/zrb7htK3A==
+
 vue@^3.5.12:
   version "3.5.12"
   resolved "https://registry.npmjs.org/vue/-/vue-3.5.12.tgz"
