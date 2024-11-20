@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,11 +29,11 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Cli\Commands;
+namespace MythicalClient\Cli\Commands;
 
-use MythicalDash\Cli\App;
-use MythicalDash\Cli\CommandBuilder;
+use MythicalClient\Cli\App;
 use MythicalSystems\Utils\XChaCha20;
+use MythicalClient\Cli\CommandBuilder;
 
 class Setup extends App implements CommandBuilder
 {
@@ -63,7 +63,7 @@ class Setup extends App implements CommandBuilder
     public static function createDBConnection(App $cliApp): void
     {
         $defultEncryption = 'xchacha20';
-        $defultDBName = 'mythicaldash';
+        $defultDBName = 'mythicalclient';
         $defultDBHost = '127.0.0.1';
         $defultDBPort = '3306';
         $defultDBUser = 'mythical';

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,10 +29,10 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Cli\Commands;
+namespace MythicalClient\Cli\Commands;
 
-use MythicalDash\Cli\App;
-use MythicalDash\Cli\CommandBuilder;
+use MythicalClient\Cli\App;
+use MythicalClient\Cli\CommandBuilder;
 
 class Up extends App implements CommandBuilder
 {
@@ -42,10 +42,10 @@ class Up extends App implements CommandBuilder
         if (file_exists(__DIR__ . '/../../../storage/caches/maintenance.php')) {
             unlink(__DIR__ . '/../../../storage/caches/maintenance.php');
             $app->send('&aThe server is no longer in maintenance mode!');
-            \MythicalDash\App::getInstance(true)->getLogger()->info('The server is no longer in maintenance mode!');
+            \MythicalClient\App::getInstance(true)->getLogger()->info('The server is no longer in maintenance mode!');
             exit;
         }
-        \MythicalDash\App::getInstance(true)->getLogger()->error('The server is not in maintenance mode!');
+        \MythicalClient\App::getInstance(true)->getLogger()->error('The server is not in maintenance mode!');
         $app->send('&cThe server is not in maintenance mode!');
         exit;
 

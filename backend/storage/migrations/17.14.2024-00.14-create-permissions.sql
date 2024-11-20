@@ -2,7 +2,7 @@ SET
     foreign_key_checks = 0;
 
 CREATE TABLE
-    `mythicaldash_roles_permissions` (
+    `mythicalclient_roles_permissions` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `role` int (11) NOT NULL DEFAULT 1,
         `permission` text NOT NULL,
@@ -10,11 +10,11 @@ CREATE TABLE
         `locked` enum ('false', 'true') NOT NULL DEFAULT 'false',
         `date` datetime NOT NULL DEFAULT current_timestamp(),
         PRIMARY KEY (`id`),
-        FOREIGN KEY (`role`) REFERENCES `mythicaldash_roles` (`id`)
+        FOREIGN KEY (`role`) REFERENCES `mythicalclient_roles` (`id`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 INSERT INTO
-    `mythicaldash_roles_permissions` (
+    `mythicalclient_roles_permissions` (
         `id`,
         `role`,
         `permission`,
@@ -26,7 +26,7 @@ VALUES
     (
         1,
         1,
-        'mythicaldash.default',
+        'mythicalclient.default',
         'false',
         'false',
         '2024-07-20 06:52:48'
@@ -34,7 +34,7 @@ VALUES
     (
         2,
         2,
-        'mythicaldash.admin',
+        'mythicalclient.admin',
         'false',
         'false',
         '2024-07-20 06:52:48'

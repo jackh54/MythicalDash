@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,10 +29,10 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Cli\Commands;
+namespace MythicalClient\Cli\Commands;
 
-use MythicalDash\Cli\App;
-use MythicalDash\Cli\CommandBuilder;
+use MythicalClient\Cli\App;
+use MythicalClient\Cli\CommandBuilder;
 
 class Help extends App implements CommandBuilder
 {
@@ -51,7 +51,7 @@ class Help extends App implements CommandBuilder
             }
 
             $command = str_replace('.php', '', $command);
-            $commandClass = "MythicalDash\\Cli\\Commands\\$command";
+            $commandClass = "MythicalClient\\Cli\\Commands\\$command";
             $commandFile = __DIR__ . "/$command.php";
 
             require_once $commandFile;

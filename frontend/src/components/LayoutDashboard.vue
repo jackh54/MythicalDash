@@ -36,7 +36,7 @@
 
                         <div class="flex items-center gap-2">
                             <div class="w-8 h-8 flex items-center justify-center">
-                                <img :src="Settings.getSetting('app_logo')" alt="MythicalDash" class="h-6 w-6" />
+                                <img :src="Settings.getSetting('app_logo')" alt="MythicalClient" class="h-6 w-6" />
                             </div>
                             <span
                                 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
@@ -209,7 +209,7 @@ import {
     Terminal as TerminalIcon,
 } from 'lucide-vue-next'
 import Swal from 'sweetalert2'
-import Settings from '@/mythicaldash/Settings.js';
+import Settings from '@/mythicalclient/Settings.js';
 
 
 const loading = ref(true)

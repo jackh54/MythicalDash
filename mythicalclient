@@ -1,6 +1,6 @@
 <?php
 
-use MythicalDash\Cli\App;
+use MythicalClient\Cli\App;
 define("ENV_PATH", __DIR__ . "/backend/storage/");
 define('APP_START', microtime(true));
 define('APP_DIR', __DIR__ . '/backend');

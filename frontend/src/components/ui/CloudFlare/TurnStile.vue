@@ -1,6 +1,6 @@
 <script>
 import VueTurnstile from 'vue-turnstile';
-import Settings from '@/mythicaldash/Settings.js';
+import Settings from '@/mythicalclient/Settings.js';
 
 const isProduction = false;
 

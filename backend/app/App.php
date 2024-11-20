@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,16 +29,17 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash;
+namespace MythicalClient;
 
-use Exception;
 use Router\Router as rt;
-use MythicalDash\Chat\Database;
-use MythicalDash\Config\ConfigFactory;
-use MythicalDash\Logger\LoggerFactory;
-use MythicalDash\Plugins\PluginCompiler;
-use MythicalDash\Api\System\global\Settings;
-
+use MythicalClient\Chat\User;
+use MythicalClient\Chat\Database;
+use MythicalClient\Config\ConfigFactory;
+use MythicalClient\Logger\LoggerFactory;
+use MythicalClient\Plugins\PluginCompiler;
+use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Plugins\PluginEvent;
+use MythicalSystems\Utils\XChaCha20;
 
 class App extends \MythicalSystems\Api\Api
 {
@@ -91,7 +92,7 @@ class App extends \MythicalSystems\Api\Api
 
         try {
             $router->route();
-        } catch (\Exception $e) {#
+        } catch (\Exception $e) {
             self::init();
             self::InternalServerError($e->getMessage(), null);
 
@@ -115,7 +116,7 @@ class App extends \MythicalSystems\Api\Api
                 try {
                     self::init();
                     include $phpFile->getPathname();
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     self::init();
                     self::InternalServerError($e->getMessage(), null);
                 }
@@ -125,12 +126,11 @@ class App extends \MythicalSystems\Api\Api
                 self::init();
                 self::NotFound('The api route does not exist!', null);
             });
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             self::init();
             self::InternalServerError($e->getMessage(), null);
         }
     }
-
 
     /**
      * Load the environment variables.
@@ -141,6 +141,7 @@ class App extends \MythicalSystems\Api\Api
             if (file_exists(__DIR__ . '/../storage/.env')) {
                 $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../storage/');
                 $dotenv->load();
+
             } else {
                 echo 'No .env file found';
                 exit;
@@ -167,7 +168,7 @@ class App extends \MythicalSystems\Api\Api
      */
     public function getLogger(): LoggerFactory
     {
-        return new LoggerFactory(__DIR__ . '/../storage/logs/mythicaldash.log');
+        return new LoggerFactory(__DIR__ . '/../storage/logs/mythicalclient.log');
     }
 
     /**
@@ -181,4 +182,26 @@ class App extends \MythicalSystems\Api\Api
 
         return self::$instance;
     }
+    /**
+     * Encrypt the data.
+     * 
+     * @param string $data The data to encrypt
+     * 
+     * @return string 
+     */
+    public function encrypt(string $data) : string {
+        return XChaCha20::encrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'],true);
+    }
+
+    /**
+     * Decrypt the data.
+     * 
+     * @param string $data The data to decrypt
+     * 
+     * @return void 
+     */
+    public function decrypt(string $data) : string {
+        return XChaCha20::decrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'],true);
+    }
+    
 }

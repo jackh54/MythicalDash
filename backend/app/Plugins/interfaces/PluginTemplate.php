@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,9 +29,9 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Plugins\interfaces;
+namespace MythicalClient\Plugins\interfaces;
 
-use MythicalDash\Plugins\PluginEvent;
+use MythicalClient\Plugins\PluginEvent;
 
 /**
  * Interface PluginTemplate.

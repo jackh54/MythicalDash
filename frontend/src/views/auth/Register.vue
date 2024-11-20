@@ -48,8 +48,8 @@ import FormCard from './../../components/Auth/FormCard.vue'
 import FormInput from './../../components/Auth/FormInput.vue'
 import { useI18n } from 'vue-i18n'
 import Swal from 'sweetalert2'
-import Auth from '@/mythicaldash/Auth/Register.js';
-import Settings from '@/mythicaldash/Settings.js';
+import Auth from '@/mythicalclient/Auth/Register.js';
+import Settings from '@/mythicalclient/Settings.js';
 import TurnStile from '@/components/ui/CloudFlare/TurnStile.vue';
 
 const CSRF_TOKEN = ref('');
@@ -73,7 +73,6 @@ const form = reactive({
 const handleSubmit = async () => {
     loading.value = true
     try {
-        
         if (!form.firstName || !form.lastName || !form.username || !form.email || !form.password) {
             Swal.fire({
                 icon: 'error',

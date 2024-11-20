@@ -1,6 +1,6 @@
 Plugin:
   name: "BackupSystem"
-  description: "A backup system for MythicalDash"
+  description: "A backup system for MythicalClient"
   identifier: "systems.mythical.backupsystem"
   version: 1.0.0
   flags: 
@@ -9,7 +9,7 @@ Plugin:
   authors: 
     - "NaysKutzu"
   requirements: 
-    - "xyz.mythical.mythicaldash >= 1.0.0"
+    - "xyz.mythical.mythicalclient >= 1.0.0"
   icon: "https://github.com/mythicalltd.png"
   license: "MIT"
 Components:

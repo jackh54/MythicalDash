@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,7 +29,7 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Cli;
+namespace MythicalClient\Cli;
 
 class App extends \MythicalSystems\Utils\BungeeChatApi
 {
@@ -53,7 +53,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
 
         require_once $commandFile;
 
-        $commandClass = "MythicalDash\\Cli\\Commands\\$commandName";
+        $commandClass = "MythicalClient\\Cli\\Commands\\$commandName";
 
         if (!class_exists($commandClass)) {
             self::send('Command not found.');

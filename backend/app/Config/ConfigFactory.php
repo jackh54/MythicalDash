@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,7 +29,7 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Config;
+namespace MythicalClient\Config;
 
 use MythicalSystems\Utils\XChaCha20;
 
@@ -39,7 +39,7 @@ class ConfigFactory
     private string $encryption_key;
     private array $cache = [];
 
-    private string $table_name = 'mythicaldash_settings';
+    private string $table_name = 'mythicalclient_settings';
 
     public function __construct(\PDO $db)
     {

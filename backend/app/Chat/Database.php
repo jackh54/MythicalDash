@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,7 +29,9 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Chat;
+namespace MythicalClient\Chat;
+
+use PDO;
 
 class Database
 {
@@ -56,8 +58,24 @@ class Database
         }
     }
 
-    public function getPdo()
+    public function getPdo(): \PDO
     {
         return $this->pdo;
+    }
+
+    /**
+     * Get the PDO connection.
+     *
+     * @return \PDO the PDO connection
+     */
+    public static function getPdoConnection(): \PDO
+    {
+        /**
+         * Load the environment variables.
+         */
+        \MythicalClient\App::getInstance(true)->loadEnv();
+        $con = new self($_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
+
+        return $con->getPdo();
     }
 }

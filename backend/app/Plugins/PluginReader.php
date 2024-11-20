@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,10 +29,10 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Plugins;
+namespace MythicalClient\Plugins;
 
-use MythicalDash\App;
-use MythicalDash\Plugins\utils\PluginConfigReader;
+use MythicalClient\App;
+use MythicalClient\Plugins\utils\PluginConfigReader;
 
 class PluginReader
 {
@@ -67,7 +67,7 @@ class PluginReader
      */
     private function configExist(): bool
     {
-        return file_exists($this->path . '/MythicalDash.yml');
+        return file_exists($this->path . '/MythicalClient.yml');
     }
 
     /**
@@ -87,7 +87,7 @@ class PluginReader
      */
     private function getConfig(): PluginConfigReader
     {
-        return new PluginConfigReader($this->path . '/MythicalDash.yml');
+        return new PluginConfigReader($this->path . '/MythicalClient.yml');
     }
 
     /**

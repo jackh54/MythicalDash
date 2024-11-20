@@ -6,7 +6,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { createI18n } from 'vue-i18n';
 import EN from './locale/en.json';
-import Settings from '@/mythicaldash/Settings.js';
+import Settings from '@/mythicalclient/Settings.js';
 
 /**
  * Initialize the app

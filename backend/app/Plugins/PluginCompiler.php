@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,7 +29,7 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Plugins;
+namespace MythicalClient\Plugins;
 
 class PluginCompiler
 {
@@ -56,7 +56,7 @@ class PluginCompiler
                 continue;
             }
             $pluginPath = $this->plugins_dir . '/' . $directory;
-            if (is_dir($pluginPath) && file_exists($pluginPath . '/MythicalDash.yml')) {
+            if (is_dir($pluginPath) && file_exists($pluginPath . '/MythicalClient.yml')) {
                 $plugins[] = basename($directory);
             }
         }

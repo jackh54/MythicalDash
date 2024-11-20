@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of MythicalDash.
+ * This file is part of MythicalClient.
  * Please view the LICENSE file that was distributed with this source code.
  *
  * MIT License
@@ -29,13 +29,12 @@
  * SOFTWARE.
  */
 
-namespace MythicalDash\Cli\Commands;
+namespace MythicalClient\Cli\Commands;
 
-use MythicalDash\Chat\Database;
-use MythicalDash\Cli\App;
-use MythicalDash\Cli\CommandBuilder;
-use MythicalDash\Config\ConfigFactory;
-use MythicalSystems\Utils\XChaCha20;
+use MythicalClient\Cli\App;
+use MythicalClient\Chat\Database;
+use MythicalClient\Cli\CommandBuilder;
+use MythicalClient\Config\ConfigFactory;
 
 class Setsetting extends App implements CommandBuilder
 {
@@ -52,7 +51,7 @@ class Setsetting extends App implements CommandBuilder
 
         $cliApp->send('&aPlease enter the value you want to set:');
         $value = readline('> ');
-        \MythicalDash\App::getInstance(true)->loadEnv();
+        \MythicalClient\App::getInstance(true)->loadEnv();
 
         try {
             $db = new Database($_ENV['DATABASE_HOST'], $_ENV['DATABASE_DATABASE'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
@@ -64,7 +63,6 @@ class Setsetting extends App implements CommandBuilder
         }
 
         $cliApp->send('&aSetting &e' . $setting . ' &ahas been set to &e' . $value);
-
 
         $cliApp->send('&aThe application has been setup!');
     }
@@ -78,6 +76,4 @@ class Setsetting extends App implements CommandBuilder
     {
         return [];
     }
-
-
 }
