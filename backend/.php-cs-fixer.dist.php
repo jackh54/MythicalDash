@@ -34,6 +34,8 @@ SOFTWARE.
 HEADER;
 
 
+
+
 $finder = (new Finder())
     ->in(__DIR__)
     ->exclude([
@@ -49,10 +51,12 @@ $finder = (new Finder())
     ])
     ->notName(['_ide_helper*']);
 
+
 return (new Config())
     ->setRiskyAllowed(true)
     ->setFinder($finder)
     ->setUsingCache(true)
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRules([
         '@Symfony' => true,
         '@PSR1' => true,
@@ -104,5 +108,5 @@ return (new Config())
         'no_useless_else' => true,
         'no_extra_blank_lines' => true,
         'logical_operators' => true,
-        'no_unused_imports' => true,
-    ]);
+        'no_unused_imports' => true
+]);

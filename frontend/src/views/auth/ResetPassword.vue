@@ -38,9 +38,10 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import Layout from './../../components/Layout.vue'
-import FormCard from './../../components/Auth/FormCard.vue'
-import FormInput from './../../components/Auth/FormInput.vue'
+import Layout from '@/components/Layout.vue'
+import FormCard from '@/components/Auth/FormCard.vue'
+import Turnstile from "vue-turnstile";
+import FormInput from '@/components/Auth/FormInput.vue'
 
 const loading = ref(false)
 const form = reactive({

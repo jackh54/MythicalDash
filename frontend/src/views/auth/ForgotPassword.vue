@@ -1,9 +1,41 @@
+<script setup>
+import { ref, reactive } from 'vue'
+import Layout from '@/components/Layout.vue'
+import FormCard from '@/components/Auth/FormCard.vue'
+import FormInput from '@/components/Auth/FormInput.vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const { t } = useI18n()
+
+const loading = ref(false)
+const form = reactive({
+    email: ''
+})
+
+document.title = t('auth.pages.forgot_password.page.title')
+
+const handleSubmit = async () => {
+    loading.value = true
+    try {
+        
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        console.log('Forgot password submitted:', form)
+    } catch (error) {
+        console.error('Forgot password failed:', error)
+    } finally {
+        loading.value = false
+    }
+}
+</script>
+
 <template>
     <Layout>
         <FormCard title="Forgot Password" @submit="handleSubmit">
             <FormInput
                 id="email"
-                label="Email"
+                :label="$t('auth.pages.forgot_password.page.form.email.label')"
                 v-model="form.email"
                 placeholder="Enter your email"
                 required
@@ -27,27 +59,3 @@
     </Layout>
 </template>
 
-<script setup>
-import { ref, reactive } from 'vue'
-import Layout from './../../components/Layout.vue'
-import FormCard from './../../components/Auth/FormCard.vue'
-import FormInput from './../../components/Auth/FormInput.vue'
-
-const loading = ref(false)
-const form = reactive({
-    email: ''
-})
-
-const handleSubmit = async () => {
-    loading.value = true
-    try {
-        // Implement your forgot password logic here
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log('Forgot password submitted:', form)
-    } catch (error) {
-        console.error('Forgot password failed:', error)
-    } finally {
-        loading.value = false
-    }
-}
-</script>

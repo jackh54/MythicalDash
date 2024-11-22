@@ -5,5 +5,5 @@
 
 <script setup>
 import { FileQuestionIcon } from 'lucide-vue-next'
-import ErrorPage from './../../components/Errors/ErrorPage.vue'
+import ErrorPage from '@/components/Errors/ErrorPage.vue'
 </script>

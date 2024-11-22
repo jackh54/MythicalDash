@@ -22,6 +22,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+const router = useRouter()
 import Layout from './../Layout.vue'
 
 const props = defineProps({
@@ -39,7 +40,7 @@ const props = defineProps({
     }
 })
 
-const router = useRouter()
+
 
 const goBack = () => {
     router.back()

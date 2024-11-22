@@ -30,20 +30,52 @@
  */
 
 use MythicalClient\App;
+use MythicalClient\Chat\User;
+use MythicalSystems\CloudFlare\Turnstile;
+use MythicalClient\Config\ConfigInterface;
+use MythicalSystems\CloudFlare\CloudFlare;
 
-$router->get('/api/user/auth/login', function (): void {
-    App::init();
+$router->add('/api/user/auth/login', function (): void {
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
-    session_start();
-    $csrf = new MythicalSystems\Utils\CSRFHandler();
 
-    App::OK('Procced', [
-        'input' => $csrf->input('login_form'),
-    ]);
+    $appInstance->allowOnlyPOST();
 
-});
+    /**
+     * Check if the required fields are set.
+     *
+     * @var string
+     */
+    if (!isset($_POST['login']) || $_POST['login'] == '') {
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_LOGIN']);
+    }
 
-$router->post('/api/user/auth/login', function (): void {
+    if (!isset($_POST['password']) || $_POST['password'] == '') {
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_PASSWORD']);
+    }
 
+    /**
+     * Process the turnstile response.
+     *
+     * IF the turnstile is enabled
+     */
+    if ($appInstance->getConfig()->getSetting(ConfigInterface::TURNSTILE_ENABLED, 'false') == 'true') {
+        if (!isset($_POST['turnstileResponse']) || $_POST['turnstileResponse'] == '') {
+            $appInstance->BadRequest('Bad Request', ['error_code' => 'TURNSTILE_FAILED']);
+        }
+        $cfTurnstileResponse = $_POST['turnstileResponse'];
+        if (!Turnstile::validate($cfTurnstileResponse, CloudFlare::getRealUserIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
+            $appInstance->BadRequest('Invalid TurnStile Key', ['error_code' => 'TURNSTILE_FAILED']);
+        }
+    }
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+
+    $login = User::login($login, $password);
+
+    if ($login) {
+        $appInstance->OK('Successfully logged in', []);
+    } else {
+        $appInstance->BadRequest('Invalid login credentials', ['error_code' => 'INVALID_CREDENTIALS']);
+    }
 });

@@ -267,7 +267,7 @@ const menuSections = ref([
 // Profile Menu
 const profileMenu = ref([
     { name: 'Settings', icon: SettingsIcon, href: '/account' },
-    { name: 'Logout', icon: LogOutIcon, href: '/auth/login' }
+    { name: 'Logout', icon: LogOutIcon, href: '/api/auth/logout' }
 ])
 
 // Sample Notifications

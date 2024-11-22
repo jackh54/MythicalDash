@@ -35,19 +35,19 @@ use MythicalClient\App;
 use MythicalClient\Chat\User;
 use MythicalClient\Mail\Mail;
 use MythicalClient\Chat\Database;
+
 use MythicalClient\Chat\columns\UserColumns;
 
-class Verify extends Mail
+class NewLogin extends Mail
 {
-    public static function sendMail(string $uuid, string $verifyToken): void
+    public static function sendMail(string $uuid): void
     {
         try {
             $template = self::getFinalTemplate($uuid);
-            $template = str_replace('${token}', $verifyToken, $template);
             $email = User::getInfo(User::getTokenFromUUID($uuid), UserColumns::EMAIL, false);
-            self::send($email, 'Verify your email', $template);
+            self::send($email, 'New Login Detected', $template);
         } catch (\Exception $e) {
-            App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/Verify.php) [sendMail] Failed to send email: ' . $e->getMessage());
+            App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/NewLogin.php) [sendMail] Failed to send email: ' . $e->getMessage());
         }
     }
 
@@ -61,12 +61,12 @@ class Verify extends Mail
         try {
             $conn = Database::getPdoConnection();
             $query = $conn->prepare('SELECT content FROM mythicalclient_mail_templates WHERE name = :name');
-            $query->execute(['name' => 'verify']);
+            $query->execute(['name' => 'new_login']);
             $template = $query->fetchColumn();
 
             return $template;
         } catch (\Exception $e) {
-            App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/Verify.php) [sendMail] Failed to process template: ' . $e->getMessage());
+            App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/NewLogin.php) [sendMail] Failed to process template: ' . $e->getMessage());
 
             return null;
         }
@@ -81,7 +81,7 @@ class Verify extends Mail
 
             return $template;
         } catch (\Exception $e) {
-            App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/Verify.php) [sendMail] Failed to process template: ' . $e->getMessage());
+            App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/templates/NewLogin.php) [sendMail] Failed to process template: ' . $e->getMessage());
 
             return '';
         }

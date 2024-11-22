@@ -1,3 +1,103 @@
+<script setup>
+import { ref, reactive } from 'vue'
+import Layout from '@/components/Layout.vue'
+import FormCard from '@/components/Auth/FormCard.vue'
+import FormInput from '@/components/Auth/FormInput.vue'
+import Swal from 'sweetalert2'
+import Settings from '@/mythicalclient/Settings.js';
+import Turnstile from "vue-turnstile";
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const { t } = useI18n()
+
+const loading = ref(false)
+const form = reactive({
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    password: '',
+    turnstileResponse: ''
+})
+
+document.title = t('auth.pages.register.page.title')
+
+const handleSubmit = async () => {
+    loading.value = true
+    try {
+        if (!form.firstName || !form.lastName || !form.username || !form.email || !form.password) {
+            Swal.fire({
+                icon: 'error',
+                title: t('auth.pages.register.alerts.error.missing_fields'),
+                showConfirmButton: false,
+                timer: 1500
+            })
+            throw new Error('All fields are required')
+        }
+
+        const response = await fetch('/api/user/auth/register', {
+            method: 'POST',
+            body: new URLSearchParams({
+                firstName: form.firstName,
+                lastName: form.lastName,
+                email: form.email,
+                username: form.username,
+                password: form.password,
+                'turnstileResponse': form.turnstileResponse
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            const error_code = errorData.error_code;
+
+            const errorMessages = {
+                'TURNSTILE_FAILED': t("auth.pages.register.alerts.error.cloudflare_error"),
+                'USERNAME_ALREADY_IN_USE': t('auth.pages.register.alerts.error.username_exists'),
+                'EMAIL_ALREADY_IN_USE': t('auth.pages.register.alerts.error.email_exists'),
+                'DATABASE_ERROR': t('auth.pages.register.alerts.error.generic')
+            };
+
+            if (errorMessages[error_code]) {
+                Swal.fire({
+                    icon: 'error',
+                    title: t('auth.pages.register.alerts.error.title'),
+                    text: errorMessages[error_code],
+                    footer: t('auth.pages.register.alerts.error.footer'),
+                    showConfirmButton: true,
+                });
+                throw new Error('Registration failed');
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: t('auth.pages.register.alerts.error.title'),
+                    text: t('auth.pages.register.alerts.error.generic'),
+                    showConfirmButton: true,
+                    footer: t('auth.pages.register.alerts.error.footer'),
+                });
+                throw new Error('Registration failed');
+            }
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: t('auth.pages.register.alerts.success.title'),
+            text: t('auth.pages.register.alerts.success.register_success'),
+            footer: t('auth.pages.register.alerts.success.footer'),
+            showConfirmButton: true,
+        });
+        setTimeout(() => {
+            router.push('/auth/login');
+        }, 1500);
+    } catch (error) {
+        console.error('Register failed:', error)
+    } finally {
+        loading.value = false
+    }
+}
+</script>
 <template>
     <Layout>
         <FormCard :title="t('auth.pages.register.page.title')" @submit="handleSubmit">
@@ -21,7 +121,6 @@
 
             <FormInput id="password" type="password" v-model="form.password"
                 :placeholder="t('auth.pages.register.page.form.password.placeholder')" required />
-            <input type="hidden" name="csrf" :value="CSRF_TOKEN"></input>
             <button type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
                 :disabled="loading">
@@ -29,7 +128,10 @@
                     t('auth.pages.register.page.form.register_button.label') }}
             </button>
 
-            <TurnStile v-if="Settings.getSetting('turnstile_enabled') == 'true'"></TurnStile>
+            <div v-if="Settings.getSetting('turnstile_enabled') == 'true'"
+                style="display: flex; justify-content: center; margin-top: 20px;">
+                <Turnstile :site-key="Settings.getSetting('turnstile_key_pub')" v-model="form.turnstileResponse" />
+            </div>
 
             <p class="mt-4 text-center text-sm text-gray-400">
                 {{ t('auth.pages.register.page.form.login.label') }}
@@ -40,55 +142,3 @@
         </FormCard>
     </Layout>
 </template>
-
-<script setup>
-import { ref, reactive } from 'vue'
-import Layout from './../../components/Layout.vue'
-import FormCard from './../../components/Auth/FormCard.vue'
-import FormInput from './../../components/Auth/FormInput.vue'
-import { useI18n } from 'vue-i18n'
-import Swal from 'sweetalert2'
-import Auth from '@/mythicalclient/Auth/Register.js';
-import Settings from '@/mythicalclient/Settings.js';
-import TurnStile from '@/components/ui/CloudFlare/TurnStile.vue';
-
-const CSRF_TOKEN = ref('');
-
-Auth.getToken().then(token => {
-    CSRF_TOKEN.value = token;
-});
-
-
-const { t } = useI18n()
-
-const loading = ref(false)
-const form = reactive({
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    password: ''
-})
-
-const handleSubmit = async () => {
-    loading.value = true
-    try {
-        if (!form.firstName || !form.lastName || !form.username || !form.email || !form.password) {
-            Swal.fire({
-                icon: 'error',
-                title: 'All fields are required',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            throw new Error('All fields are required')
-        }
-
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        console.log('Register submitted:', form)
-    } catch (error) {
-        console.error('Register failed:', error)
-    } finally {
-        loading.value = false
-    }
-}
-</script>

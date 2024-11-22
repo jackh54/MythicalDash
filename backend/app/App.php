@@ -32,14 +32,11 @@
 namespace MythicalClient;
 
 use Router\Router as rt;
-use MythicalClient\Chat\User;
 use MythicalClient\Chat\Database;
+use MythicalSystems\Utils\XChaCha20;
 use MythicalClient\Config\ConfigFactory;
 use MythicalClient\Logger\LoggerFactory;
 use MythicalClient\Plugins\PluginCompiler;
-use MythicalClient\Chat\columns\UserColumns;
-use MythicalClient\Plugins\PluginEvent;
-use MythicalSystems\Utils\XChaCha20;
 
 class App extends \MythicalSystems\Api\Api
 {
@@ -182,26 +179,26 @@ class App extends \MythicalSystems\Api\Api
 
         return self::$instance;
     }
+
     /**
      * Encrypt the data.
-     * 
+     *
      * @param string $data The data to encrypt
-     * 
-     * @return string 
      */
-    public function encrypt(string $data) : string {
-        return XChaCha20::encrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'],true);
+    public function encrypt(string $data): string
+    {
+        return XChaCha20::encrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'], true);
     }
 
     /**
      * Decrypt the data.
-     * 
+     *
      * @param string $data The data to decrypt
-     * 
-     * @return void 
+     *
+     * @return void
      */
-    public function decrypt(string $data) : string {
-        return XChaCha20::decrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'],true);
+    public function decrypt(string $data): string
+    {
+        return XChaCha20::decrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'], true);
     }
-    
 }

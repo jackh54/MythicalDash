@@ -5,5 +5,5 @@
 
 <script setup>
 import { ShieldAlertIcon } from 'lucide-vue-next'
-import ErrorPage from './../../components/Errors/ErrorPage.vue'
+import ErrorPage from '@/components/Errors/ErrorPage.vue'
 </script>

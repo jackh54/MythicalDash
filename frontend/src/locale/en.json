@@ -2,17 +2,24 @@
     "auth": {
         "pages": {
             "login": {
+                "components": {
+                    "form": {
+                        "support_center": "Support Center"
+                    }
+                },
                 "alerts": {
                     "success": {
                         "title": "Success",
-                        "login_success": "You have successfully logged in"
+                        "login_success": "You have successfully logged in",
+                        "footer": "Welcome back!"
                     },
                     "error":  {
                         "title": "Error",
                         "missing_fields": "Please fill in all fields",
                         "invalid_credentials": "Invalid credentials",
-                        "generic": "An error occurred. Please try again later"
-                        
+                        "generic": "An error occurred. Please try again later",
+                        "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
+                        "footer": "Please contact support for assistance"
                     }
                 },
                 "page": {
@@ -42,15 +49,17 @@
                 "alerts": {
                     "success": {
                         "title": "Success",
-                        "register_success": "You have successfully registered"
+                        "register_success": "You have successfully registered",
+                        "footer": "Thanks for choosing us!"
                     },
                     "error":  {
-                        "title": "Error",
-                        "missing_fields": "Please fill in all fields",
-                        "email_exists": "Email already exists",
+                        "title": "Registration Failed",
+                        "csrf_error": "CSRF token mismatch",
                         "username_exists": "Username already exists",
-                        "generic": "An error occurred. Please try again later"
-                        
+                        "email_exists": "Email already exists",
+                        "generic": "An error occurred. Please try again later",
+                        "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
+                        "footer": "Please contact support for assistance"
                     }
                 },
                 "page": {
@@ -91,8 +100,39 @@
                     }
                 }
             },
-            "forgot-password": {
-
+            "forgot_password": {
+                "alerts": {
+                    "success": {
+                        "title": "Success",
+                        "reset_success": "Password reset link sent",
+                        "footer": "Check your email!"
+                    },
+                    "error":  {
+                        "title": "Error",
+                        "missing_fields": "Please fill in all fields",
+                        "email_not_found": "Email not found",
+                        "generic": "An error occurred. Please try again later",
+                        "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
+                        "footer": "Please contact support for assistance"
+                    }
+                },
+                "page": {
+                    "title": "Forgot Password",
+                    "form": {
+                        "email": {
+                            "label": "Email",
+                            "placeholder": "Enter your email"
+                        },
+                        "reset_button": {
+                            "label": "Reset Password",
+                            "loading": "Sending reset link..."
+                        },
+                        "login": {
+                            "label": "Remembered your password?",
+                            "link": "Login"
+                        }
+                    }
+                }
             },
             "reset-password": {
 
