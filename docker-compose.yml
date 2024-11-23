@@ -16,7 +16,8 @@ services:
 
   frontend:
     build: 
-      context: ./dockerfiles/frontend
+      context: .
+      dockerfile: ./dockerfiles/frontend
     volumes:
       - ./:/var/www/
     restart: unless-stopped
