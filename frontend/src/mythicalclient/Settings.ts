@@ -1,5 +1,3 @@
-import Swal from 'sweetalert2';
-
 class Settings {
     static settings = {};
 
@@ -28,13 +26,14 @@ class Settings {
             }
         } catch (error) {
             console.error('Failed to initialize settings:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Failed to initialize session!',
-                text: 'It looks like something went really wrong. Please try again later or contact the webmaster.',
-            }).then(() => {
-                document.body.innerHTML = '<h1>We are so sorry but our backend is down at this moment :(</h1>';
-            });
+            document.body.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8d7da; color: #721c24; font-family: Arial, sans-serif;">
+                    <div style="text-align: center;">
+                        <h1 style="font-size: 3em; margin-bottom: 0.5em;">We are so sorry</h1>
+                        <p style="font-size: 1.5em;">Our backend is down at this moment :(</p>
+                    </div>
+                </div>
+            `;
         }
     }
 

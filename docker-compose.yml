@@ -1,46 +1,90 @@
+version: '3.8'
+
 services:
-  php:
+  # Frontend Vue service
+  mythical_frontend:
     build:
-      context: ./dockerfiles/php
-    restart: unless-stopped
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mythical_frontend
     volumes:
-      - .:/var/www/
-    expose:
-      - 9000
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - mythical_network
+
+  # PHP Backend service with PHP-FPM
+  mythical_backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mythical_backend
+    volumes:
+      - ./backend:/var/www/html
+      - ./backend/vendor:/var/www/html/vendor
     depends_on:
-      database:
-        condition: service_healthy
-    env_file: ./backend/storage/.env
-    extra_hosts:
-      host.docker.internal: host-gateway
+      - mythical_database
+    networks:
+      - mythical_network
 
-  frontend:
-    build: 
-      context: .
-      dockerfile: ./dockerfiles/frontend
+  # Main Nginx service
+  mythical_nginx:
+    image: nginx:alpine
+    container_name: mythical_nginx
+    ports:
+      - "8080:80"
     volumes:
-      - ./:/var/www/
+      - ./backend:/var/www/html
+      - ./framework.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - mythical_frontend
+      - mythical_backend
+    networks:
+      - mythical_network
+    
+  mythical_database:
+    image: mariadb:latest
     restart: unless-stopped
-
-  composer:
-    image: composer:latest
-    working_dir: /var/www/
+    container_name: mythical_database
     volumes:
-      - .:/var/www
-    entrypoint: ["composer", "--ignore-platform-reqs", "--no-progress", "--no-dev", "--optimize-autoloader"]
-    command: ["install"]
-
-  database:
-    image: mariadb:10.5
-    restart: unless-stopped
-    volumes:
-    - ./dockerfiles/mariadb/data:/var/lib/mysql
+      - ./dockerfiles/mariadb/data:/var/lib/mysql/
     ports:
       - 3306:3306
+      - 33060:33060
     env_file:
       - ./backend/storage/.env
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MARIADB_ROOT_PASSWORD: "superlongquiery!!password"
       MARIADB_DATABASE: ${DATABASE_DATABASE}
       MARIADB_USER: ${DATABASE_USER}
       MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+    healthcheck:
+      test: mysqladmin ping -u$$MARIADB_USER -p$$MARIADB_PASSWORD
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - mythical_network
+    
+  mythical_redis:
+    image: redis:7.0-alpine
+    container_name: mythical_redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel notice --requirepass '${REDIS_PASSWORD}'
+    env_file:
+      - ./backend/storage/.env
+    ports:
+      - 6379:6379
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    healthcheck:
+      test: redis-cli -a $$REDIS_PASSWORD ping | grep PONG
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - mythical_network
+
+networks:
+  mythical_network:
+    driver: bridge

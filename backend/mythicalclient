@@ -1,0 +1,15 @@
+<?php
+
+use MythicalClient\Cli\App;
+define("ENV_PATH", __DIR__ . "/storage/");
+define('APP_START', microtime(true));
+define('APP_DIR', __DIR__ );
+
+require_once __DIR__ . "/boot/kernel.php";
+
+try {
+    $args = array_slice($argv, 1); // Exclude the command name and the first argument
+    new App(isset($argv[1]) ? $argv[1] : '', $args);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}
