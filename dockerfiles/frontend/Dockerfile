@@ -1,6 +1,11 @@
 FROM node:20-alpine
 
-RUN npm i
-RUN npm run build
+WORKDIR /var/www/
 
-WORKDIR /var/www/frontend
+COPY . /var/www
+
+RUN ls /var/www/
+
+RUN yarn install
+RUN yarn build
+

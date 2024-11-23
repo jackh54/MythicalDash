@@ -17,11 +17,13 @@ services:
   frontend:
     build: 
       context: ./dockerfiles/frontend
+    volumes:
+      - ./:/var/www/
     restart: unless-stopped
 
   composer:
     image: composer:latest
-    working_dir: /var/www
+    working_dir: /var/www/
     volumes:
       - .:/var/www
     entrypoint: ["composer", "--ignore-platform-reqs", "--no-progress", "--no-dev", "--optimize-autoloader"]
@@ -37,7 +39,7 @@ services:
     env_file:
       - ./backend/storage/.env
     environment:
-      - MARIADB_RANDOM_ROOT_PASSWORD: "true"
-      - MARIADB_DATABASE: ${DATABASE_DATABASE}
-      - MARIADB_USER: ${DATABASE_USER}
-      - MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MARIADB_DATABASE: ${DATABASE_DATABASE}
+      MARIADB_USER: ${DATABASE_USER}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
