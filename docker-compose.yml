@@ -1,0 +1,6 @@
+services:
+  database:
+    image: mariadb:latest
+    restarted: unless-stopped
+    volumes:
+    - ./dockerfiles/mysql/data
