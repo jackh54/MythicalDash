@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue'
 import Layout from '@/components/Layout.vue'
 import FormCard from '@/components/Auth/FormCard.vue'
