@@ -1,11 +1,9 @@
-<script setup>
-const props = defineProps({
-  link: String,
-})
+<script setup lang="ts">
+defineProps({
+    link: String,
+});
 </script>
 
 <template>
-  <a :href="`${link}`" class="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-500"
-    >View</a
-  >
+    <a :href="`${link}`" class="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-500">View</a>
 </template>

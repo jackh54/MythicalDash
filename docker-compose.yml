@@ -1,6 +1,43 @@
 services:
-  database:
-    image: mariadb:latest
-    restarted: unless-stopped
+  php:
+    build:
+      context: ./dockerfiles/php
+    restart: unless-stopped
     volumes:
-    - ./dockerfiles/mysql/data
+      - .:/var/www/
+    expose:
+      - 9000
+    depends_on:
+      database:
+        condition: service_healthy
+    env_file: ./backend/storage/.env
+    extra_hosts:
+      host.docker.internal: host-gateway
+
+  frontend:
+    build: 
+      context: ./dockerfiles/frontend
+    restart: unless-stopped
+
+  composer:
+    image: composer:latest
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    entrypoint: ["composer", "--ignore-platform-reqs", "--no-progress", "--no-dev", "--optimize-autoloader"]
+    command: ["install"]
+
+  database:
+    image: mariadb:10.5
+    restart: unless-stopped
+    volumes:
+    - ./dockerfiles/mariadb/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    env_file:
+      - ./backend/storage/.env
+    environment:
+      - MARIADB_RANDOM_ROOT_PASSWORD: "true"
+      - MARIADB_DATABASE: ${DATABASE_DATABASE}
+      - MARIADB_USER: ${DATABASE_USER}
+      - MARIADB_PASSWORD: ${DATABASE_PASSWORD}
