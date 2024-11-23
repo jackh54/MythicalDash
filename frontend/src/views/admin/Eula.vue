@@ -1,55 +1,66 @@
 <template>
-    <LayoutDashboard>
-        <div class="max-w-4xl mx-auto space-y-6">
-            <h1 class="text-3xl font-bold text-gray-100">End User License Agreement</h1>
+  <LayoutDashboard>
+    <div class="max-w-4xl mx-auto space-y-6">
+      <h1 class="text-3xl font-bold text-gray-100">End User License Agreement</h1>
 
-            <div class="bg-gray-800/50 rounded-lg p-6 border border-gray-700/50">
-                <div class="mb-6">
-                    <p class="text-gray-300 mb-4">
-                        Please read this End User License Agreement carefully before using MythicalClient.
-                    </p>
-                    <div class="h-96 overflow-y-auto bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
-                        <div class="prose prose-invert" v-html="eulaContent"></div>
-                    </div>
-                </div>
-
-                <div class="flex items-center mb-6">
-                    <input type="checkbox" id="agree" v-model="agreed"
-                        class="w-4 h-4 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500 focus:ring-2">
-                    <label for="agree" class="ml-2 text-sm text-gray-300">
-                        I have read and agree to the End User License Agreement
-                    </label>
-                </div>
-
-                <div class="flex gap-4">
-                    <button @click="acceptEula" :disabled="!agreed"
-                        class="px-6 py-2 bg-purple-600 text-white rounded-lg font-medium transition-colors"
-                        :class="{ 'opacity-50 cursor-not-allowed': !agreed, 'hover:bg-purple-700': agreed }">
-                        Accept
-                    </button>
-                    <button @click="denyEula"
-                        class="px-6 py-2 bg-gray-700 text-gray-300 rounded-lg font-medium hover:bg-gray-600 transition-colors">
-                        Deny
-                    </button>
-                </div>
-            </div>
-
-            <Modal v-if="showModal" @close="closeModal">
-                <template #header>
-                    <h3 class="text-lg font-medium text-gray-100">{{ modalTitle }}</h3>
-                </template>
-                <template #body>
-                    <p class="text-gray-300">{{ modalMessage }}</p>
-                </template>
-                <template #footer>
-                    <button @click="closeModal"
-                        class="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                        Close
-                    </button>
-                </template>
-            </Modal>
+      <div class="bg-gray-800/50 rounded-lg p-6 border border-gray-700/50">
+        <div class="mb-6">
+          <p class="text-gray-300 mb-4">
+            Please read this End User License Agreement carefully before using MythicalClient.
+          </p>
+          <div class="h-96 overflow-y-auto bg-gray-900/50 rounded-lg p-4 border border-gray-700/50">
+            <div class="prose prose-invert" v-html="eulaContent"></div>
+          </div>
         </div>
-    </LayoutDashboard>
+
+        <div class="flex items-center mb-6">
+          <input
+            type="checkbox"
+            id="agree"
+            v-model="agreed"
+            class="w-4 h-4 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500 focus:ring-2"
+          />
+          <label for="agree" class="ml-2 text-sm text-gray-300">
+            I have read and agree to the End User License Agreement
+          </label>
+        </div>
+
+        <div class="flex gap-4">
+          <button
+            @click="acceptEula"
+            :disabled="!agreed"
+            class="px-6 py-2 bg-purple-600 text-white rounded-lg font-medium transition-colors"
+            :class="{ 'opacity-50 cursor-not-allowed': !agreed, 'hover:bg-purple-700': agreed }"
+          >
+            Accept
+          </button>
+          <button
+            @click="denyEula"
+            class="px-6 py-2 bg-gray-700 text-gray-300 rounded-lg font-medium hover:bg-gray-600 transition-colors"
+          >
+            Deny
+          </button>
+        </div>
+      </div>
+
+      <Modal v-if="showModal" @close="closeModal">
+        <template #header>
+          <h3 class="text-lg font-medium text-gray-100">{{ modalTitle }}</h3>
+        </template>
+        <template #body>
+          <p class="text-gray-300">{{ modalMessage }}</p>
+        </template>
+        <template #footer>
+          <button
+            @click="closeModal"
+            class="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors"
+          >
+            Close
+          </button>
+        </template>
+      </Modal>
+    </div>
+  </LayoutDashboard>
 </template>
 
 <script setup>
@@ -122,54 +133,54 @@ const eulaContent = `
     <h3>11. Contact Information</h3>
     <p>For any questions regarding this EULA or MythicalSystems' Services, please contact us at <a href="mailto:abuse@mythicalsystems.xyz">abuse@mythicalsystems.xyz</a>.</p>
 `
-  
 
 const acceptEula = () => {
-    if (agreed.value) {
-        modalTitle.value = 'EULA Accepted'
-        modalMessage.value = 'Thank you for accepting the EULA. You can now proceed to use MythicalClient.'
-        showModal.value = true
-    }
+  if (agreed.value) {
+    modalTitle.value = 'EULA Accepted'
+    modalMessage.value =
+      'Thank you for accepting the EULA. You can now proceed to use MythicalClient.'
+    showModal.value = true
+  }
 }
 
 const denyEula = () => {
-    modalTitle.value = 'EULA Denied'
-    modalMessage.value = 'You have chosen not to accept the EULA. Please uninstall MythicalClient.'
-    showModal.value = true
+  modalTitle.value = 'EULA Denied'
+  modalMessage.value = 'You have chosen not to accept the EULA. Please uninstall MythicalClient.'
+  showModal.value = true
 }
 
 const closeModal = () => {
-    showModal.value = false
-    if (modalTitle.value === 'EULA Accepted') {
-        router.push('/admin/dashboard')
-    } else {
-        router.push('/admin/eula')
-    }
+  showModal.value = false
+  if (modalTitle.value === 'EULA Accepted') {
+    router.push('/admin/dashboard')
+  } else {
+    router.push('/admin/eula')
+  }
 }
 </script>
 
 <style>
 .prose h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    margin-top: 1.5rem;
-    color: #f3f4f6;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  color: #f3f4f6;
 }
 
 .prose p {
-    margin-bottom: 1rem;
-    color: #d1d5db;
+  margin-bottom: 1rem;
+  color: #d1d5db;
 }
 
 .prose ul {
-    list-style-type: disc;
-    padding-left: 1.25rem;
-    margin-bottom: 1rem;
-    color: #d1d5db;
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+  color: #d1d5db;
 }
 
 .prose li {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 </style>

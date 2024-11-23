@@ -1,142 +1,143 @@
 {
-    "auth": {
-        "pages": {
-            "login": {
-                "components": {
-                    "form": {
-                        "support_center": "Support Center"
-                    }
-                },
-                "alerts": {
-                    "success": {
-                        "title": "Success",
-                        "login_success": "You have successfully logged in",
-                        "footer": "Welcome back!"
-                    },
-                    "error":  {
-                        "title": "Error",
-                        "missing_fields": "Please fill in all fields",
-                        "invalid_credentials": "Invalid credentials",
-                        "generic": "An error occurred. Please try again later",
-                        "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
-                        "footer": "Please contact support for assistance"
-                    }
-                },
-                "page": {
-                    "title": "Login",
-                    "form": {
-                        "email": {
-                            "label": "Email or Username",
-                            "placeholder": "Enter your email or username"
-                        },
-                        "password": {
-                            "label": "Password",
-                            "placeholder": "Enter your password"
-                        },
-                        "forgot_password": "Forgot password?",
-                        "login_button": {
-                            "label": "Login",
-                            "loading": "Logging in..."
-                        },
-                        "register": {
-                            "label": "Don't have an account?",
-                            "link": "Register"
-                        }
-                    }
-                }
-            }, 
+  "auth": {
+    "pages": {
+      "login": {
+        "components": {
+          "form": {
+            "support_center": "Support Center"
+          }
+        },
+        "alerts": {
+          "success": {
+            "title": "Success",
+            "login_success": "You have successfully logged in",
+            "footer": "Welcome back!"
+          },
+          "error": {
+            "title": "Error",
+            "missing_fields": "Please fill in all fields",
+            "invalid_credentials": "Invalid credentials",
+            "generic": "An error occurred. Please try again later",
+            "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
+            "footer": "Please contact support for assistance"
+          }
+        },
+        "page": {
+          "title": "Login",
+          "subTitle": "Login in to your account",
+          "form": {
+            "email": {
+              "label": "Email or Username",
+              "placeholder": "Enter your email or username"
+            },
+            "password": {
+              "label": "Password",
+              "placeholder": "Enter your password"
+            },
+            "forgot_password": "Forgot password?",
+            "login_button": {
+              "label": "Login",
+              "loading": "Logging in..."
+            },
             "register": {
-                "alerts": {
-                    "success": {
-                        "title": "Success",
-                        "register_success": "You have successfully registered",
-                        "footer": "Thanks for choosing us!"
-                    },
-                    "error":  {
-                        "title": "Registration Failed",
-                        "csrf_error": "CSRF token mismatch",
-                        "username_exists": "Username already exists",
-                        "email_exists": "Email already exists",
-                        "generic": "An error occurred. Please try again later",
-                        "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
-                        "footer": "Please contact support for assistance"
-                    }
-                },
-                "page": {
-                    "title": "Register",
-                    "form": {
-                        "email": {
-                            "label": "Email",
-                            "placeholder": "Enter your email"
-                        },
-                        "firstName": {
-                            "label": "First Name",
-                            "placeholder": "Enter your first name"
-                        },
-                        "lastName": {
-                            "label": "Last Name",
-                            "placeholder": "Enter your last name"
-                        },
-                        "username": {
-                            "label": "Username",
-                            "placeholder": "Enter your username"
-                        },
-                        "password": {
-                            "label": "Password",
-                            "placeholder": "Enter your password"
-                        },
-                        "confirm_password": {
-                            "label": "Confirm Password",
-                            "placeholder": "Confirm your password"
-                        },
-                        "register_button": {
-                            "label": "Register",
-                            "loading": "Registering..."
-                        },
-                        "login": {
-                            "label": "Already have an account?",
-                            "link": "Login"
-                        }
-                    }
-                }
-            },
-            "forgot_password": {
-                "alerts": {
-                    "success": {
-                        "title": "Success",
-                        "reset_success": "Password reset link sent",
-                        "footer": "Check your email!"
-                    },
-                    "error":  {
-                        "title": "Error",
-                        "missing_fields": "Please fill in all fields",
-                        "email_not_found": "Email not found",
-                        "generic": "An error occurred. Please try again later",
-                        "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
-                        "footer": "Please contact support for assistance"
-                    }
-                },
-                "page": {
-                    "title": "Forgot Password",
-                    "form": {
-                        "email": {
-                            "label": "Email",
-                            "placeholder": "Enter your email"
-                        },
-                        "reset_button": {
-                            "label": "Reset Password",
-                            "loading": "Sending reset link..."
-                        },
-                        "login": {
-                            "label": "Remembered your password?",
-                            "link": "Login"
-                        }
-                    }
-                }
-            },
-            "reset-password": {
-
+              "label": "Don't have an account?",
+              "link": "Register"
             }
+          }
         }
+      },
+      "register": {
+        "alerts": {
+          "success": {
+            "title": "Success",
+            "register_success": "You have successfully registered",
+            "footer": "Thanks for choosing us!"
+          },
+          "error": {
+            "title": "Registration Failed",
+            "csrf_error": "CSRF token mismatch",
+            "username_exists": "Username already exists",
+            "email_exists": "Email already exists",
+            "generic": "An error occurred. Please try again later",
+            "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
+            "footer": "Please contact support for assistance"
+          }
+        },
+        "page": {
+          "title": "Register",
+          "subTitle": "Create a new account",
+          "form": {
+            "email": {
+              "label": "Email",
+              "placeholder": "Enter your email"
+            },
+            "firstName": {
+              "label": "First Name",
+              "placeholder": "Enter your first name"
+            },
+            "lastName": {
+              "label": "Last Name",
+              "placeholder": "Enter your last name"
+            },
+            "username": {
+              "label": "Username",
+              "placeholder": "Enter your username"
+            },
+            "password": {
+              "label": "Password",
+              "placeholder": "Enter your password"
+            },
+            "confirm_password": {
+              "label": "Confirm Password",
+              "placeholder": "Confirm your password"
+            },
+            "register_button": {
+              "label": "Register",
+              "loading": "Registering..."
+            },
+            "login": {
+              "label": "Already have an account?",
+              "link": "Login"
+            }
+          }
+        }
+      },
+      "forgot_password": {
+        "alerts": {
+          "success": {
+            "title": "Success",
+            "reset_success": "Password reset link sent",
+            "footer": "Check your email!"
+          },
+          "error": {
+            "title": "Error",
+            "missing_fields": "Please fill in all fields",
+            "email_not_found": "Email not found",
+            "generic": "An error occurred. Please try again later",
+            "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
+            "footer": "Please contact support for assistance"
+          }
+        },
+        "page": {
+          "title": "Forgot Password",
+          "subTitle": "Reset your password",
+          "form": {
+            "email": {
+              "label": "Email",
+              "placeholder": "Enter your email"
+            },
+            "reset_button": {
+              "label": "Reset Password",
+              "loading": "Sending reset link..."
+            },
+            "login": {
+              "label": "Remembered your password?",
+              "link": "Login"
+            }
+          }
+        }
+      },
+      "reset-password": {}
     }
+  }
 }
