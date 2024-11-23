@@ -2,8 +2,8 @@ name: Node.js CI
 
 on: [push, pull_request]
 jobs:
-  lint:
-    name: Frontend Lint
+  build:
+    name: Frontend Build
     runs-on: ubuntu-latest
     
     permissions:
@@ -27,6 +27,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: yarn
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: |
+          if [ -f yarn.lock ]; then
+            yarn install --frozen-lockfile
+          else
+            echo "yarn.lock file not found"
+            exit 1
+          fi
       - name: Build
         run: yarn build
