@@ -1,54 +1,51 @@
 services:
   # Frontend Vue service
-  mythical_frontend:
+  mythicalclient_frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: mythical_frontend
+    container_name: mythicalclient_frontend
     volumes:
       - ./frontend:/app
       - /app/node_modules
     networks:
-      - mythical_network
+      - mythicalclient_network
 
   # PHP Backend service with PHP-FPM
-  mythical_backend:
+  mythicalclient_backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: mythical_backend
+    container_name: mythicalclient_backend
     volumes:
       - ./backend:/var/www/html
       - ./backend/storage/packages:/var/www/html/storage/packages
     depends_on:
-      - mythical_database
+      - mythicalclient_database
     networks:
-      - mythical_network
+      - mythicalclient_network
 
   # Main Nginx service
-  mythical_nginx:
+  mythicalclient_nginx:
     image: nginx:alpine
-    container_name: mythical_nginx
+    container_name: mythicalclient_nginx
     ports:
       - "8080:80"
     volumes:
       - ./backend:/var/www/html
       - ./framework.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - mythical_frontend
-      - mythical_backend
+      - mythicalclient_frontend
+      - mythicalclient_backend
     networks:
-      - mythical_network
+      - mythicalclient_network
     
-  mythical_database:
+  mythicalclient_database:
     image: mariadb:latest
     restart: unless-stopped
-    container_name: mythical_database
+    container_name: mythicalclient_database
     volumes:
       - ./dockerfiles/mariadb/data:/var/lib/mysql/
-    ports:
-      - 3306:3306
-      - 33060:33060
     env_file:
       - ./backend/storage/.env
     environment:
@@ -62,17 +59,15 @@ services:
       timeout: 5s
       retries: 20
     networks:
-      - mythical_network
+      - mythicalclient_network
     
-  mythical_redis:
+  mythicalclient_redis:
     image: redis:7.0-alpine
-    container_name: mythical_redis
+    container_name: mythicalclient_redis
     restart: unless-stopped
     command: redis-server --save 60 1 --loglevel notice --requirepass '${REDIS_PASSWORD}'
     env_file:
       - ./backend/storage/.env
-    ports:
-      - 6379:6379
     environment:
       REDIS_PASSWORD: ${REDIS_PASSWORD}
     healthcheck:
@@ -81,8 +76,8 @@ services:
       timeout: 5s
       retries: 20
     networks:
-      - mythical_network
+      - mythicalclient_network
 
 networks:
-  mythical_network:
+  mythicalclient_network:
     driver: bridge
