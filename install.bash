@@ -29,6 +29,14 @@ chmod -R 777 ./
 docker exec mythicalclient_backend bash -c "php mythicalclient migrate"
 
 # Reset the encryption key 
-docker exec mythicalclient_backend bash -c "php mythicalclient keyRegen -force"
+# Check if the installation has already been completed
+INSTALL_FLAG=".installed"
 
+if [ ! -f "$INSTALL_FLAG" ]; then
+    # Run the installation steps
+    touch "$INSTALL_FLAG"
+    docker exec mythicalclient_backend bash -c "php mythicalclient keyRegen -force"
+else
+    echo "Installation already completed. Skipping..."
+fi
 

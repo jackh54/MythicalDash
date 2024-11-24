@@ -46,7 +46,7 @@ define('APP_ADDONS_DIR', APP_STORAGE_DIR . 'addons');
 define('APP_SOURCECODE_DIR', APP_DIR . 'app');
 define('APP_ROUTES_DIR', APP_SOURCECODE_DIR . '/Api');
 
-/**d
+/**
  * Require the kernel.
  */
 require_once APP_DIR . '/boot/kernel.php';

@@ -27,6 +27,9 @@ RUN apt-get update && apt-get install -y \
         curl \
         zip
 
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+    
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
