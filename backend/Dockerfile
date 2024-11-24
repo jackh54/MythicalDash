@@ -40,7 +40,7 @@ RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 COPY . .
 
 # Add a cron job
-RUN (crontab -l ; echo "* * * * * cd /var/www/html/backend && php mythicaldash schedule:work >> /dev/null 2>&1") | crontab
+RUN (crontab -l ; echo "* * * * * cd /var/www/html/backend && php mythicaldash schedule_work >> /dev/null 2>&1") | crontab
 RUN (crontab -l ; echo "* * * * * cd /var/www/html/backend/storage/cron && php runner.php >> /dev/null 2>&1") | crontab
 RUN (crontab -l ; echo "* * * * * cd /var/www/html/backend/storage/cron && bash runner.php >> /dev/null 2>&1") | crontab
 

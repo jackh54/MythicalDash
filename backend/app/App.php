@@ -148,6 +148,52 @@ class App extends \MythicalSystems\Api\Api
             exit;
         }
     }
+    /**
+     * Update the value of an environment variable.
+     * 
+     * @param string $key The key of the environment variable
+     * @param string $value The value of the environment variable
+     * @param bool $encode If the value should be encoded
+     * 
+     * @return bool If the value was updated
+     */
+    public function updateEnvValue(string $key, string $value, bool $encode): bool
+    {
+        $envFile = __DIR__ . '/../storage/.env'; // Path to your .env file
+        if (!file_exists($envFile)) {
+            return false; // Return false if .env file doesn't exist
+        }
+
+        // Read the .env file into an array of lines
+        $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        $updated = false;
+        foreach ($lines as &$line) {
+            // Skip comments and lines that don't contain '='
+            if (strpos(trim($line), '#') === 0 || strpos($line, '=') === false) {
+                continue;
+            }
+
+            // Split the line into key and value
+            [$envKey, $envValue] = explode('=', $line, 2);
+
+            // Trim whitespace from the key
+            if (trim($envKey) === $key) {
+                // Update the value
+                $line = "$key=\"$value\"";
+                $updated = true;
+            }
+        }
+
+        // If the key doesn't exist, add it
+        if (!$updated) {
+            $lines[] = "$key=$value";
+        }
+
+        // Write the updated lines back to the .env file
+        return file_put_contents($envFile, implode(PHP_EOL, $lines)) !== false;
+    }
+
 
     /**
      * Get the config factory.

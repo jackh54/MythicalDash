@@ -33,7 +33,7 @@ namespace MythicalClient\Cli;
 
 class App extends \MythicalSystems\Utils\BungeeChatApi
 {
-    public $prefix = '&7[&5&lMythical&d&lDash&7] &8&l| &7';
+    public $prefix = '&7[&5&lMythical&d&lClient&7] &8&l| &7';
     public $bars = '&7&m-----------------------------------------------------&r';
     public static App $instance;
 

@@ -28,7 +28,7 @@ chmod -R 777 ./
 # Migrations 
 docker exec mythicalclient_backend bash -c "php mythicalclient migrate"
 
-# Create the first user 
-#docker exec mythicalclient_backend bash -c "php mythicalclient user:create"
+# Reset the encryption key 
+docker exec mythicalclient_backend bash -c "php mythicalclient keyRegen -force"
 
 
