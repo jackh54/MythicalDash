@@ -25,6 +25,9 @@ docker-compose --env-file ./backend/storage/.env up -d --build
 chown -R www-data:www-data ./
 chmod -R 777 ./
 
+# Update dependencies
+docker exec mythicalclient_backend bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader"
+
 # Migrations 
 docker exec mythicalclient_backend bash -c "php mythicalclient migrate"
 

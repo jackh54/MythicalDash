@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
-    
+
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -37,7 +37,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
 
 # Install dependencies
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader
 
 # Copy rest of the application
 COPY . .
