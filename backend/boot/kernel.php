@@ -30,8 +30,8 @@
  */
 
 try {
-    if (file_exists(APP_DIR . '/storage/packages')) {
-        require APP_DIR . '/storage/packages/autoload.php';
+    if (file_exists(APP_DIR . 'storage/packages')) {
+        require APP_DIR . 'storage/packages/autoload.php';
     } else {
         throw new Exception('Packages not installed');
     }
