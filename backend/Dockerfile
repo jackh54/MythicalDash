@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
+    cron \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
         gd \
@@ -37,6 +38,11 @@ RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 
 # Copy rest of the application
 COPY . .
+
+# Add a cron job
+RUN (crontab -l ; echo "* * * * * cd /var/www/html/backend && php mythicaldash schedule:work >> /dev/null 2>&1") | crontab
+RUN (crontab -l ; echo "* * * * * cd /var/www/html/backend/storage/cron && php runner.php >> /dev/null 2>&1") | crontab
+RUN (crontab -l ; echo "* * * * * cd /var/www/html/backend/storage/cron && bash runner.php >> /dev/null 2>&1") | crontab
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
