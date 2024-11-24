@@ -1,11 +1,17 @@
 <?php
 
 use MythicalClient\Cli\App;
-define("ENV_PATH", __DIR__ . "/backend/storage/");
-define('APP_START', microtime(true));
-define('APP_DIR', __DIR__ . '/backend');
+if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+    define('APP_PUBLIC', $_SERVER['DOCUMENT_ROOT'].'/backend');
+} else {
+    define('APP_PUBLIC', __DIR__.'/backend');
+}
 
-require_once __DIR__ . "/backend/boot/kernel.php";
+define("ENV_PATH", APP_PUBLIC."/storage/");
+define('APP_START', microtime(true));
+define('APP_DIR', APP_PUBLIC.'/');
+
+require_once APP_DIR . "/boot/kernel.php";
 
 try {
     $args = array_slice($argv, 1); // Exclude the command name and the first argument

@@ -1,9 +1,15 @@
 <?php
 
 use MythicalClient\Cli\App;
-define("ENV_PATH", __DIR__ . "/storage/");
+if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+    define('APP_PUBLIC', $_SERVER['DOCUMENT_ROOT']);
+} else {
+    define('APP_PUBLIC', __DIR__.'');
+}
+
+define("ENV_PATH", APP_PUBLIC."/../storage/");
 define('APP_START', microtime(true));
-define('APP_DIR', __DIR__ );
+define('APP_DIR', APP_PUBLIC.'/');
 
 require_once __DIR__ . "/boot/kernel.php";
 

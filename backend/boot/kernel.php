@@ -33,10 +33,11 @@ try {
     if (file_exists(APP_DIR . 'storage/packages')) {
         require APP_DIR . 'storage/packages/autoload.php';
     } else {
-        throw new Exception('Packages not installed');
+        throw new Exception('Packages not installed looked at this path: ' . APP_DIR . 'storage/packages');
     }
 } catch (Exception $e) {
     echo $e->getMessage();
+    echo "\n";
     exit;
 }
 
