@@ -28,9 +28,6 @@ chmod -R 777 ./
 # Update dependencies
 docker exec mythicalclient_backend bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader"
 
-# Migrations 
-docker exec mythicalclient_backend bash -c "php mythicalclient migrate"
-
 # Reset the encryption key 
 # Check if the installation has already been completed
 INSTALL_FLAG=".installed"
@@ -43,3 +40,11 @@ else
     echo "Installation already completed. Skipping..."
 fi
 
+# Migrations
+# Wait for the database container to be ready
+until docker exec mythicalclient_database pg_isready; do
+    echo "Waiting for mythicalclient_database to be ready..."
+    sleep 2
+done
+
+docker exec mythicalclient_backend bash -c "php mythicalclient migrate"
