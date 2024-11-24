@@ -42,9 +42,10 @@ fi
 
 # Migrations
 # Wait for the database container to be ready
-until docker exec mythicalclient_database pg_isready; do
-    echo "Waiting for mythicalclient_database to be ready..."
+while [ "$(docker inspect -f '{{.State.Health.Status}}' mythicalclient_database)" == "starting" ]; do
+    echo "Waiting for mythicalclient_database to be up..."
     sleep 2
 done
+
 
 docker exec mythicalclient_backend bash -c "php mythicalclient migrate"
