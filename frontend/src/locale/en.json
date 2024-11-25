@@ -140,6 +140,29 @@
                     }
                 }
             },
+            "twofactor_setup": {
+                "alerts": {
+
+                },
+                "page": {
+                    "title": "Two Factor Authentication",
+                    "subTitle": "Setup Two Factor Authentication",
+                    "form": {
+                        "secret": {
+                            "label": "Secret",
+                            "placeholder": "Here is your secret key"
+                        },
+                        "code": {
+                            "label": "Code",
+                            "placeholder": "Enter the code from your authenticator app"
+                        },
+                        "setup_button": {
+                            "label": "Setup",
+                            "loading": "Setting up..."
+                        }
+                    }
+                }
+            },
             "reset_password": {
                 "alerts": {
                     "success": {

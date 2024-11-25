@@ -248,6 +248,12 @@ import {
     Terminal as TerminalIcon,
 } from 'lucide-vue-next';
 import Settings from '@/mythicalclient/Settings';
+import Session from '@/mythicalclient/Session';
+import router from '@/router';
+
+if (!Session.isSessionValid()) {
+    router.push('/auth/login');
+}
 
 const loading = ref(true);
 
@@ -358,7 +364,7 @@ const menuSections = ref([
 // Profile Menu
 const profileMenu = ref([
     { name: 'Settings', icon: SettingsIcon, href: '/account' },
-    { name: 'Logout', icon: LogOutIcon, href: '/api/auth/logout' },
+    { name: 'Logout', icon: LogOutIcon, href: '/auth/login' },
 ]);
 
 // Sample Notifications

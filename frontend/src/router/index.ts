@@ -11,6 +11,7 @@ import DashboardUi from '@/views/Home.vue';
 import DashboardAccount from '@/views/Account.vue';
 import TicketDashboard from '@/views/ticket/List.vue';
 import TicketDetail from '@/views/ticket/[id].vue';
+import TwoFactorSetup from '@/views/auth/TwoFactorSetup.vue';
 
 import AdminSettings from '@/views/admin/Settings.vue';
 import AdminUsers from '@/views/admin/Users.vue';
@@ -45,6 +46,11 @@ const routes = [
         path: '/auth/reset-password',
         name: 'Reset Password',
         component: ResetPassword,
+    },
+    {
+        path: '/auth/two-factor-setup',
+        name: 'Two Factor Setup',
+        component: TwoFactorSetup,
     },
     {
         path: '/errors/403',

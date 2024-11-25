@@ -12,6 +12,8 @@
                 class="w-full px-4 py-2 bg-[#1a1a2e] border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                 :placeholder="placeholder"
                 :required="required"
+                :maxlength="maxChar"
+                :disabled="locked"
             />
             <button
                 v-if="type === 'password'"
@@ -30,6 +32,7 @@
 import { ref } from 'vue';
 import { EyeIcon, EyeOffIcon } from 'lucide-vue-next';
 
+
 defineProps({
     id: String,
     label: String,
@@ -40,6 +43,14 @@ defineProps({
     },
     placeholder: String,
     required: Boolean,
+    maxChar: {
+        type: Number,
+        default: null,
+    },
+    locked: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 defineEmits(['update:modelValue']);
