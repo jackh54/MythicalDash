@@ -78,8 +78,8 @@ class App extends \MythicalSystems\Api\Api
             self::InternalServerError($e->getMessage(), null);
         }
 
-        if ($this->getConfig()->getSetting('app:url', null) == null) {
-            $this->getConfig()->setSetting('app:url', $_SERVER['HTTP_HOST']);
+        if ($this->getConfig()->getSetting('app_url', null) == null) {
+            $this->getConfig()->setSetting('app_url', $_SERVER['HTTP_HOST']);
         }
 
         new PluginCompiler();

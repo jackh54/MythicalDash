@@ -19,7 +19,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 # Start the build process
-docker-compose --env-file ./backend/storage/.env up -d --build
+docker-compose --env-file ./backend/storage/.docker.env up -d --build
 
 # Set the right permissions
 chown -R www-data:www-data ./

@@ -14,12 +14,15 @@
                         "footer": "Welcome back!"
                     },
                     "error": {
-                        "title": "Error",
+                        "title": "Login Error",
                         "missing_fields": "Please fill in all fields",
                         "invalid_credentials": "Invalid credentials",
                         "generic": "An error occurred. Please try again later",
                         "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
-                        "footer": "Please contact support for assistance"
+                        "footer": "Please contact support for assistance",
+                        "not_verified": "Your email is not verified yet",
+                        "banned": "Your account was permanently banned",
+                        "deleted": "Your account was deleted either by you or an admin"
                     }
                 },
                 "page": {
@@ -137,7 +140,46 @@
                     }
                 }
             },
-            "reset-password": {}
+            "reset_password": {
+                "alerts": {
+                    "success": {
+                        "title": "Success",
+                        "reset_success": "We have successfully reset your password",
+                        "footer": "Check your email!"
+                    },
+                    "error": {
+                        "title": "Error",
+                        "missing_fields": "Please fill in all fields",
+                        "passwords_mismatch": "Passwords do not match",
+                        "generic": "An error occurred. Please try again later",
+                        "cloudflare_error": "You have been blocked by Cloudflare Turnstile",
+                        "footer": "Please contact support for assistance",
+                        "invalid_code": "Invalid reset code"
+                    }
+                },
+                "page": {
+                    "title": "Reset Password",
+                    "subTitle": "Reset your password",
+                    "form": {
+                        "password_new": {
+                            "label": "New Password",
+                            "placeholder": "Enter your new password"
+                        },
+                        "password_confirm": {
+                            "label": "Confirm Password",
+                            "placeholder": "Confirm your new password"
+                        },
+                        "reset_button": {
+                            "label": "Reset Password",
+                            "loading": "Applying changes..."
+                        },
+                        "login": {
+                            "label": "Remembered your password?",
+                            "link": "Login"
+                        }
+                    }
+                }
+            }
         }
     }
 }

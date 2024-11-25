@@ -8,7 +8,12 @@ import { useRouter } from 'vue-router';
 import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
 import { useI18n } from 'vue-i18n';
+import { useSound } from '@vueuse/sound'
+import failedAlertSfx from "@/assets/sounds/error.mp3";
+import successAlertSfx from "@/assets/sounds/success.mp3";
 
+const { play: playError } = useSound(failedAlertSfx);
+const { play: playSuccess } = useSound(successAlertSfx)
 const router = useRouter();
 const { t } = useI18n();
 
@@ -22,8 +27,10 @@ const form = reactive({
 });
 
 const handleSubmit = async () => {
-    loading.value = true;
+    try {
+        loading.value = true;
     if (!form.email || !form.password) {
+        playError()
         Swal.fire({
             icon: 'error',
             title: t('auth.pages.login.alerts.error.title'),
@@ -48,9 +55,13 @@ const handleSubmit = async () => {
         const errorMessages = {
             TURNSTILE_FAILED: t('auth.pages.login.alerts.error.cloudflare_error'),
             INVALID_CREDENTIALS: t('auth.pages.login.alerts.error.invalid_credentials'),
+            ACCOUNT_NOT_VERIFIED: t('auth.pages.login.alerts.error.not_verified'),
+            ACCOUNT_BANNED: t('auth.pages.login.alerts.error.banned'),
+            ACCOUNT_DELETED: t('auth.pages.login.alerts.error.deleted'),
         };
 
         if (errorMessages[error_code]) {
+            playError()
             Swal.fire({
                 icon: 'error',
                 title: t('auth.pages.login.alerts.error.title'),
@@ -62,6 +73,7 @@ const handleSubmit = async () => {
             throw new Error('Login failed');
         }
     } else {
+        playSuccess()
         Swal.fire({
             icon: 'success',
             title: t('auth.pages.login.alerts.success.title'),
@@ -69,9 +81,15 @@ const handleSubmit = async () => {
             footer: t('auth.pages.login.alerts.success.footer'),
             showConfirmButton: true,
         });
+        loading.value = false;
         setTimeout(() => {
             router.push('/');
         }, 1500);
+    }
+    } catch (error) {
+        console.error('Login failed:', error);
+    } finally {
+        loading.value = false;
     }
 };
 </script>

@@ -13,15 +13,16 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "vue": "^3.5.12",
-    "vue-router": "^4.4.5",
-    "lucide-vue": "^0.454.0",
-    "vue-i18n": "^10.0.4",
-    "vue-sweetalert2": "^5.0.11",
-    "vue-turnstile": "^1.0.11",
-    "lucide-vue-next": "^0.454.0",
+    "@tanstack/vue-table": "^8.20.5",
+    "@vueuse/sound": "^2.0.1",
     "date-fns": "^4.1.0",
-    "@tanstack/vue-table": "^8.20.5"
+    "lucide-vue": "^0.454.0",
+    "lucide-vue-next": "^0.454.0",
+    "vue": "^3.5.12",
+    "vue-i18n": "^10.0.4",
+    "vue-router": "^4.4.5",
+    "vue-sweetalert2": "^5.0.11",
+    "vue-turnstile": "^1.0.11"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",

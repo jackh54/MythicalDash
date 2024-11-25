@@ -6,12 +6,12 @@ use MythicalSystems\CloudFlare\Turnstile;
 use MythicalClient\Config\ConfigInterface;
 use MythicalSystems\CloudFlare\CloudFlare;
 
-$router->add('/api/user/auth/forgot', function (): void { 
+$router->add('/api/user/auth/forgot', function (): void {
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
 
     $appInstance->allowOnlyPOST();
-        /**
+    /**
      * Check if the required fields are set.
      *
      * @var string
@@ -20,7 +20,7 @@ $router->add('/api/user/auth/forgot', function (): void {
         $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_EMAIL']);
     }
 
-        /**
+    /**
      * Process the turnstile response.
      *
      * IF the turnstile is enabled
@@ -37,10 +37,15 @@ $router->add('/api/user/auth/forgot', function (): void {
     $email = $_POST['email'];
 
     if (User::exists(UserColumns::EMAIL, $email)) {
-        $appInstance->OK('Email exists', []);
+
+        if (User::forgotPassword($email)) {
+            $appInstance->OK('Successfully sent email', []);
+        } else {
+            $appInstance->BadRequest('Failed to send email', ['error_code' => 'FAILED_TO_SEND_EMAIL']);
+        }
+
     } else {
         $appInstance->BadRequest('Email does not exist', ['error_code' => 'EMAIL_DOES_NOT_EXIST']);
     }
 
-    
 });

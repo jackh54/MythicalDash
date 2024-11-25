@@ -34,6 +34,7 @@ namespace MythicalClient\Chat;
 use Gravatar\Gravatar;
 use MythicalClient\App;
 use MythicalClient\Mail\Mail;
+use MythicalClient\Mail\templates\ResetPassword;
 use MythicalClient\Mail\templates\Verify;
 use MythicalClient\Mail\templates\NewLogin;
 use MythicalClient\Chat\columns\UserColumns;
@@ -131,6 +132,40 @@ class User extends Database
             throw new \Exception('Failed to register user: ' . $e->getMessage());
         }
     }
+    /**
+     * 
+     * Forgot password logic.
+     * 
+     * @param string $email The email of the user
+     * 
+     * @return bool If the email was sent
+     */
+    public static function forgotPassword(string $email) : bool {
+        try {
+            $con = self::getPdoConnection();
+            $stmt = $con->prepare('SELECT token, uuid FROM ' . self::TABLE_NAME . ' WHERE email = :email');
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if ($user) {
+                if (Mail::isEnabled()) {
+                    try {
+                        $verify_token = base64_encode(random_bytes(16));
+                        Verification::add($verify_token, $user['uuid'], EmailVerificationColumns::$type_password);
+                        ResetPassword::sendMail($user['uuid'], $verify_token);
+                    } catch (\Exception $e) {
+                        App::getInstance(true)->getLogger()->error('Failed to send email: ' . $e->getMessage());
+                    }
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 
     /**
      * Login the user.
@@ -159,16 +194,12 @@ class User extends Database
                             App::getInstance(true)->getLogger()->error('Failed to send email: ' . $e->getMessage());
                         }
                     }
-
+                    setcookie('user_token', $user['token'], time() + 3600, '/');
                     return true;
                 }
-
                 return false;
-
             }
-
             return false;
-
         } catch (\Exception $e) {
             return false;
         }

@@ -76,15 +76,12 @@ class Verification extends Database
             $query = $conn->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE code = :code AND type = :type');
             $query->execute(['code' => $code, 'type' => $type]);
             $result = $query->fetch();
-            if ($result === false) {
+            if (empty($result)) {
                 return false;
             }
-
             return true;
-
         } catch (\Exception $e) {
             App::getInstance(softBoot: true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Chat/Verification.php) Failed to verify code table: ' . $e->getMessage());
-
             return false;
         }
     }
@@ -112,16 +109,16 @@ class Verification extends Database
     /**
      * Get the user's UUID from a code.
      *
-     * @param string $uuid The code to get the user's UUID from
+     * @param string $code The code to get the user's UUID from
      *
      * @return string Get the user uuid
      */
-    public static function getUserUUID(string $uuid): string
+    public static function getUserUUID(string $code): string
     {
         try {
             $conn = self::getPdoConnection();
             $query = $conn->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE code = :code');
-            $query->execute(['code' => $uuid]);
+            $query->execute(['code' => $code]);
             $result = $query->fetch();
             if ($result === false) {
                 return '';
