@@ -4,24 +4,23 @@ import Layout from '@/components/Layout.vue';
 import FormCard from '@/components/Auth/FormCard.vue';
 import FormInput from '@/components/Auth/FormInput.vue';
 import { useI18n } from 'vue-i18n';
-import { useSound } from '@vueuse/sound'
-import failedAlertSfx from "@/assets/sounds/error.mp3";
-import successAlertSfx from "@/assets/sounds/success.mp3";
+import { useSound } from '@vueuse/sound';
+import failedAlertSfx from '@/assets/sounds/error.mp3';
+import successAlertSfx from '@/assets/sounds/success.mp3';
 import Swal from 'sweetalert2';
 import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
 import { useRouter } from 'vue-router';
 
-
 const { play: playError } = useSound(failedAlertSfx);
-const { play: playSuccess } = useSound(successAlertSfx)
+const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
 const { t } = useI18n();
 
 const loading = ref(false);
 const form = reactive({
     email: '',
-    turnstileResponse: ''
+    turnstileResponse: '',
 });
 
 document.title = t('auth.pages.forgot_password.page.title');
@@ -29,7 +28,7 @@ document.title = t('auth.pages.forgot_password.page.title');
 const handleSubmit = async () => {
     loading.value = true;
     if (!form.email) {
-        playError()
+        playError();
         Swal.fire({
             icon: 'error',
             title: t('auth.pages.forgot_password.alerts.error.title'),
@@ -58,7 +57,7 @@ const handleSubmit = async () => {
             };
 
             if (errorMessages[error_code]) {
-                playError()
+                playError();
                 Swal.fire({
                     icon: 'error',
                     title: t('auth.pages.forgot_password.alerts.error.title'),
@@ -70,7 +69,7 @@ const handleSubmit = async () => {
                 throw new Error('Forgot Password failed');
             }
         } else {
-            playSuccess()
+            playSuccess();
             Swal.fire({
                 icon: 'success',
                 title: t('auth.pages.forgot_password.alerts.success.title'),
@@ -94,15 +93,25 @@ const handleSubmit = async () => {
 <template>
     <Layout>
         <FormCard :title="$t('auth.pages.forgot_password.page.subTitle')" @submit="handleSubmit">
-            <FormInput id="email" :label="$t('auth.pages.forgot_password.page.form.email.label')" v-model="form.email"
-                type="email" :placeholder="$t('auth.pages.forgot_password.page.form.email.placeholder')" required />
-            <div v-if="Settings.getSetting('turnstile_enabled') == 'true'"
-                style="display: flex; justify-content: center; margin-top: 20px">
+            <FormInput
+                id="email"
+                :label="$t('auth.pages.forgot_password.page.form.email.label')"
+                v-model="form.email"
+                type="email"
+                :placeholder="$t('auth.pages.forgot_password.page.form.email.placeholder')"
+                required
+            />
+            <div
+                v-if="Settings.getSetting('turnstile_enabled') == 'true'"
+                style="display: flex; justify-content: center; margin-top: 20px"
+            >
                 <Turnstile :site-key="Settings.getSetting('turnstile_key_pub')" v-model="form.turnstileResponse" />
             </div>
-            <button type="submit"
+            <button
+                type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                :disabled="loading">
+                :disabled="loading"
+            >
                 {{
                     loading
                         ? t('auth.pages.forgot_password.page.form.reset_button.loading')

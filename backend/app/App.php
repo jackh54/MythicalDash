@@ -148,13 +148,14 @@ class App extends \MythicalSystems\Api\Api
             exit;
         }
     }
+
     /**
      * Update the value of an environment variable.
-     * 
+     *
      * @param string $key The key of the environment variable
      * @param string $value The value of the environment variable
      * @param bool $encode If the value should be encoded
-     * 
+     *
      * @return bool If the value was updated
      */
     public function updateEnvValue(string $key, string $value, bool $encode): bool
@@ -193,7 +194,6 @@ class App extends \MythicalSystems\Api\Api
         // Write the updated lines back to the .env file
         return file_put_contents($envFile, implode(PHP_EOL, $lines)) !== false;
     }
-
 
     /**
      * Get the config factory.

@@ -182,7 +182,9 @@
                             <UserIcon class="h-6 w-6 text-purple-400" />
                         </div>
                         <div>
-                            <p class="font-medium">John Doe</p>
+                            <p class="font-medium">
+                                {{ Session.getInfo('first_name') }} {{ Session.getInfo('last_name') }}
+                            </p>
                             <p class="text-sm text-gray-400">Administrator</p>
                         </div>
                     </div>
@@ -250,9 +252,18 @@ import {
 import Settings from '@/mythicalclient/Settings';
 import Session from '@/mythicalclient/Session';
 import router from '@/router';
+import StorageMonitor from '@/mythicalclient/StorageMonitor';
+
+new StorageMonitor();
 
 if (!Session.isSessionValid()) {
     router.push('/auth/login');
+}
+
+try {
+    Session.startSession();
+} catch (error) {
+    console.error('Session failed:', error);
 }
 
 const loading = ref(true);

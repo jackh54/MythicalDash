@@ -32,9 +32,8 @@
 namespace MythicalClient\Cli\Commands;
 
 use MythicalClient\Cli\App;
-use MythicalClient\Cli\CommandBuilder;
-use MythicalClient\Config\ConfigInterface;
 use MythicalSystems\Utils\XChaCha20;
+use MythicalClient\Cli\CommandBuilder;
 
 class KeyRegen extends App implements CommandBuilder
 {
@@ -54,27 +53,29 @@ class KeyRegen extends App implements CommandBuilder
             $line = trim(readline('> '));
             if ($line !== 'yes') {
                 $app->send('&cAction cancelled.');
+
                 return;
-            } else {
-                $isForced = true; // If the user types yes, then we can force the key reset
             }
+            $isForced = true; // If the user types yes, then we can force the key reset
+
         }
 
         if ($isForced) {
             $mainApp = \MythicalClient\App::getInstance(true);
             $mainApp->loadEnv();
-            $mainApp->getLogger()->warning('Old encryption key was: '.$_ENV['DATABASE_ENCRYPTION_KEY']);
-            $app->send(message: '&7Old encryption key was: &e'.$_ENV['DATABASE_ENCRYPTION_KEY']);
+            $mainApp->getLogger()->warning('Old encryption key was: ' . $_ENV['DATABASE_ENCRYPTION_KEY']);
+            $app->send(message: '&7Old encryption key was: &e' . $_ENV['DATABASE_ENCRYPTION_KEY']);
             $newKey = XChaCha20::generateStrongKey(true);
-            $mainApp->updateEnvValue('DATABASE_ENCRYPTION_KEY',$newKey,true);
+            $mainApp->updateEnvValue('DATABASE_ENCRYPTION_KEY', $newKey, true);
             sleep(3);
             $_ENV['DATABASE_ENCRYPTION_KEY'] = $newKey;
-            $mainApp->getLogger()->warning('New encryption key is: '.$_ENV['DATABASE_ENCRYPTION_KEY']);
-            $app->send(message: '&7New encryption key is: &e'.$_ENV['DATABASE_ENCRYPTION_KEY']);
+            $mainApp->getLogger()->warning('New encryption key is: ' . $_ENV['DATABASE_ENCRYPTION_KEY']);
+            $app->send(message: '&7New encryption key is: &e' . $_ENV['DATABASE_ENCRYPTION_KEY']);
             $app->send(message: '&7Key reset successfully!');
         } else {
             $app->send('&cAction cancelled.');
-            return; 
+
+            return;
         }
     }
 

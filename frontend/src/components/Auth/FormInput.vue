@@ -32,7 +32,6 @@
 import { ref } from 'vue';
 import { EyeIcon, EyeOffIcon } from 'lucide-vue-next';
 
-
 defineProps({
     id: String,
     label: String,

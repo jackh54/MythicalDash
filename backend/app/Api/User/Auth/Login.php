@@ -30,12 +30,12 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\Chat\User;
 use MythicalClient\Mail\Mail;
 use MythicalSystems\CloudFlare\Turnstile;
 use MythicalClient\Config\ConfigInterface;
 use MythicalSystems\CloudFlare\CloudFlare;
+use MythicalClient\Chat\columns\UserColumns;
 
 $router->add('/api/user/auth/login', function (): void {
     $appInstance = App::getInstance(true);
@@ -76,19 +76,19 @@ $router->add('/api/user/auth/login', function (): void {
     $login = User::login($login, $password);
 
     if ($login) {
-        if (User::getInfo($_COOKIE['user_token'],UserColumns::VERIFIED, false) == "false") {
+        if (User::getInfo($_COOKIE['user_token'], UserColumns::VERIFIED, false) == 'false') {
             if (Mail::isEnabled() == true) {
                 setcookie('user_token', '', time() - 123600, '/');
                 $appInstance->BadRequest('Account not verified', ['error_code' => 'ACCOUNT_NOT_VERIFIED']);
             }
         }
 
-        if (User::getInfo($_COOKIE['user_token'],UserColumns::BANNED, false) != "NO") {
+        if (User::getInfo($_COOKIE['user_token'], UserColumns::BANNED, false) != 'NO') {
             setcookie('user_token', '', time() - 123600, '/');
             $appInstance->BadRequest('Account is banned', ['error_code' => 'ACCOUNT_BANNED']);
         }
 
-        if (User::getInfo($_COOKIE['user_token'],UserColumns::DELETED, false) == "true") {
+        if (User::getInfo($_COOKIE['user_token'], UserColumns::DELETED, false) == 'true') {
             setcookie('user_token', '', time() - 123600, '/');
             $appInstance->BadRequest('Account is deleted', ['error_code' => 'ACCOUNT_DELETED']);
         }

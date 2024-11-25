@@ -40,9 +40,9 @@ class Colors extends App implements CommandBuilder
     {
         $app = App::getInstance();
         $colors = 'Colors: &0Black&r, &1Dark Blue&r, &2Dark Green&r, &3Dark Aqua&r, &4Dark Red&r, &5Dark Purple&r, &6Gold&r, &7Gray&r, &8Dark Gray&r, &9Blue&r, &aGreen&r, &bAqua&r, &cRed&r, &dLight Purple&r, &eYellow&r, &rWhite&r, &rReset&r, &lBold&r, &nUnderline&r, &mStrikethrough&r';
-        
+
         $app->send($colors);
-        $colors = "&0 0 &1 1 &2 2 &3 3 &4 4 &5 5 &6 6 &7 7 &8 8 &9 9 &a a &b b &c c &d d &e e &r r &l l &n n&r &m m &r";
+        $colors = '&0 0 &1 1 &2 2 &3 3 &4 4 &5 5 &6 6 &7 7 &8 8 &9 9 &a a &b b &c c &d d &e e &r r &l l &n n&r &m m &r';
         $app->send($colors);
     }
 

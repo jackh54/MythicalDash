@@ -4,17 +4,16 @@ import Layout from '@/components/Layout.vue';
 import FormCard from '@/components/Auth/FormCard.vue';
 import FormInput from '@/components/Auth/FormInput.vue';
 import { useI18n } from 'vue-i18n';
-import { useSound } from '@vueuse/sound'
-import failedAlertSfx from "@/assets/sounds/error.mp3";
-import successAlertSfx from "@/assets/sounds/success.mp3";
+import { useSound } from '@vueuse/sound';
+import failedAlertSfx from '@/assets/sounds/error.mp3';
+import successAlertSfx from '@/assets/sounds/success.mp3';
 import Swal from 'sweetalert2';
 import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
 import { useRouter } from 'vue-router';
 
-
 const { play: playError } = useSound(failedAlertSfx);
-const { play: playSuccess } = useSound(successAlertSfx)
+const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
 const { t } = useI18n();
 
@@ -22,11 +21,10 @@ const loading = ref(false);
 const form = reactive({
     password: '',
     confirmPassword: '',
-    turnstileResponse: ''
+    turnstileResponse: '',
 });
 
 document.title = t('auth.pages.reset_password.page.title');
-
 
 const checkResetCode = async (code: string) => {
     try {
@@ -61,7 +59,7 @@ const handleSubmit = async () => {
     const resetCode = urlParams.get('code');
     loading.value = true;
     if (!form.password || !form.confirmPassword) {
-        playError()
+        playError();
         Swal.fire({
             icon: 'error',
             title: t('auth.pages.reset_password.alerts.error.title'),
@@ -92,7 +90,7 @@ const handleSubmit = async () => {
             };
 
             if (errorMessages[error_code]) {
-                playError()
+                playError();
                 Swal.fire({
                     icon: 'error',
                     title: t('auth.pages.reset_password.alerts.error.title'),
@@ -104,7 +102,7 @@ const handleSubmit = async () => {
                 throw new Error('Forgot Password failed');
             }
         } else {
-            playSuccess()
+            playSuccess();
             Swal.fire({
                 icon: 'success',
                 title: t('auth.pages.reset_password.alerts.success.title'),
@@ -127,30 +125,48 @@ const handleSubmit = async () => {
 
 <template>
     <Layout>
-        <FormCard :title='t("auth.pages.reset_password.page.subTitle")' @submit="handleSubmit">
-            <FormInput id="password" :label='$t("auth.pages.reset_password.page.form.password_new.label")'
-                v-model="form.password" type="password"
-                :placeholder='t("auth.pages.reset_password.page.form.password_new.placeholder")' required />
-            <FormInput id="confirmPassword" :label='$t("auth.pages.reset_password.page.form.password_confirm.label")'
-                v-model="form.confirmPassword" type="password"
-                :placeholder='t("auth.pages.reset_password.page.form.password_confirm.placeholder")' required />
+        <FormCard :title="t('auth.pages.reset_password.page.subTitle')" @submit="handleSubmit">
+            <FormInput
+                id="password"
+                :label="$t('auth.pages.reset_password.page.form.password_new.label')"
+                v-model="form.password"
+                type="password"
+                :placeholder="t('auth.pages.reset_password.page.form.password_new.placeholder')"
+                required
+            />
+            <FormInput
+                id="confirmPassword"
+                :label="$t('auth.pages.reset_password.page.form.password_confirm.label')"
+                v-model="form.confirmPassword"
+                type="password"
+                :placeholder="t('auth.pages.reset_password.page.form.password_confirm.placeholder')"
+                required
+            />
 
-            <button type="submit"
+            <button
+                type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                :disabled="loading">
-                {{ loading ? t('auth.pages.reset_password.page.form.reset_button.loading') :
-                    t('auth.pages.reset_password.page.form.reset_button.label') }}
+                :disabled="loading"
+            >
+                {{
+                    loading
+                        ? t('auth.pages.reset_password.page.form.reset_button.loading')
+                        : t('auth.pages.reset_password.page.form.reset_button.label')
+                }}
             </button>
 
-            <div v-if="Settings.getSetting('turnstile_enabled') == 'true'"
-                style="display: flex; justify-content: center; margin-top: 20px">
+            <div
+                v-if="Settings.getSetting('turnstile_enabled') == 'true'"
+                style="display: flex; justify-content: center; margin-top: 20px"
+            >
                 <Turnstile :site-key="Settings.getSetting('turnstile_key_pub')" v-model="form.turnstileResponse" />
             </div>
-            
+
             <p class="mt-4 text-center text-sm text-gray-400">
                 {{ t('auth.pages.reset_password.page.form.login.label') }}
-                <router-link to="/auth/login" class="text-purple-400 hover:text-purple-300"> {{
-                    t('auth.pages.reset_password.page.form.login.link') }} </router-link>
+                <router-link to="/auth/login" class="text-purple-400 hover:text-purple-300">
+                    {{ t('auth.pages.reset_password.page.form.login.link') }}
+                </router-link>
             </p>
         </FormCard>
     </Layout>

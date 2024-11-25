@@ -79,9 +79,11 @@ class Verification extends Database
             if (empty($result)) {
                 return false;
             }
+
             return true;
         } catch (\Exception $e) {
             App::getInstance(softBoot: true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Chat/Verification.php) Failed to verify code table: ' . $e->getMessage());
+
             return false;
         }
     }

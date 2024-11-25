@@ -50,7 +50,6 @@ class UserColumns
     public const TWO_FA_KEY = '2fa_key';
     public const TWO_FA_BLOCKED = '2fa_blocked';
     public const DELETED = 'deleted';
-    public const LOCKED = 'locked';
     public const LAST_SEEN = 'last_seen';
     public const FIRST_SEEN = 'first_seen';
     public const BACKGROUND = 'background';

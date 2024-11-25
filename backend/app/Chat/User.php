@@ -34,10 +34,10 @@ namespace MythicalClient\Chat;
 use Gravatar\Gravatar;
 use MythicalClient\App;
 use MythicalClient\Mail\Mail;
-use MythicalClient\Mail\templates\ResetPassword;
 use MythicalClient\Mail\templates\Verify;
 use MythicalClient\Mail\templates\NewLogin;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Mail\templates\ResetPassword;
 use MythicalClient\Chat\columns\EmailVerificationColumns;
 
 class User extends Database
@@ -132,15 +132,16 @@ class User extends Database
             throw new \Exception('Failed to register user: ' . $e->getMessage());
         }
     }
+
     /**
-     * 
      * Forgot password logic.
-     * 
+     *
      * @param string $email The email of the user
-     * 
+     *
      * @return bool If the email was sent
      */
-    public static function forgotPassword(string $email) : bool {
+    public static function forgotPassword(string $email): bool
+    {
         try {
             $con = self::getPdoConnection();
             $stmt = $con->prepare('SELECT token, uuid FROM ' . self::TABLE_NAME . ' WHERE email = :email');
@@ -157,10 +158,13 @@ class User extends Database
                     } catch (\Exception $e) {
                         App::getInstance(true)->getLogger()->error('Failed to send email: ' . $e->getMessage());
                     }
+
                     return true;
                 }
+
                 return false;
             }
+
             return false;
         } catch (\Exception $e) {
             return false;
@@ -195,10 +199,13 @@ class User extends Database
                         }
                     }
                     setcookie('user_token', $user['token'], time() + 3600, '/');
+
                     return true;
                 }
+
                 return false;
             }
+
             return false;
         } catch (\Exception $e) {
             return false;
@@ -239,9 +246,9 @@ class User extends Database
      *
      * @throws \InvalidArgumentException If the column name is invalid
      *
-     * @return string The value of the column
+     * @return string|null The value of the column
      */
-    public static function getInfo(string $token, UserColumns|string $info, bool $encrypted): string
+    public static function getInfo(string $token, UserColumns|string $info, bool $encrypted): ?string
     {
         if (!in_array($info, UserColumns::getColumns())) {
             throw new \InvalidArgumentException('Invalid column name: ' . $info);

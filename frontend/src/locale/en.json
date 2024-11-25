@@ -141,9 +141,7 @@
                 }
             },
             "twofactor_setup": {
-                "alerts": {
-
-                },
+                "alerts": {},
                 "page": {
                     "title": "Two Factor Authentication",
                     "subTitle": "Setup Two Factor Authentication",

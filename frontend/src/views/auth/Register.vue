@@ -8,12 +8,12 @@ import Settings from '@/mythicalclient/Settings';
 import Turnstile from 'vue-turnstile';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import failedAlertSfx from "@/assets/sounds/error.mp3";
-import successAlertSfx from "@/assets/sounds/success.mp3";
+import failedAlertSfx from '@/assets/sounds/error.mp3';
+import successAlertSfx from '@/assets/sounds/success.mp3';
 import { useSound } from '@vueuse/sound';
 
 const { play: playError } = useSound(failedAlertSfx);
-const { play: playSuccess } = useSound(successAlertSfx)
+const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
 const { t } = useI18n();
 
@@ -33,7 +33,7 @@ const handleSubmit = async () => {
     loading.value = true;
     try {
         if (!form.firstName || !form.lastName || !form.username || !form.email || !form.password) {
-            playError()
+            playError();
             Swal.fire({
                 icon: 'error',
                 title: t('auth.pages.register.alerts.error.missing_fields'),
@@ -67,7 +67,7 @@ const handleSubmit = async () => {
             };
 
             if (errorMessages[error_code]) {
-                playError()
+                playError();
                 Swal.fire({
                     icon: 'error',
                     title: t('auth.pages.register.alerts.error.title'),
@@ -77,7 +77,7 @@ const handleSubmit = async () => {
                 });
                 throw new Error('Registration failed');
             } else {
-                playError()
+                playError();
                 Swal.fire({
                     icon: 'error',
                     title: t('auth.pages.register.alerts.error.title'),
@@ -88,7 +88,7 @@ const handleSubmit = async () => {
                 throw new Error('Registration failed');
             }
         }
-        playSuccess()
+        playSuccess();
         Swal.fire({
             icon: 'success',
             title: t('auth.pages.register.alerts.success.title'),
