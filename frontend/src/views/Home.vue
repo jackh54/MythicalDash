@@ -30,7 +30,6 @@
                             alt="Profile"
                             class="w-20 h-20 rounded-full mb-4"
                         />
-                        <div class="text-2xl font-semibold mb-1">#1</div>
                         <div class="text-xl mb-4">MyhticalSystems LTD</div>
                         <div class="text-gray-400 text-sm space-y-1 mb-4">
                             <div>Cassian Gherman</div>

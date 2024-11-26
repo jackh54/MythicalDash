@@ -7,15 +7,17 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
-import { useI18n } from 'vue-i18n';
 import { useSound } from '@vueuse/sound';
 import failedAlertSfx from '@/assets/sounds/error.mp3';
 import successAlertSfx from '@/assets/sounds/success.mp3';
+import Auth from '@/mythicalclient/Auth';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
-const { t } = useI18n();
+
 
 document.title = t('auth.pages.login.page.title');
 
@@ -29,28 +31,9 @@ const form = reactive({
 const handleSubmit = async () => {
     try {
         loading.value = true;
-        if (!form.email || !form.password) {
-            playError();
-            Swal.fire({
-                icon: 'error',
-                title: t('auth.pages.login.alerts.error.title'),
-                text: t('auth.pages.login.alerts.error.missing_fields'),
-            });
-            loading.value = false;
-            return;
-        }
-        const response = await fetch('/api/user/auth/login', {
-            method: 'POST',
-            body: new URLSearchParams({
-                login: form.email,
-                password: form.password,
-                turnstileResponse: form.turnstileResponse,
-            }),
-        });
-
+        const response = await Auth.login(form.email, form.password, form.turnstileResponse);
         if (!response.ok) {
-            const errorData = await response.json();
-            const error_code = errorData.error_code as keyof typeof errorMessages;
+            const error_code = response.error_code as keyof typeof errorMessages;
 
             const errorMessages = {
                 TURNSTILE_FAILED: t('auth.pages.login.alerts.error.cloudflare_error'),

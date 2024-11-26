@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
 import { useRouter } from 'vue-router';
+import Auth from '@/mythicalclient/Auth';
 
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
@@ -27,28 +28,10 @@ document.title = t('auth.pages.forgot_password.page.title');
 
 const handleSubmit = async () => {
     loading.value = true;
-    if (!form.email) {
-        playError();
-        Swal.fire({
-            icon: 'error',
-            title: t('auth.pages.forgot_password.alerts.error.title'),
-            text: t('auth.pages.forgot_password.alerts.error.missing_fields'),
-        });
-        loading.value = false;
-        return;
-    }
-    const response = await fetch('/api/user/auth/forgot', {
-        method: 'POST',
-        body: new URLSearchParams({
-            email: form.email,
-            turnstileResponse: form.turnstileResponse,
-        }),
-    });
-
+    const response = await Auth.forgotPassword(form.email, form.turnstileResponse);
     try {
         if (!response.ok) {
-            const errorData = await response.json();
-            const error_code = errorData.error_code as keyof typeof errorMessages;
+            const error_code = response.error_code as keyof typeof errorMessages;
 
             const errorMessages = {
                 TURNSTILE_FAILED: t('auth.pages.forgot_password.alerts.error.cloudflare_error'),

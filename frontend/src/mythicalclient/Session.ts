@@ -1,3 +1,8 @@
+import router from '@/router';
+import Swal from 'sweetalert2';
+import Settings from '@/mythicalclient/Settings';
+import { useI18n } from 'vue-i18n';
+
 class Session {
     static sessionData = {};
 
@@ -18,6 +23,7 @@ class Session {
     }
 
     static async startSession() {
+        const { t } = useI18n();
         const updateSessionInfo = async () => {
             try {
                 const response = await fetch('/api/user/session');
@@ -28,7 +34,15 @@ class Session {
                         localStorage.setItem(key, JSON.stringify(value));
                     }
                 } else {
-                    console.error('Failed to update session:', data.message);
+                    Settings.initializeSettings();
+                    Swal.fire({
+                        title: t('auth.logic.errors.title'),
+                        text: t('auth.logic.errors.expired'),
+                        footer: t('auth.logic.errors.footer'),
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                    });
+                    router.push('/auth/login');
                 }
             } catch (error) {
                 console.error('Error fetching session:', error);

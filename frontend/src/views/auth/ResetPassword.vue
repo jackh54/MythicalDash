@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
 import { useRouter } from 'vue-router';
+import Auth from '@/mythicalclient/Auth';
 
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
@@ -28,10 +29,7 @@ document.title = t('auth.pages.reset_password.page.title');
 
 const checkResetCode = async (code: string) => {
     try {
-        const response = await fetch(`/api/user/auth/reset?code=${code}`, {
-            method: 'GET',
-        });
-
+        const response = await Auth.isLoginVerifyTokenValid(code);
         if (!response.ok) {
             window.location.href = '/auth/login';
         }
@@ -58,30 +56,12 @@ const handleSubmit = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const resetCode = urlParams.get('code');
     loading.value = true;
-    if (!form.password || !form.confirmPassword) {
-        playError();
-        Swal.fire({
-            icon: 'error',
-            title: t('auth.pages.reset_password.alerts.error.title'),
-            text: t('auth.pages.reset_password.alerts.error.missing_fields'),
-        });
-        loading.value = false;
-        return;
-    }
-    const response = await fetch('/api/user/auth/reset', {
-        method: 'POST',
-        body: new URLSearchParams({
-            password: form.password,
-            confirmPassword: form.confirmPassword,
-            email_code: resetCode || '',
-            turnstileResponse: form.turnstileResponse,
-        }),
-    });
 
+    const response = await Auth.resetPassword(resetCode || "", form.password, form.confirmPassword, form.turnstileResponse);
+    
     try {
         if (!response.ok) {
-            const errorData = await response.json();
-            const error_code = errorData.error_code as keyof typeof errorMessages;
+            const error_code = response.error_code as keyof typeof errorMessages;
 
             const errorMessages = {
                 TURNSTILE_FAILED: t('auth.pages.reset_password.alerts.error.cloudflare_error'),
@@ -126,28 +106,16 @@ const handleSubmit = async () => {
 <template>
     <Layout>
         <FormCard :title="t('auth.pages.reset_password.page.subTitle')" @submit="handleSubmit">
-            <FormInput
-                id="password"
-                :label="$t('auth.pages.reset_password.page.form.password_new.label')"
-                v-model="form.password"
-                type="password"
-                :placeholder="t('auth.pages.reset_password.page.form.password_new.placeholder')"
-                required
-            />
-            <FormInput
-                id="confirmPassword"
-                :label="$t('auth.pages.reset_password.page.form.password_confirm.label')"
-                v-model="form.confirmPassword"
-                type="password"
-                :placeholder="t('auth.pages.reset_password.page.form.password_confirm.placeholder')"
-                required
-            />
+            <FormInput id="password" :label="$t('auth.pages.reset_password.page.form.password_new.label')"
+                v-model="form.password" type="password"
+                :placeholder="t('auth.pages.reset_password.page.form.password_new.placeholder')" required />
+            <FormInput id="confirmPassword" :label="$t('auth.pages.reset_password.page.form.password_confirm.label')"
+                v-model="form.confirmPassword" type="password"
+                :placeholder="t('auth.pages.reset_password.page.form.password_confirm.placeholder')" required />
 
-            <button
-                type="submit"
+            <button type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                :disabled="loading"
-            >
+                :disabled="loading">
                 {{
                     loading
                         ? t('auth.pages.reset_password.page.form.reset_button.loading')
@@ -155,10 +123,8 @@ const handleSubmit = async () => {
                 }}
             </button>
 
-            <div
-                v-if="Settings.getSetting('turnstile_enabled') == 'true'"
-                style="display: flex; justify-content: center; margin-top: 20px"
-            >
+            <div v-if="Settings.getSetting('turnstile_enabled') == 'true'"
+                style="display: flex; justify-content: center; margin-top: 20px">
                 <Turnstile :site-key="Settings.getSetting('turnstile_key_pub')" v-model="form.turnstileResponse" />
             </div>
 

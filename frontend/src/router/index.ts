@@ -18,7 +18,7 @@ import AdminUsers from '@/views/admin/Users.vue';
 import AdminTickets from '@/views/admin/Tickets.vue';
 import AdminDashboard from '@/views/admin/Home.vue';
 import AdminEula from '@/views/admin/Eula.vue';
-import AdminAnnoucments from '@/views/admin/Annoucments.vue';
+import Adminannouncements from '@/views/admin/announcements.vue';
 import AdminAddons from '@/views/admin/Addons.vue';
 import AdminBackups from '@/views/admin/Backups.vue';
 import AdminApikeys from '@/views/admin/Apikeys.vue';
@@ -108,9 +108,9 @@ const routes = [
         component: AdminEula,
     },
     {
-        path: '/admin/annoucments',
-        name: 'Annoucments',
-        component: AdminAnnoucments,
+        path: '/admin/announcements',
+        name: 'announcements',
+        component: Adminannouncements,
     },
     {
         path: '/admin/addons',

@@ -134,6 +134,20 @@ class User extends Database
     }
 
     /**
+     * Get the list of users.
+     *
+     * @return array The list of users
+     */
+    public static function getList(): array
+    {
+        $con = self::getPdoConnection();
+        $stmt = $con->prepare('SELECT * FROM ' . self::TABLE_NAME);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Forgot password logic.
      *
      * @param string $email The email of the user

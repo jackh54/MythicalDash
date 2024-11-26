@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import LayoutAccount from './Layout.vue';
-import TextInput from '@/components/ui/TextForms/TextInput.vue';
 import CardComponent from '@/components/ui/Card/CardComponent.vue';
 
-const currentPassword = ref('');
-const newPassword = ref('');
 const is2FAEnabled = ref(false);
-
-const changePassword = () => {
-    // Add logic to change the password
-    alert('Password changed successfully');
-};
 
 const enable2FA = () => {
     // Add logic to enable 2FA
@@ -47,25 +39,12 @@ const disable2FA = () => {
 
     <!-- Change Password -->
     <CardComponent cardTitle="Change your Password" cardDescription="You want to change the password of your account?">
-        <form @submit.prevent="changePassword">
-            <div class="mb-4">
-                <label for="currentPassword" class="block text-sm font-medium text-gray-400 mb-1.5"
-                    >Current Password</label
-                >
-                <TextInput type="password" v-model="currentPassword" name="password" id="password" />
-            </div>
-            <div class="mb-4">
-                <label for="newPassword" class="block text-sm font-medium text-gray-400 mb-1.5">New Password</label>
-                <TextInput type="password" v-model="newPassword" name="password" id="password" />
-            </div>
-            <br />
-            <button
-                type="submit"
-                class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded text-sm font-medium transition-colors"
-            >
-                Change Password
-            </button>
-        </form>
+        <button
+            type="submit"
+            class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded text-sm font-medium transition-colors"
+        >
+            Change Password
+        </button>
     </CardComponent>
     <br />
     <!-- Two-Factor Authentication (2FA) -->

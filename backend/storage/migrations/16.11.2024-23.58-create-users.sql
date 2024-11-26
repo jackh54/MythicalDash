@@ -1,4 +1,6 @@
-SET foreign_key_checks = 0;
+SET
+    foreign_key_checks = 0;
+
 CREATE TABLE
     `mythicalclient_users` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
@@ -31,47 +33,22 @@ CREATE TABLE
     `mythicalclient_roles` (
         `id` int (11) NOT NULL AUTO_INCREMENT,
         `name` text NOT NULL,
-        `weight` int (11) NOT NULL DEFAULT 1,
-        `deleted` enum ('false', 'true') NOT NULL DEFAULT 'false',
-        `locked` enum ('false', 'true') NOT NULL DEFAULT 'false',
+        `real_name` text NOT NULL,
         `date` datetime NOT NULL DEFAULT current_timestamp(),
         PRIMARY KEY (`id`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 INSERT INTO
-    `mythicalclient_roles` (
-        `id`,
-        `name`,
-        `weight`,
-        `deleted`,
-        `locked`,
-        `date`
-    )
+    `mythicalclient_roles` (`name`, `real_name`)
 VALUES
-    (
-        1,
-        'Default',
-        1,
-        'false',
-        'false',
-        '2024-07-20 06:52:48'
-    ),
-    (
-        2,
-        'Admin',
-        2,
-        'false',
-        'false',
-        '2024-07-20 06:52:48'
-    ),
-    (
-        3,
-        'Administrator',
-        3,
-        'false',
-        'false',
-        '2024-07-20 06:52:48'
-    );
+    ('Default', 'default'),
+    ('VIP', 'vip'),
+    ('Support Buddy', 'supportbuddy'),
+    ('Support', 'support'),
+    ('Support LVL 3','supportlvl3'),
+    ('Support LVL 4','supportlvl4'),
+    ('Admin', 'admin'),
+    ('Administrator','administrator');
 
 CREATE TABLE
     `mythicalclient_users_mails` (
@@ -140,4 +117,5 @@ CREATE TABLE
         FOREIGN KEY (`user`) REFERENCES `mythicalclient_users` (`uuid`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-SET foreign_key_checks = 1;
+SET
+    foreign_key_checks = 1;

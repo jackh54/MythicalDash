@@ -1,5 +1,12 @@
 {
     "auth": {
+        "logic": {
+            "errors": {
+                "footer": "Please contact support for assistance",
+                "title": "Session Error",
+                "expired": "Your session has expired"
+            }
+        },
         "pages": {
             "login": {
                 "components": {
@@ -201,6 +208,33 @@
                     }
                 }
             }
+        }
+    },
+    "errors": {
+        "forbidden": {
+            "title": "403 Forbidden",
+            "message": "Hold it right there, space traveler! You don't have the necessary clearance to access this area."
+        },
+        "notfound": {
+            "title": "404 Not Found",
+            "message": "We couldn't find the page you were looking for. It may have been moved or deleted."
+        },
+        "servererror": {
+            "title": "500 Server Error",
+            "message": "An error occurred on our end. Please try again later."
+        }
+    },
+    "components": {
+        "sidebar": {
+            "dashboard": "Dashboard",
+            "tickets": "Tickets",
+            "eula": "EULA",
+            "announcements": "Announcements",
+            "addons": "Addons",
+            "logs": "Logs",
+            "settings": "Settings",
+            "users": "Users",
+            "apikeys": "API Keys"
         }
     }
 }

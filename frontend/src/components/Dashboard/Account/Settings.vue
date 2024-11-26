@@ -3,13 +3,14 @@ import { ref } from 'vue';
 import LayoutAccount from './Layout.vue';
 import TextInput from '@/components/ui/TextForms/TextInput.vue';
 import CardComponent from '@/components/ui/Card/CardComponent.vue';
+import Session from '@/mythicalclient/Session';
 
 const form = ref({
-    firstName: 'Cassian1',
-    lastName: 'Gherman1',
-    email: 'ghermancassian2008@gmail.com',
-    avatar: 'https://secure.gravatar.com/avatar/4beb8512d5218ddd310330ee37908dfe',
-    background: 'https://cdn.mythicalsystems.xyz/background.gif',
+    firstName: Session.getInfo('first_name'),
+    lastName: Session.getInfo('last_name'),
+    email: Session.getInfo('email'),
+    avatar: Session.getInfo('avatar'),
+    background: Session.getInfo('background'),
 });
 </script>
 
