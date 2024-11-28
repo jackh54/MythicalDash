@@ -106,7 +106,7 @@ sleep 1
 rm -rf ./backend/storage/.env
 cp ./backend/storage/.docker.env ./backend/storage/.env
 
-printf "\n\x1b[2;1m┃\x1b[0;2m Building docker image. (May take some time) \x1b[0m"
+printf "\n\x1b[2;1m┃\x1b[0;2m Building docker image. (May take some time) [AVG 5m] \x1b[0m"
 sleep 1
 # Start the build process
 docker-compose --env-file ./backend/storage/.env up -d --build >> /opt/mythicaldash/installer_logs/logs-docker.log 2>&1
@@ -127,6 +127,7 @@ sleep 1
 # Update dependencies
 docker exec mythicalclient_backend bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader"  >> /opt/mythicaldash/installer_logs/composer-apt.log 2>&1
 printf "\n\x1b[2;1m┃\x1b[0;2m Updated internal packages. \x1b[0m"
+echo ""
 sleep 1
 # Reset the encryption key 
 # Check if the installation has already been completed
@@ -158,7 +159,7 @@ sleep 2.5
 
 printf "\n\x1b[2;1m┃\x1b[0;2m Running database migrations.. \x1b[0m"
 sleep 2.5
-
+echo ""
 docker exec mythicalclient_backend bash -c "php mythicalclient migrate"
 printf "\n\x1b[2;1m┃\x1b[0;2m MythicalClient is up to date! \x1b[0m"
 sleep 1
@@ -171,9 +172,7 @@ rm -rf /opt/mythicaldash/installer_logs
 
 printf "\n\x1b[2;1m┃\x1b[0;2m Clean up completed. \x1b[0m"
 sleep 1
-for i in {1..15}; do
-    echo ""
-done
+
 echo -e "\n\x1b[32;1m┃ MythicalClient installation completed successfully! \x1b[0m"
 echo -e "\x1b[32;1m┃\x1b[0m"
 echo -e "\x1b[32;1m┃ You can now start using MythicalClient. \x1b[0m"
@@ -190,3 +189,4 @@ echo -e "\x1b[36;1m┃ License: \x1b[32;1mfree (NO SUPPORT) \x1b[0m"
 echo -e "\x1b[32;1m┃\x1b[0m"
 echo -e "\x1b[32;1m┃ Make sure you read our docs on how to use a domain and SSL. \x1b[0m"
 echo -e "\x1b[32;1m┃ We recommend you use cloudflare tunnels for this installation."
+echo -e "\x1b[0m"
