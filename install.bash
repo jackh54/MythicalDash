@@ -95,7 +95,7 @@ printf "\n\x1b[2;1m┃\x1b[0;2m Downloading files.. \x1b[0m"
 sleep 1
 
 cd /opt/mythicaldash
-curl -Lo MythicalDash.zip https://github.com/MythicalLTD/MythicalDash-Nightly/releases/latest/download/MythicalDash.zip # TODO: Replace to the release channel!!
+curl -Lo MythicalDash.zip https://github.com/MythicalLTD/MythicalDash-Nightly/releases/latest/download/MythicalDash.zip >> /opt/mythicaldash/installer_logs/download-log.log 2>&1 # TODO: Replace to the release channel!!
 unzip MythicalDash.zip
 printf "\n\x1b[2;1m┃\x1b[0;2m Files downloaded. \x1b[0m"
 sleep 1
@@ -142,7 +142,6 @@ fi
 
 # Migrations
 # Wait for the database container to be ready
-clear
 while [ "$(docker inspect -f '{{.State.Health.Status}}' mythicalclient_database)" == "starting" ]; do
     printf "\n\x1b[2;1m┃\x1b[0;2m Waiting for MySQL database to start \x1b[0m"
     sleep 5
@@ -172,8 +171,9 @@ rm -rf /opt/mythicaldash/installer_logs
 
 printf "\n\x1b[2;1m┃\x1b[0;2m Clean up completed. \x1b[0m"
 sleep 1
-
-clear
+for i in {1..15}; do
+    echo ""
+done
 echo -e "\n\x1b[32;1m┃ MythicalClient installation completed successfully! \x1b[0m"
 echo -e "\x1b[32;1m┃\x1b[0m"
 echo -e "\x1b[32;1m┃ You can now start using MythicalClient. \x1b[0m"
