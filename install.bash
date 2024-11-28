@@ -83,10 +83,10 @@ echo -e "\n
 \x1b[35;1m┃\x1b[35
 \x1b[35;1m┃\x1b[0m https://www.mythical.systems/eula
 "
-printf "\r\x1b[2;1m┃\x1b[0;2m Type 'AGREE' to continue and agree to our software agreements.\x1b[0m"
+printf "\x1b[2;1m┃\x1b[0;2m Type 'AGREE' to continue and agree to our software agreements.\x1b[0m"
 read -p " " AGREEMENT
 if [ "$AGREEMENT" != "AGREE" ]; then
-    echo -e "\r\x1b[31;1m┃\x1b[0;31m You must agree to our software agreements to continue.\x1b[0m"
+    echo -e "\x1b[31;1m┃\x1b[0;31m You must agree to our software agreements to continue.\x1b[0m"
     exit 1
 fi
 
