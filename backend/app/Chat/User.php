@@ -72,8 +72,12 @@ class User extends Database
             /**
              * GRAvatar Logic.
              */
-            $gravatar = new Gravatar(['s' => 9001], true);
-            $avatar = $gravatar->avatar($email);
+            try {
+                $gravatar = new Gravatar(['s' => 9001], true);
+                $avatar = $gravatar->avatar($email);
+            } catch (\Exception) {
+                $avatar = 'https://www.gravatar.com/avatar';
+            }
 
             /**
              * Get the PDO connection.
@@ -201,9 +205,9 @@ class User extends Database
             $stmt->bindParam(':login', $login);
             $stmt->execute();
             $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-
             if ($user) {
                 if (App::getInstance(true)->decrypt($user['password']) == $password) {
+                    self::logout();
                     setcookie('user_token', $user['token'], time() + 3600, '/');
                     if (Mail::isEnabled()) {
                         try {
@@ -213,15 +217,13 @@ class User extends Database
                         }
                     }
                     setcookie('user_token', $user['token'], time() + 3600, '/');
-
                     return true;
                 }
-
                 return false;
             }
-
             return false;
         } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('Failed to login user: ' . $e->getMessage());
             return false;
         }
     }
@@ -231,7 +233,7 @@ class User extends Database
      */
     public static function logout(): void
     {
-        setcookie('user_token', '', time() - 3600, '/');
+        setcookie('user_token', '', time() - 460800 * 460800 * 460800, '/');
     }
 
     /**

@@ -34,15 +34,20 @@ class Session {
                         localStorage.setItem(key, JSON.stringify(value));
                     }
                 } else {
-                    Settings.initializeSettings();
-                    Swal.fire({
-                        title: t('auth.logic.errors.title'),
-                        text: t('auth.logic.errors.expired'),
-                        footer: t('auth.logic.errors.footer'),
-                        icon: 'error',
-                        confirmButtonText: 'OK',
-                    });
-                    router.push('/auth/login');
+                    if (Session.isSessionValid()) {
+                        Settings.initializeSettings();
+                        Swal.fire({
+                            title: t('auth.logic.errors.title'),
+                            text: t('auth.logic.errors.expired'),
+                            footer: t('auth.logic.errors.footer'),
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        });
+                        router.push('/auth/login');
+                    } else {
+                        console.warn('Session is not valid');
+                    }
+
                 }
             } catch (error) {
                 console.error('Error fetching session:', error);

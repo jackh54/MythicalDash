@@ -60,7 +60,7 @@ const handleSubmit = async () => {
     const response = await Auth.resetPassword(resetCode || "", form.password, form.confirmPassword, form.turnstileResponse);
     
     try {
-        if (!response.ok) {
+        if (!response.success) {
             const error_code = response.error_code as keyof typeof errorMessages;
 
             const errorMessages = {

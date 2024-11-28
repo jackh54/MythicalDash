@@ -43,7 +43,7 @@ const handleSubmit = async () => {
             form.turnstileResponse
         );
 
-        if (!response.ok) {
+        if (!response.success) {
             const error_code = response.error_code as keyof typeof errorMessages;
 
             const errorMessages = {

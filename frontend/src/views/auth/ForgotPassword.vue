@@ -30,7 +30,7 @@ const handleSubmit = async () => {
     loading.value = true;
     const response = await Auth.forgotPassword(form.email, form.turnstileResponse);
     try {
-        if (!response.ok) {
+        if (!response.success) {
             const error_code = response.error_code as keyof typeof errorMessages;
 
             const errorMessages = {
@@ -50,6 +50,17 @@ const handleSubmit = async () => {
                 });
                 loading.value = false;
                 throw new Error('Forgot Password failed');
+            } else {
+                playError();
+                Swal.fire({
+                    icon: 'error',
+                    title: t('auth.pages.forgot_password.alerts.error.title'),
+                    text: t('auth.pages.forgot_password.alerts.error.generic'),
+                    footer: t('auth.pages.forgot_password.alerts.error.footer'),
+                    showConfirmButton: true,
+                });
+                loading.value = false;
+                throw new Error('Failed');
             }
         } else {
             playSuccess();
@@ -76,25 +87,15 @@ const handleSubmit = async () => {
 <template>
     <Layout>
         <FormCard :title="$t('auth.pages.forgot_password.page.subTitle')" @submit="handleSubmit">
-            <FormInput
-                id="email"
-                :label="$t('auth.pages.forgot_password.page.form.email.label')"
-                v-model="form.email"
-                type="email"
-                :placeholder="$t('auth.pages.forgot_password.page.form.email.placeholder')"
-                required
-            />
-            <div
-                v-if="Settings.getSetting('turnstile_enabled') == 'true'"
-                style="display: flex; justify-content: center; margin-top: 20px"
-            >
+            <FormInput id="email" :label="$t('auth.pages.forgot_password.page.form.email.label')" v-model="form.email"
+                type="email" :placeholder="$t('auth.pages.forgot_password.page.form.email.placeholder')" required />
+            <div v-if="Settings.getSetting('turnstile_enabled') == 'true'"
+                style="display: flex; justify-content: center; margin-top: 20px">
                 <Turnstile :site-key="Settings.getSetting('turnstile_key_pub')" v-model="form.turnstileResponse" />
             </div>
-            <button
-                type="submit"
+            <button type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                :disabled="loading"
-            >
+                :disabled="loading">
                 {{
                     loading
                         ? t('auth.pages.forgot_password.page.form.reset_button.loading')

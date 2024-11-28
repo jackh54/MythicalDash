@@ -74,8 +74,11 @@ $router->add('/api/user/auth/login', function (): void {
     $password = $_POST['password'];
 
     $login = User::login($login, $password);
-
+    $token = $_COOKIE['user_token'];
     if ($login) {
+        if ($token == "") {
+            $appInstance->BadRequest('Something behind went wrong!', ['error_code' => 'LOGIC_ERROR']);
+        }
         if (User::getInfo($_COOKIE['user_token'], UserColumns::VERIFIED, false) == 'false') {
             if (Mail::isEnabled() == true) {
                 setcookie('user_token', '', time() - 123600, '/');

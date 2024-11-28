@@ -31,6 +31,7 @@
 
 namespace MythicalClient\Chat;
 
+use Exception;
 use MythicalClient\App;
 use MythicalClient\Chat\columns\UserColumns;
 
@@ -46,6 +47,7 @@ class Session extends Database
                 try {
                     $this->app = $app;
                     $this->SESSION_KEY = $_COOKIE['user_token'];
+                    $this->updateLastSeen();
                 } catch (\Exception) {
                     $app->Unauthorized('Bad Request', ['error_code' => 'INVALID_ACCOUNT_TOKEN']);
                 }
@@ -81,8 +83,11 @@ class Session extends Database
 
     public function updateLastSeen(): void
     {
-        $con = self::getPdoConnection();
-        $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_seen = NOW() WHERE user_token = ' . $this->SESSION_KEY);
-
+        try {
+            $con = self::getPdoConnection();
+            $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_seen = NOW() WHERE token = "' . $this->SESSION_KEY . '";');
+        } catch (Exception $e) {
+            $this->app->getLogger()->error('Failed to update last seen: ' . $e->getMessage());
+        }
     }
 }

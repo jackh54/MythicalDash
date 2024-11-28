@@ -38,8 +38,24 @@ class Settings {
     }
 
     static getSetting(key: string) {
-        const item = localStorage.getItem(key);
-        return item ? JSON.parse(item) : null;
+        const appName = localStorage.getItem('app_name');
+        if (!appName) {
+            // Display loading animation
+            const loadingElement = document.createElement('div');
+            loadingElement.id = 'loading-animation';
+            loadingElement.innerHTML = '<p>Loading...</p>';
+            document.body.appendChild(loadingElement);
+
+            // Fetch settings synchronously
+            Settings.initializeSettings();
+
+            // Remove loading animation
+            document.body.removeChild(loadingElement);
+        } else {
+            const item = localStorage.getItem(key);
+            return item ? JSON.parse(item) : "Fetching settings...";
+        }
+
     }
 }
 

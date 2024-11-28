@@ -32,7 +32,7 @@ const handleSubmit = async () => {
     try {
         loading.value = true;
         const response = await Auth.login(form.email, form.password, form.turnstileResponse);
-        if (!response.ok) {
+        if (!response.success) {
             const error_code = response.error_code as keyof typeof errorMessages;
 
             const errorMessages = {
@@ -49,6 +49,17 @@ const handleSubmit = async () => {
                     icon: 'error',
                     title: t('auth.pages.login.alerts.error.title'),
                     text: errorMessages[error_code],
+                    footer: t('auth.pages.login.alerts.error.footer'),
+                    showConfirmButton: true,
+                });
+                loading.value = false;
+                throw new Error('Login failed');
+            } else {
+                playError();
+                Swal.fire({
+                    icon: 'error',
+                    title: t('auth.pages.login.alerts.error.title'),
+                    text: t('auth.pages.login.alerts.error.generic'),
                     footer: t('auth.pages.login.alerts.error.footer'),
                     showConfirmButton: true,
                 });
