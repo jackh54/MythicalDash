@@ -96,7 +96,7 @@ sleep 1
 
 cd /opt/mythicaldash
 curl -Lo MythicalDash.zip https://github.com/MythicalLTD/MythicalDash-Nightly/releases/latest/download/MythicalDash.zip >> /opt/mythicaldash/installer_logs/download-log.log 2>&1 # TODO: Replace to the release channel!!
-unzip MythicalDash.zip
+unzip MythicalDash.zip >> /opt/mythicaldash/installer_logs/unzip-log.log 2>&1
 printf "\n\x1b[2;1m┃\x1b[0;2m Files downloaded. \x1b[0m"
 sleep 1
 
