@@ -18,8 +18,11 @@ if ! [ -x "$(command -v docker-compose)" ]; then
     apt install docker-compose -y 
 fi
 
+rm -rf ./backend/storage/.env
+cp ./backend/storage/.docker.env ./backend/storage/.env
+
 # Start the build process
-docker-compose --env-file ./backend/storage/.docker.env up -d --build
+docker-compose --env-file ./backend/storage/.env up -d --build
 
 # Set the right permissions
 chown -R www-data:www-data ./
@@ -42,6 +45,7 @@ fi
 
 # Migrations
 # Wait for the database container to be ready
+clear
 while [ "$(docker inspect -f '{{.State.Health.Status}}' mythicalclient_database)" == "starting" ]; do
     echo "Waiting 15 seconds for mythicalclient_database to be up..."
     sleep 15
