@@ -25,7 +25,7 @@ echo -e "\n\x1b[35;1m
 \x1b[0m"
 
 mkdir -p /opt/mythicaldash
-mkdir -p /opt/mythicaldash/logs
+mkdir -p /opt/mythicaldash/installer_logs
 
 echo -e "
 \x1b[35;1m┃  Welcome to MythicalClient
