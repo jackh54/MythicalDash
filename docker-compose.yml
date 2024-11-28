@@ -59,7 +59,7 @@ services:
       MARIADB_USER: ${DATABASE_USER}
       MARIADB_PASSWORD: ${DATABASE_PASSWORD}
     healthcheck:
-      test: mysqladmin ping -u${DATABASE_USER} -p${DATABASE_PASSWORD}
+      test: mariadb-admin ping -u${DATABASE_USER} -p${DATABASE_PASSWORD}
       interval: 5s
       timeout: 5s
       retries: 20
