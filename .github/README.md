@@ -54,7 +54,7 @@ Contributions are always welcome!
 ## Install (Only if you want to test it ;)
 
 ```bash
-curl -s https://raw.githubusercontent.com/MythicalLTD/MythicalDash/refs/heads/mythicaldash-v4/install.bash | bash
+bash <(curl https://raw.githubusercontent.com/MythicalLTD/MythicalDash/refs/heads/mythicaldash-v4/install.bash)
 ```
 
 ## Serial Code:
