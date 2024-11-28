@@ -43,8 +43,8 @@ fi
 # Migrations
 # Wait for the database container to be ready
 while [ "$(docker inspect -f '{{.State.Health.Status}}' mythicalclient_database)" == "starting" ]; do
-    echo "Waiting for mythicalclient_database to be up..."
-    sleep 2
+    echo "Waiting 15 seconds for mythicalclient_database to be up..."
+    sleep 15
 done
 
 
