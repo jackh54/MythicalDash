@@ -58,6 +58,11 @@ services:
       MARIADB_DATABASE: ${DATABASE_DATABASE}
       MARIADB_USER: ${DATABASE_USER}
       MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+    healthcheck:
+      test: mysqladmin ping -u$$MARIADB_USER -p$$MARIADB_PASSWORD
+      interval: 5s
+      timeout: 5s
+      retries: 20
     networks:
       - mythicalclient_network
     
