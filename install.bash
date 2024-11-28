@@ -1,5 +1,15 @@
 #!/bin/bash
 clear
+
+
+# Check if MythicalClient is already installed
+INSTALL_FLAG="/opt/mythicaldash/.installed"
+
+if [ -f "$INSTALL_FLAG" ]; then
+    echo -e "\r\x1b[31;1m┃\x1b[0;31m MythicalClient is already installed. Exiting...\x1b[0m"
+    exit 0
+fi
+
 echo -e "\n\x1b[35;1m
  ███▄ ▄███▓▓██   ██▓▄▄▄█████▓ ██░ ██  ██▓ ▄████▄   ▄▄▄       ██▓    
 ▓██▒▀█▀ ██▒ ▒██  ██▒▓  ██▒ ▓▒▓██░ ██▒▓██▒▒██▀ ▀█  ▒████▄    ▓██▒    
@@ -13,7 +23,9 @@ echo -e "\n\x1b[35;1m
          ░ ░                          ░                          
          
 \x1b[0m"
-mkdir -p logs
+
+mkdir -p /opt/mythicaldash
+mkdir -p /opt/mythicaldash/logs
 
 echo -e "
 \x1b[35;1m┃  Welcome to MythicalClient
@@ -39,15 +51,15 @@ sleep 1
 printf "\n\x1b[2;1m┃\x1b[0;2m Installing dependencies. \x1b[0m"
 sleep 1
 # Install the dependencies
-apt install sudo wget curl git zip unzip -y >> logs/apt-logs.log 2>&1
+apt install sudo wget curl git zip unzip -y >> /opt/mythicaldash/installer_logs/apt-logs.log 2>&1
 printf "\n\x1b[2;1m┃\x1b[0;2m Installed all dependencies. \x1b[0m"
 sleep 1
 printf "\n\x1b[2;1m┃\x1b[0;2m Installing docker. \x1b[0m"
 sleep 1
 # Install Docker if not installed
 if ! [ -x "$(command -v docker)" ]; then
-    curl -sSL https://get.docker.com/ | CHANNEL=stable bash >> logs/logs-docker-install.log 2>&1
-    sudo systemctl enable --now docker >> logs/docker-systemd.log 2>&1
+    curl -sSL https://get.docker.com/ | CHANNEL=stable bash >> /opt/mythicaldash/installer_logs/logs-docker-install.log 2>&1
+    sudo systemctl enable --now docker >> /opt/mythicaldash/installer_logs/docker-systemd.log 2>&1
 fi
 printf "\n\x1b[2;1m┃\x1b[0;2m Installed docker. \x1b[0m"
 sleep 1
@@ -56,7 +68,7 @@ printf "\n\x1b[2;1m┃\x1b[0;2m Installing docker-compose. \x1b[0m"
 sleep 1
 # Install Docker Compose if not installed
 if ! [ -x "$(command -v docker-compose)" ]; then
-    apt install docker-compose -y  >> logs/docker-compose-apt.log 2>&1
+    apt install docker-compose -y  >> /opt/mythicaldash/installer_logs/docker-compose-apt.log 2>&1
 fi
 printf "\n\x1b[2;1m┃\x1b[0;2m Installed docker-compose. \x1b[0m"
 sleep 1
@@ -77,6 +89,16 @@ if [ "$AGREEMENT" != "AGREE" ]; then
     echo -e "\r\x1b[31;1m┃\x1b[0;31m You must agree to our software agreements to continue.\x1b[0m"
     exit 1
 fi
+
+printf "\n\x1b[2;1m┃\x1b[0;2m Downloading files.. \x1b[0m"
+sleep 1
+
+cd /opt/mythicaldash
+curl -Lo MythicalDash.zip https://github.com/MythicalLTD/MythicalDash-Nightly/releases/latest/download/MythicalDash.zip # TODO: Replace to the release channel!!
+unzip MythicalDash.zip
+printf "\n\x1b[2;1m┃\x1b[0;2m Files downloaded. \x1b[0m"
+sleep 1
+
 printf "\n\x1b[2;1m┃\x1b[0;2m Preparing docker environment. \x1b[0m"
 sleep 1
 
@@ -86,7 +108,7 @@ cp ./backend/storage/.docker.env ./backend/storage/.env
 printf "\n\x1b[2;1m┃\x1b[0;2m Building docker image. (May take some time) \x1b[0m"
 sleep 1
 # Start the build process
-docker-compose --env-file ./backend/storage/.env up -d --build >> logs/logs-docker.log 2>&1
+docker-compose --env-file ./backend/storage/.env up -d --build >> /opt/mythicaldash/installer_logs/logs-docker.log 2>&1
 
 printf "\n\x1b[2;1m┃\x1b[0;2m Docker image built! \x1b[0m"
 sleep 1
@@ -102,7 +124,7 @@ sleep 1
 printf "\n\x1b[2;1m┃\x1b[0;2m Updating internal packages. \x1b[0m"
 sleep 1
 # Update dependencies
-docker exec mythicalclient_backend bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader"  >> logs/composer-apt.log 2>&1
+docker exec mythicalclient_backend bash -c "COMPOSER_ALLOW_SUPERUSER=1 composer install --optimize-autoloader"  >> /opt/mythicaldash/installer_logs/composer-apt.log 2>&1
 printf "\n\x1b[2;1m┃\x1b[0;2m Updated internal packages. \x1b[0m"
 sleep 1
 # Reset the encryption key 
@@ -126,7 +148,7 @@ while [ "$(docker inspect -f '{{.State.Health.Status}}' mythicalclient_database)
 done
 printf "\n\x1b[2;1m┃\x1b[0;2m MySQL started and is ready to serve! \x1b[0m"
 sleep 2.5
-clear
+
 while [ "$(docker inspect -f '{{.State.Health.Status}}' mythicalclient_redis)" == "starting" ]; do
     printf "\n\x1b[2;1m┃\x1b[0;2m Waiting for Redis to start \x1b[0m"
     sleep 5
@@ -141,6 +163,15 @@ docker exec mythicalclient_backend bash -c "php mythicalclient migrate"
 printf "\n\x1b[2;1m┃\x1b[0;2m MythicalClient is up to date! \x1b[0m"
 sleep 1
 
+# Clean up installation files
+printf "\n\x1b[2;1m┃\x1b[0;2m Cleaning up installation files.. \x1b[0m"
+sleep 1
+rm -rf /opt/mythicaldash/MythicalDash.zip
+rm -rf /opt/mythicaldash/installer_logs
+
+printf "\n\x1b[2;1m┃\x1b[0;2m Clean up completed. \x1b[0m"
+sleep 1
+
 clear
 echo -e "\n\x1b[32;1m┃ MythicalClient installation completed successfully! \x1b[0m"
 echo -e "\x1b[32;1m┃\x1b[0m"
@@ -151,7 +182,10 @@ echo -e "\x1b[32;1m┃\x1b[0m https://mythicalclient.mythical.systems"
 echo -e "\x1b[32;1m┃\x1b[0m"
 echo -e "\x1b[32;1m┃ Thank you for choosing MythicalClient! \x1b[0m"
 echo -e "\x1b[32;1m┃\x1b[0m"
-echo -e "\x1b[32;1m┃ You can access it at: http://$(hostname -I | awk '{print $1}'):9271 \x1b[0m"
+echo -e "\x1b[36;1m┃ You can access it at: \x1b[32;1mhttp://$(hostname -I | awk '{print $1}'):9271 \x1b[0m"
+echo -e "\x1b[36;1m┃ Working directory: \x1b[32;1m/opt/mythicaldash \x1b[0m"
+echo -e "\x1b[36;1m┃ Channel: \x1b[32;1mdevelop (NO SUPPORT) \x1b[0m"
+echo -e "\x1b[36;1m┃ License: \x1b[32;1mfree (NO SUPPORT) \x1b[0m"
 echo -e "\x1b[32;1m┃\x1b[0m"
 echo -e "\x1b[32;1m┃ Make sure you read our docs on how to use a domain and SSL. \x1b[0m"
 echo -e "\x1b[32;1m┃ We recommend you use cloudflare tunnels for this installation."

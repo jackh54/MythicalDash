@@ -51,8 +51,14 @@ You can find the roadmap at: https://github.com/orgs/MythicalLTD/projects/5
 
 Contributions are always welcome!
 
+## Install (Only if you want to test it ;)
+
+```bash
+curl -s https://raw.githubusercontent.com/MythicalLTD/MythicalDash/refs/heads/mythicaldash-v4/install.bash | bash
+```
+
 ## Serial Code:
 
 ```bash
-1 036 044 163
+1 490 650 284
 ```
