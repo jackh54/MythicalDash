@@ -195,9 +195,9 @@ class User extends Database
      * @param string $login The login of the user
      * @param string $password The password of the user
      *
-     * @return bool If the login was successful
+     * @return string If the login was successful
      */
-    public static function login(string $login, string $password): bool
+    public static function login(string $login, string $password): string
     {
         try {
             $con = self::getPdoConnection();
@@ -208,7 +208,13 @@ class User extends Database
             if ($user) {
                 if (App::getInstance(true)->decrypt($user['password']) == $password) {
                     self::logout();
-                    setcookie('user_token', $user['token'], time() + 3600, '/');
+                    if (!$user['token'] == '') {
+                        setcookie('user_token', $user['token'], time() + 3600, '/');
+                    } else {
+                        App::getInstance(true)->getLogger()->error('Failed to login user: Token is empty');
+
+                        return 'false';
+                    }
                     if (Mail::isEnabled()) {
                         try {
                             NewLogin::sendMail($user['uuid']);
@@ -216,15 +222,18 @@ class User extends Database
                             App::getInstance(true)->getLogger()->error('Failed to send email: ' . $e->getMessage());
                         }
                     }
-                    setcookie('user_token', $user['token'], time() + 3600, '/');
-                    return true;
+
+                    return $user['token'];
                 }
-                return false;
+
+                return 'false';
             }
-            return false;
+
+            return 'false';
         } catch (\Exception $e) {
             App::getInstance(true)->getLogger()->error('Failed to login user: ' . $e->getMessage());
-            return false;
+
+            return 'false';
         }
     }
 

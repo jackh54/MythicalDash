@@ -48,6 +48,7 @@ const fetchSecret = async () => {
     } finally {
         loading.value = false;
     }
+    
 };
 
 fetchSecret();

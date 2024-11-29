@@ -25,6 +25,8 @@
         <MailsTab v-if="activeTab === 'Mails'" />
         <ActivitiesTab v-if="activeTab === 'Activities'" />
         <ApiKeysTab v-if="activeTab === 'API Keys'" />
+        <BillingTab v-if="activeTab === 'Billing'" />
+
     </LayoutDashboard>
 </template>
 
@@ -35,6 +37,7 @@ import SecurityTab from '../components/Dashboard/Account/Security.vue';
 import MailsTab from '../components/Dashboard/Account/Mails.vue';
 import ActivitiesTab from '../components/Dashboard/Account/Activities.vue';
 import ApiKeysTab from '../components/Dashboard/Account/ApiKeys.vue';
+import BillingTab from '@/components/Dashboard/Account/Billing.vue';
 
 import { ref } from 'vue';
 import {
@@ -43,12 +46,14 @@ import {
     Mail as MailIcon,
     Bell as ActivityIcon,
     Key as ApiKeyIcon,
+    CreditCard as BillingIcon,
 } from 'lucide-vue-next';
 
 const activeTab = ref('Settings');
 
 const tabs = [
     { name: 'Settings', icon: SettingsIcon },
+    { name: 'Billing', icon: BillingIcon },
     { name: 'Security', icon: SecurityIcon },
     { name: 'Mails', icon: MailIcon },
     { name: 'Activities', icon: ActivityIcon },

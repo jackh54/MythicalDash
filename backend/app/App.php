@@ -78,16 +78,15 @@ class App extends \MythicalSystems\Api\Api
             self::InternalServerError($e->getMessage(), null);
         }
         /**
-         * Email correction
+         * Email correction.
          */
         if ($this->getConfig()->getSetting('app_url', null) == null) {
             $this->getConfig()->setSetting('app_url', $_SERVER['HTTP_HOST']);
         }
 
         /**
-         * Redis
+         * Redis.
          */
-
         $redis = new FastChat\Redis();
         if ($redis->testConnection() == false) {
             self::init();

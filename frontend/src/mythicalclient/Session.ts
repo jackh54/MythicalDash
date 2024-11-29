@@ -30,7 +30,11 @@ class Session {
                 const data = await response.json();
                 if (data.success) {
                     const { user_info } = data;
+                    const { billing } = data;
                     for (const [key, value] of Object.entries(user_info)) {
+                        localStorage.setItem(key, JSON.stringify(value));
+                    }
+                    for (const [key, value] of Object.entries(billing)) {
                         localStorage.setItem(key, JSON.stringify(value));
                     }
                 } else {

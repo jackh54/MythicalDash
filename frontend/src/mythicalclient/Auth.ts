@@ -1,19 +1,11 @@
-/**
- * The Auth class
- *
- * This class contains methods for authenticating users
- *
- * @class Auth
- *
- * @method forgotPassword
- * @method resetPassword
- * @method isLoginVerifyTokenValid
- * @method register
- * @method login
+/* ---------------------------
+ * Author: NaysKutzu Date: 2024-11-29
  * 
- * @export Auth
- * @type {Class}
- */
+ * Changes: 
+ * - Initial commit
+ * - Added support for billing update
+ * 
+ * ---------------------------*/
 class Auth {
     /**
      * Logs the user in
@@ -119,6 +111,7 @@ class Auth {
      * @param login The users email or username
      * @param password The users password
      * @param turnstileResponse The turnstile response
+     * 
      * @returns
      */
     static async login(login: string, password: string, turnstileResponse: string) {
@@ -128,6 +121,47 @@ class Auth {
                 login: login,
                 password: password,
                 turnstileResponse: turnstileResponse,
+            }),
+        });
+        const data = await response.json();
+        return data;
+    }
+
+    /**
+     * Update the users billing information
+     * 
+     * @param company_name The company name
+     * @param vat_number The vat number
+     * @param address1 The address line 1
+     * @param address2 The address line 2
+     * @param city The city
+     * @param country The country
+     * @param state The state
+     * @param postcode The postcode
+     * 
+     * @returns 
+     */
+    static async updateBilling(
+        company_name: string,
+        vat_number: string,
+        address1: string,
+        address2: string,
+        city: string,
+        country: string,
+        state: string,
+        postcode: string
+    ) {
+        const response = await fetch('/api/user/session/billing/update', {
+            method: 'POST',
+            body: new URLSearchParams({
+                company_name: company_name,
+                vat_number: vat_number,
+                address1: address1,
+                address2: address2,
+                city: city,
+                country: country,
+                state: state,
+                postcode: postcode,
             }),
         });
         const data = await response.json();

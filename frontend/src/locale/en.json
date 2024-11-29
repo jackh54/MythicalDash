@@ -224,6 +224,58 @@
             "message": "An error occurred on our end. Please try again later."
         }
     },
+    "account": {
+        "pages": {
+            "billing": {
+                "alerts": {
+                    "success": {
+                        "title": "Success",
+                        "update_success": "Billing information updated",
+                        "footer": "Your billing information has been updated"
+                    },
+                    "error": {
+                        "title": "Error",
+                        "generic": "An error occurred. Please try again later",
+                        "footer": "Please contact support for assistance"
+                    }
+                },
+                "page": {
+                    "title": "Billing",
+                    "subTitle": "Manage your billing information",
+                    "form": {
+                        "company_name": {
+                            "label": "Company Name"
+                        },
+                        "vat_id": {
+                            "label": "VAT ID"
+                        },
+                        "address": {
+                            "label": "Address"
+                        },
+                        "city": {
+                            "label": "City"
+                        },
+                        "state": {
+                            "label": "State"
+                        },
+                        "zip": {
+                            "label": "Zip"
+                        },
+                        "country": {
+                            "label": "Country"
+                        },
+                        "address2": {
+                            "label": "Address 2"
+                        },
+                        "update_button": {
+                            "label": "Update",
+                            "reset": "Reset"
+                        }
+                    }
+                }
+            }
+        }
+    },
     "components": {
         "sidebar": {
             "dashboard": "Dashboard",

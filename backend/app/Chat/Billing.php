@@ -35,24 +35,24 @@ use MythicalClient\App;
 
 class Billing extends Database
 {
-    public const TABLE_NAME = "mythicalclient_billing";
+    public const TABLE_NAME = 'mythicalclient_billing';
 
     public static function updateBilling(
         string $uuid,
-        string|null $company_name,
-        string|null $vat_number,
-        string|null $address1,
-        string|null $address2,
-        string|null $city,
-        string|null $country,
-        string|null $state,
-        string|null $zip,
+        ?string $company_name,
+        ?string $vat_number,
+        ?string $address1,
+        ?string $address2,
+        ?string $city,
+        ?string $country,
+        ?string $state,
+        ?string $postcode,
     ): void {
         $conn = self::getPdoConnection();
         if (self::doesHaveBilling($uuid)) {
-            $stmt = $conn->prepare("UPDATE " . self::TABLE_NAME . " SET company_name = :company_name, vat_number = :vat_number, address1 = :address1, address2 = :address2, city = :city, country = :country, state = :state, zip = :zip WHERE user = :uuid");
+            $stmt = $conn->prepare('UPDATE ' . self::TABLE_NAME . ' SET company_name = :company_name, vat_number = :vat_number, address1 = :address1, address2 = :address2, city = :city, country = :country, state = :state, postcode = :postcode WHERE user = :uuid');
         } else {
-            $stmt = $conn->prepare("INSERT INTO " . self::TABLE_NAME . " (user, company_name, vat_number, address1, address2, city, country, state, zip) VALUES (:uuid, :company_name, :vat_number, :address1, :address2, :city, :country, :state, :zip)");
+            $stmt = $conn->prepare('INSERT INTO ' . self::TABLE_NAME . ' (user, company_name, vat_number, address1, address2, city, country, state, postcode) VALUES (:uuid, :company_name, :vat_number, :address1, :address2, :city, :country, :state, :postcode)');
         }
         $company_name = $company_name !== null ? App::getInstance(true)->encrypt($company_name) : null;
         $vat_number = $vat_number !== null ? App::getInstance(true)->encrypt($vat_number) : null;
@@ -61,65 +61,67 @@ class Billing extends Database
         $city = $city !== null ? App::getInstance(true)->encrypt($city) : null;
         $country = $country !== null ? App::getInstance(true)->encrypt($country) : null;
         $state = $state !== null ? App::getInstance(true)->encrypt($state) : null;
-        $zip = $zip !== null ? App::getInstance(true)->encrypt($zip) : null;
+        $postcode = $postcode !== null ? App::getInstance(true)->encrypt($postcode) : null;
 
         $stmt->execute([
-            "uuid" => $uuid,
-            "company_name" => $company_name,
-            "vat_number" => $vat_number,
-            "address1" => $address1,
-            "address2" => $address2,
-            "city" => $city,
-            "country" => $country,
-            "state" => $state,
-            "zip" => $zip
+            'uuid' => $uuid,
+            'company_name' => $company_name,
+            'vat_number' => $vat_number,
+            'address1' => $address1,
+            'address2' => $address2,
+            'city' => $city,
+            'country' => $country,
+            'state' => $state,
+            'postcode' => $postcode,
         ]);
-    }
-
-    private static function doesHaveBilling(string $uuid): bool
-    {
-        $conn = self::getPdoConnection();
-        $stmt = $conn->prepare("SELECT * FROM " . self::TABLE_NAME . " WHERE user = :uuid");
-        $stmt->execute([
-            "uuid" => $uuid
-        ]);
-        $result = $stmt->fetch();
-        return $result !== false;
     }
 
     public static function getBillingData(string $uuid): array
     {
         if (!self::doesHaveBilling($uuid)) {
             return [
-                "company_name" => "N/A",
-                "vat_number" => "N/A",
-                "address1" => "N/A",
-                "address2" => "N/A",
-                "city" => "N/A",
-                "country" => "N/A",
-                "state" => "N/A",
-                "postcode" => "N/A"
+                'company_name' => 'N/A',
+                'vat_number' => 'N/A',
+                'address1' => 'N/A',
+                'address2' => 'N/A',
+                'city' => 'N/A',
+                'country' => 'N/A',
+                'state' => 'N/A',
+                'postcode' => 'N/A',
             ];
         }
         $conn = self::getPdoConnection();
-        $stmt = $conn->prepare("SELECT * FROM ". self::TABLE_NAME . " WHERE user = :uuid");
+        $stmt = $conn->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE user = :uuid');
         $stmt->execute([
-            "uuid" => $uuid
+            'uuid' => $uuid,
         ]);
         $result = $stmt->fetch();
         if ($result !== false) {
             return [
-            "company_name" => $result['company_name'] !== null ? App::getInstance(true)->decrypt($result['company_name']) : "N/A",
-            "vat_number" => $result['vat_number'] !== null ? App::getInstance(true)->decrypt($result['vat_number']) : "N/A",
-            "address1" => $result['address1'] !== null ? App::getInstance(true)->decrypt($result['address1']) : "N/A",
-            "address2" => $result['address2'] !== null ? App::getInstance(true)->decrypt($result['address2']) : "N/A",
-            "city" => $result['city'] !== null ? App::getInstance(true)->decrypt($result['city']) : "N/A",
-            "country" => $result['country'] !== null ? App::getInstance(true)->decrypt($result['country']) :"N/A",
-            "state" => $result['state'] !== null ? App::getInstance(true)->decrypt($result['state']) : "N/A",
-            "postcode" => $result['zip'] !== null ? App::getInstance(true)->decrypt($result['zip']) : "N/A"
+                'company_name' => $result['company_name'] !== null ? App::getInstance(true)->decrypt($result['company_name']) : 'N/A',
+                'vat_number' => $result['vat_number'] !== null ? App::getInstance(true)->decrypt($result['vat_number']) : 'N/A',
+                'address1' => $result['address1'] !== null ? App::getInstance(true)->decrypt($result['address1']) : 'N/A',
+                'address2' => $result['address2'] !== null ? App::getInstance(true)->decrypt($result['address2']) : 'N/A',
+                'city' => $result['city'] !== null ? App::getInstance(true)->decrypt($result['city']) : 'N/A',
+                'country' => $result['country'] !== null ? App::getInstance(true)->decrypt($result['country']) : 'N/A',
+                'state' => $result['state'] !== null ? App::getInstance(true)->decrypt($result['state']) : 'N/A',
+                'postcode' => $result['postcode'] !== null ? App::getInstance(true)->decrypt($result['postcode']) : 'N/A',
             ];
-        } else {
-            return [];
         }
+
+        return [];
+
+    }
+
+    private static function doesHaveBilling(string $uuid): bool
+    {
+        $conn = self::getPdoConnection();
+        $stmt = $conn->prepare('SELECT * FROM ' . self::TABLE_NAME . ' WHERE user = :uuid');
+        $stmt->execute([
+            'uuid' => $uuid,
+        ]);
+        $result = $stmt->fetch();
+
+        return $result !== false;
     }
 }

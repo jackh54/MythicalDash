@@ -31,7 +31,6 @@
 
 namespace MythicalClient\Chat;
 
-use Exception;
 use MythicalClient\App;
 use MythicalClient\Chat\columns\UserColumns;
 
@@ -86,7 +85,7 @@ class Session extends Database
         try {
             $con = self::getPdoConnection();
             $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_seen = NOW() WHERE token = "' . $this->SESSION_KEY . '";');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->app->getLogger()->error('Failed to update last seen: ' . $e->getMessage());
         }
     }

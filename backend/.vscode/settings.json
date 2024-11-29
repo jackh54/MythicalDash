@@ -1,4 +1,5 @@
 {
+    "settings.import": "../.vscode/settings.json",
     "cSpell.words": [
         "Cassian",
         "doctypehtml",

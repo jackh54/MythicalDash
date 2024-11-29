@@ -12,12 +12,13 @@ import failedAlertSfx from '@/assets/sounds/error.mp3';
 import successAlertSfx from '@/assets/sounds/success.mp3';
 import Auth from '@/mythicalclient/Auth';
 import { useI18n } from 'vue-i18n';
+import Cookies from 'js-cookie';
 
 const { t } = useI18n();
 const { play: playError } = useSound(failedAlertSfx);
 const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
-
+Cookies.remove('user_token');
 
 document.title = t('auth.pages.login.page.title');
 

@@ -25,21 +25,21 @@
                 <!-- Profile Card -->
                 <CardComponent>
                     <div class="flex flex-col items-center text-center">
-                        <img
-                            src="https://github.com/mythicalltd.png?height=80&width=80"
-                            alt="Profile"
-                            class="w-20 h-20 rounded-full mb-4"
-                        />
-                        <div class="text-xl mb-4">MyhticalSystems LTD</div>
+                        <img src="https://github.com/mythicalltd.png?height=80&width=80" alt="Profile"
+                            class="w-20 h-20 rounded-full mb-4" />
+                        <div class="text-xl mb-4">{{ Session.getInfo('company_name') }} ({{
+                            Session.getInfo('vat_number') }})</div>
                         <div class="text-gray-400 text-sm space-y-1 mb-4">
-                            <div>Cassian Gherman</div>
-                            <div>Example Address</div>
-                            <div>Graz, Steiermark, 8053</div>
-                            <div>Austria</div>
+                            <div>{{ Session.getInfo('first_name') }} {{ Session.getInfo('last_name') }}</div>
+                            <div>{{ Session.getInfo('address1') }}</div>
+                            <div>{{ Session.getInfo('city') }} ({{ Session.getInfo('postcode') }}), {{
+                                Session.getInfo('country') }}</div>
                         </div>
                         <div class="flex gap-2">
-                            <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded">Update</button>
-                            <button class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded">Logout</button>
+                            <RouterLink to="/account" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded">Update
+                            </RouterLink>
+                            <a href="/api/auth/logout"
+                                class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded">Logout</a>
                         </div>
                     </div>
                 </CardComponent>
@@ -79,11 +79,8 @@
                         </div>
                     </div>
                     <div class="p-4 space-y-4">
-                        <div
-                            v-for="(server, index) in servers"
-                            :key="index"
-                            class="flex items-center justify-between py-3 border-b border-gray-800 last:border-0"
-                        >
+                        <div v-for="(server, index) in servers" :key="index"
+                            class="flex items-center justify-between py-3 border-b border-gray-800 last:border-0">
                             <div>
                                 <div class="font-medium">{{ server.name }}</div>
                                 <div class="text-sm text-gray-400">{{ server.hostname }}</div>
@@ -103,6 +100,7 @@
 <script setup lang="ts">
 import LayoutDashboard from '../components/LayoutDashboard.vue';
 import CardComponent from '@/components/ui/Card/CardComponent.vue';
+import Session from '@/mythicalclient/Session';
 import {
     RefreshCcw as RefreshCcwIcon,
     Server as ServerIcon,

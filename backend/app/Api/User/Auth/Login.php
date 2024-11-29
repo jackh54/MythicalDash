@@ -74,29 +74,28 @@ $router->add('/api/user/auth/login', function (): void {
     $password = $_POST['password'];
 
     $login = User::login($login, $password);
-    $token = $_COOKIE['user_token'];
-    if ($login) {
-        if ($token == "") {
-            $appInstance->BadRequest('Something behind went wrong!', ['error_code' => 'LOGIC_ERROR']);
-        }
-        if (User::getInfo($_COOKIE['user_token'], UserColumns::VERIFIED, false) == 'false') {
+    setcookie('user_token', $login, time() + 3600, '/');
+
+    if ($login == 'false') {
+        $appInstance->BadRequest('Invalid login credentials', ['error_code' => 'INVALID_CREDENTIALS']);
+    } else {
+        if (User::getInfo($login, UserColumns::VERIFIED, false) == 'false') {
             if (Mail::isEnabled() == true) {
-                setcookie('user_token', '', time() - 123600, '/');
+                User::logout();
                 $appInstance->BadRequest('Account not verified', ['error_code' => 'ACCOUNT_NOT_VERIFIED']);
             }
         }
 
-        if (User::getInfo($_COOKIE['user_token'], UserColumns::BANNED, false) != 'NO') {
-            setcookie('user_token', '', time() - 123600, '/');
+        if (User::getInfo($login, UserColumns::BANNED, false) != 'NO') {
+            User::logout();
             $appInstance->BadRequest('Account is banned', ['error_code' => 'ACCOUNT_BANNED']);
         }
 
-        if (User::getInfo($_COOKIE['user_token'], UserColumns::DELETED, false) == 'true') {
-            setcookie('user_token', '', time() - 123600, '/');
+        if (User::getInfo($login, UserColumns::DELETED, false) == 'true') {
+            User::logout();
             $appInstance->BadRequest('Account is deleted', ['error_code' => 'ACCOUNT_DELETED']);
         }
+
         $appInstance->OK('Successfully logged in', []);
-    } else {
-        $appInstance->BadRequest('Invalid login credentials', ['error_code' => 'INVALID_CREDENTIALS']);
     }
 });
