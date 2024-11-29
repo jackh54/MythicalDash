@@ -5,7 +5,7 @@ import App from './App.vue';
 import router from './router';
 import VueSweetalert2 from 'vue-sweetalert2';
 import { createI18n } from 'vue-i18n';
-import EN from '@/locale/en.json';
+import EN from '@/locale/en.yml';
 import Settings from '@/mythicalclient/Settings';
 import 'sweetalert2/dist/sweetalert2.min.css';
 

@@ -40,14 +40,6 @@ echo -e "
 \x1b[35;1m┃ ☻ \x1b[0mhttps://discord.mythical.systems
 "
 
-printf "\n\x1b[2;1m┃\x1b[0;2m Setting permissions.\x1b[0m"
-sleep 1
-# Set the right permissions
-chown -R www-data:www-data ./
-chmod -R 777 ./
-printf "\n\x1b[2;1m┃\x1b[0;2m Permission set.\x1b[0m"
-sleep 1
-
 printf "\n\x1b[2;1m┃\x1b[0;2m Installing dependencies. \x1b[0m"
 sleep 1
 # Install the dependencies
