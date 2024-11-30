@@ -30,8 +30,8 @@ document.title = t('auth.pages.reset_password.page.title');
 const checkResetCode = async (code: string) => {
     try {
         const response = await Auth.isLoginVerifyTokenValid(code);
-        if (!response.ok) {
-            window.location.href = '/auth/login';
+        if (!response.success) {
+            location.href = '/auth/login?invalid_code';
         }
     } catch (error) {
         console.error('Error checking reset code:', error);
@@ -40,12 +40,12 @@ const checkResetCode = async (code: string) => {
 
 const init = async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const resetCode = urlParams.get('code');
+    const resetCode = urlParams.get('token');
 
     if (resetCode) {
         await checkResetCode(resetCode);
     } else {
-        window.location.href = '/auth/login';
+        alert("Missing reset code");
     }
 };
 
@@ -54,10 +54,10 @@ init();
 // This function is called when the form is submitted
 const handleSubmit = async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const resetCode = urlParams.get('code');
+    const resetCode = urlParams.get('token');
     loading.value = true;
 
-    const response = await Auth.resetPassword(resetCode || "", form.password, form.confirmPassword, form.turnstileResponse);
+    const response = await Auth.resetPassword(form.confirmPassword, form.password,resetCode || "", form.turnstileResponse);
     
     try {
         if (!response.success) {

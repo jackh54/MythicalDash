@@ -65,6 +65,7 @@ class Session {
         // Update session info every 1 minute
         setInterval(updateSessionInfo, 60000);
     }
+
 }
 
 export default Session;

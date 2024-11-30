@@ -121,7 +121,7 @@ class User extends Database
              */
             if (Mail::isEnabled()) {
                 try {
-                    $verify_token = base64_encode(random_bytes(16));
+                    $verify_token = App::getInstance(true)->generateCode();
                     Verification::add($verify_token, $uuid, EmailVerificationColumns::$type_verify);
                     Verify::sendMail($uuid, $verify_token);
                 } catch (\Exception $e) {
@@ -170,7 +170,7 @@ class User extends Database
             if ($user) {
                 if (Mail::isEnabled()) {
                     try {
-                        $verify_token = base64_encode(random_bytes(16));
+                        $verify_token = $verify_token = App::getInstance(true)->generateCode();
                         Verification::add($verify_token, $user['uuid'], EmailVerificationColumns::$type_password);
                         ResetPassword::sendMail($user['uuid'], $verify_token);
                     } catch (\Exception $e) {

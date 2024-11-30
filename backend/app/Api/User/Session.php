@@ -36,7 +36,7 @@ use MythicalClient\Chat\Billing;
 use MythicalClient\Chat\Session;
 use MythicalClient\Chat\columns\UserColumns;
 
-$router->post('/api/user/session', function (): void {
+$router->post('/api/user/session/info/update', function (): void {
     App::init();
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
@@ -44,6 +44,34 @@ $router->post('/api/user/session', function (): void {
     $appInstance->allowOnlyPOST();
     $session = new Session($appInstance);
 
+    try {
+        if (!isset($_POST['first_name']) && $_POST['first_name'] == '') {
+            $appInstance->BadRequest('First name is missing!', ['error_code' => 'FIRST_NAME_MISSING']);
+        }
+        if (!isset($_POST['last_name']) && $_POST['last_name'] == '') {
+            $appInstance->BadRequest('Last name is missing!', ['error_code' => 'LAST_NAME_MISSING']);
+        }
+        if (!isset($_POST['email']) && $_POST['email'] == '') {
+            $appInstance->BadRequest('Email is missing!', ['error_code' => 'EMAIL_MISSING']);
+        }
+        if (!isset($_POST['avatar']) && $_POST['avatar'] == '') {
+            $appInstance->BadRequest('Avatar is missing!', ['error_code' => 'AVATAR_MISSING']);
+        }
+        if (!isset($_POST['background']) && $_POST['background'] == '') {
+            $appInstance->BadRequest('Background is missing!', ['error_code' => 'BACKGROUND_MISSING']);
+        }
+
+        $session->setInfo(UserColumns::FIRST_NAME, $_POST['first_name'],true);
+        $session->setInfo(UserColumns::LAST_NAME, $_POST['last_name'],true);
+        $session->setInfo(UserColumns::EMAIL, $_POST['email'],false);
+        $session->setInfo(UserColumns::AVATAR, $_POST['avatar'],false);
+        $session->setInfo(UserColumns::BACKGROUND,$_POST['background'],false);
+
+        $appInstance->OK('User info updated successfully!', []);
+    } catch (Exception $e) {
+        $appInstance->getLogger()->error('Failed to update user info! ' . $e->getMessage());
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'DB_ERROR', 'error' => $e->getMessage()]);
+    }
 });
 
 $router->post('/api/user/session/billing/update', function (): void {
@@ -113,7 +141,11 @@ $router->get('/api/user/session', function (): void {
     $config = $appInstance->getConfig();
 
     $appInstance->allowOnlyGET();
+    
     $session = new Session($appInstance);
+    if (isset($_GET['ip']) && $_GET['ip'] != '') {
+        $session->setInfo(UserColumns::LAST_IP, $_GET['ip'], false);   
+    }
     $accountToken = $session->SESSION_KEY;
     try {
         $billing = Billing::getBillingData(User::getInfo($accountToken, UserColumns::UUID, false));
@@ -136,7 +168,7 @@ $router->get('/api/user/session', function (): void {
                 'deleted' => User::getInfo($accountToken, UserColumns::DELETED, false),
                 'last_seen' => User::getInfo($accountToken, UserColumns::LAST_SEEN, false),
                 'first_seen' => User::getInfo($accountToken, UserColumns::FIRST_SEEN, false),
-                'background' => User::getInfo($accountToken, UserColumns::BACKGROUND, true),
+                'background' => User::getInfo($accountToken, UserColumns::BACKGROUND, false),
                 'role_name' => Roles::getUserRoleName(User::getInfo($accountToken, UserColumns::UUID, false)),
                 'role_real_name' => Roles::getUserRoleName(User::getInfo($accountToken, UserColumns::UUID, false)),
             ],

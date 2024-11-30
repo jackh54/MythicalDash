@@ -103,9 +103,7 @@ class App extends \MythicalSystems\Api\Api
         } catch (\Exception $e) {
             self::init();
             self::InternalServerError($e->getMessage(), null);
-
         }
-
     }
 
     /**
@@ -257,5 +255,13 @@ class App extends \MythicalSystems\Api\Api
     public function decrypt(string $data): string
     {
         return XChaCha20::decrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'], true);
+    }
+
+    public function generateCode() : string {
+        $code = base64_encode(random_bytes(64));
+        $code = str_replace('=', '', $code);
+        $code = str_replace('+','', $code);
+        $code = str_replace('/','', $code);
+        return $code;
     }
 }

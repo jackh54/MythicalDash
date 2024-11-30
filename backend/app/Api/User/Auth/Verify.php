@@ -31,52 +31,38 @@
 
 use MythicalClient\App;
 use MythicalClient\Chat\User;
-use MythicalClient\CloudFlare\CloudFlareRealIP;
-use MythicalSystems\CloudFlare\Turnstile;
-use MythicalClient\Config\ConfigInterface;
-use MythicalSystems\CloudFlare\CloudFlare;
+use MythicalClient\Chat\Verification;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\Chat\columns\EmailVerificationColumns;
 
-$router->add('/api/user/auth/forgot', function (): void {
+$router->get('/api/user/auth/verify', function (): void {
+    App::init();
     $appInstance = App::getInstance(true);
     $config = $appInstance->getConfig();
 
-    $appInstance->allowOnlyPOST();
-    /**
-     * Check if the required fields are set.
-     *
-     * @var string
-     */
-    if (!isset($_POST['email']) || $_POST['email'] == '') {
-        $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_EMAIL']);
-    }
+    $appInstance->allowOnlyGET();
 
-    /**
-     * Process the turnstile response.
-     *
-     * IF the turnstile is enabled
-     */
-    if ($appInstance->getConfig()->getSetting(ConfigInterface::TURNSTILE_ENABLED, 'false') == 'true') {
-        if (!isset($_POST['turnstileResponse']) || $_POST['turnstileResponse'] == '') {
-            $appInstance->BadRequest('Bad Request', ['error_code' => 'TURNSTILE_FAILED']);
-        }
-        $cfTurnstileResponse = $_POST['turnstileResponse'];
-        if (!Turnstile::validate($cfTurnstileResponse, CloudFlareRealIP::getRealIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
-            $appInstance->BadRequest('Invalid TurnStile Key', ['error_code' => 'TURNSTILE_FAILED']);
-        }
-    }
-    $email = $_POST['email'];
+    if (isset($_GET['code']) && $_GET['code'] != '') {
+        $code = $_GET['code'];
 
-    if (User::exists(UserColumns::EMAIL, $email)) {
-
-        if (User::forgotPassword($email)) {
-            $appInstance->OK('Successfully sent email', []);
+        if (Verification::verify($code, EmailVerificationColumns::$type_verify)) {
+            if (User::exists(UserColumns::UUID, Verification::getUserUUID($code))) {
+                $token = User::getInfo(User::getTokenFromUUID(Verification::getUserUUID($code)), UserColumns::ACCOUNT_TOKEN, false);
+                if ($token != null && $token != '') {
+                    setcookie('user_token', $token, time() + 3600, '/');
+                    User::updateInfo(User::getTokenFromUUID(Verification::getUserUUID($code)), UserColumns::VERIFIED, 'true', false);
+                    Verification::delete($code);
+                    die(header('location: /'));
+                } else {
+                    $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_USER','email_code' => $code]);
+                }
+            } else {
+                $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_USER','email_code' => $code]);
+            }
         } else {
-            $appInstance->BadRequest('Failed to send email', ['error_code' => 'FAILED_TO_SEND_EMAIL']);
+            $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_CODE', 'email_code' => $code]);
         }
-
     } else {
-        $appInstance->BadRequest('Email does not exist', ['error_code' => 'EMAIL_DOES_NOT_EXIST']);
+        $appInstance->BadRequest('Bad Request', ['error_code' => 'MISSING_CODE']);
     }
-
 });

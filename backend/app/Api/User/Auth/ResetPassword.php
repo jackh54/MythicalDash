@@ -32,6 +32,7 @@
 use MythicalClient\App;
 use MythicalClient\Chat\User;
 use MythicalClient\Chat\Verification;
+use MythicalClient\CloudFlare\CloudFlareRealIP;
 use MythicalSystems\CloudFlare\Turnstile;
 use MythicalClient\Config\ConfigInterface;
 use MythicalSystems\CloudFlare\CloudFlare;
@@ -94,7 +95,7 @@ $router->post('/api/user/auth/reset', function (): void {
             $appInstance->BadRequest('Bad Request', ['error_code' => 'TURNSTILE_FAILED']);
         }
         $cfTurnstileResponse = $_POST['turnstileResponse'];
-        if (!Turnstile::validate($cfTurnstileResponse, CloudFlare::getRealUserIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
+        if (!Turnstile::validate($cfTurnstileResponse, CloudFlareRealIP::getRealIP(), $config->getSetting(ConfigInterface::TURNSTILE_KEY_PRIV, 'XXXX'))) {
             $appInstance->BadRequest('Invalid TurnStile Key', ['error_code' => 'TURNSTILE_FAILED']);
         }
     }

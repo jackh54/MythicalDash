@@ -31,6 +31,7 @@
 
 namespace MythicalClient\Mail;
 
+use MythicalClient\App;
 use MythicalClient\Chat\Database;
 use MythicalClient\Config\ConfigFactory;
 use MythicalClient\Config\ConfigInterface;
@@ -48,7 +49,11 @@ class Mail
     public static function send(string $to, string $subject, string $message): void
     {
         // TODO: Add more drivers
-        SMTPServer::send($to, $subject, $message);
+        try {
+            SMTPServer::send($to, $subject, $message);
+        } catch (\Exception $e) {
+            App::getInstance(true)->getLogger()->error('(' . APP_SOURCECODE_DIR . '/Mail/Mail.php) [send] Failed to send email: ' . $e->getMessage());
+        }
     }
 
     /**
