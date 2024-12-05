@@ -61,11 +61,15 @@ $router->post('/api/user/session/info/update', function (): void {
             $appInstance->BadRequest('Background is missing!', ['error_code' => 'BACKGROUND_MISSING']);
         }
 
-        $session->setInfo(UserColumns::FIRST_NAME, $_POST['first_name'],true);
-        $session->setInfo(UserColumns::LAST_NAME, $_POST['last_name'],true);
-        $session->setInfo(UserColumns::EMAIL, $_POST['email'],false);
-        $session->setInfo(UserColumns::AVATAR, $_POST['avatar'],false);
-        $session->setInfo(UserColumns::BACKGROUND,$_POST['background'],false);
+        if ($_POST['email'] != $session->getInfo(UserColumns::EMAIL, false) && User::exists(UserColumns::EMAIL, $_POST['email'])) {
+            $appInstance->BadRequest('Email already exists!', ['error_code' => 'EMAIL_EXISTS']);
+        }
+
+        $session->setInfo(UserColumns::FIRST_NAME, $_POST['first_name'], true);
+        $session->setInfo(UserColumns::LAST_NAME, $_POST['last_name'], true);
+        $session->setInfo(UserColumns::EMAIL, $_POST['email'], false);
+        $session->setInfo(UserColumns::AVATAR, $_POST['avatar'], false);
+        $session->setInfo(UserColumns::BACKGROUND, $_POST['background'], false);
 
         $appInstance->OK('User info updated successfully!', []);
     } catch (Exception $e) {
@@ -141,10 +145,10 @@ $router->get('/api/user/session', function (): void {
     $config = $appInstance->getConfig();
 
     $appInstance->allowOnlyGET();
-    
+
     $session = new Session($appInstance);
     if (isset($_GET['ip']) && $_GET['ip'] != '') {
-        $session->setInfo(UserColumns::LAST_IP, $_GET['ip'], false);   
+        $session->setInfo(UserColumns::LAST_IP, $_GET['ip'], false);
     }
     $accountToken = $session->SESSION_KEY;
     try {

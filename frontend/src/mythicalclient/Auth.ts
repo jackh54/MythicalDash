@@ -6,6 +6,13 @@
  * - Added support for billing update
  * 
  * ---------------------------*/
+/* ---------------------------
+ * Author: NaysKutzu Date: 2024-12-01
+ * 
+ * Changes: 
+ * - Added support for changing the user info!
+ * 
+ * ---------------------------*/
 class Auth {
     /**
      * Logs the user in
@@ -162,6 +169,38 @@ class Auth {
                 country: country,
                 state: state,
                 postcode: postcode,
+            }),
+        });
+        const data = await response.json();
+        return data;
+    }
+
+    /**
+     * Update the users info
+     * 
+     * @param first_name The first name 
+     * @param last_name The last name
+     * @param email The email
+     * @param avatar The avatar
+     * @param background  The background
+     * 
+     * @returns  
+     */
+    static async updateUserInfo(
+        first_name: string,
+        last_name: string,
+        email: string,
+        avatar: string,
+        background: string,
+    ) {
+        const response = await fetch('/api/user/session/info/update', {
+            method: 'POST',
+            body: new URLSearchParams({
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                avatar: avatar,
+                background: background,
             }),
         });
         const data = await response.json();

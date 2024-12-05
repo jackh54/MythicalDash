@@ -72,6 +72,17 @@ const saveChanges = async () => {
         console.error('Error updating account:', error);
     }
 };
+
+const resetFields = async () => {
+    form.company_name = Session.getInfo('company_name');
+    form.vat_number = Session.getInfo('vat_number');
+    form.address1 = Session.getInfo('address1');
+    form.address2 = Session.getInfo('address2');
+    form.city = Session.getInfo('city');
+    form.country = Session.getInfo('country');
+    form.state = Session.getInfo('state');
+    form.postcode = Session.getInfo('postcode');
+};
 </script>
 
 <style scoped>
@@ -164,7 +175,7 @@ const saveChanges = async () => {
                 class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded text-sm font-medium transition-colors">
                 {{ t('account.pages.billing.page.form.update_button.label') }}
             </button>
-            <button type="button"
+            <button @click="resetFields" type="button"
                 class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded text-sm font-medium transition-colors">
                 {{ t('account.pages.billing.page.form.update_button.reset') }}
             </button>

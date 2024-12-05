@@ -1,3 +1,10 @@
+#-------------------------------------------------------------#
+#
+# Auth Pages (/auth/*)
+#
+# @public
+#
+#-------------------------------------------------------------#
 auth:
   logic:
     errors:
@@ -154,6 +161,13 @@ auth:
           login:
             label: Remembered your password?
             link: Login
+#-------------------------------------------------------------# 
+#
+# Global Errors Pages 
+#
+# @public
+#
+#-------------------------------------------------------------# 
 errors:
   forbidden:
     title: 403 Forbidden
@@ -168,8 +182,54 @@ errors:
   servererror:
     title: 500 Server Error
     message: An error occurred on our end. Please try again later.
+#-------------------------------------------------------------#
+#
+# Account Settings (/account/*)
+#
+# @public
+#
+#-------------------------------------------------------------#
 account:
   pages:
+    settings:
+      alerts:
+        success:
+          title: Success
+          update_success: Account settings updated
+          footer: Your account settings have been updated
+        error:
+          title: Error
+          generic: An error occurred. Please try again later
+          email: Email already exists
+          footer: Please contact support for assistance
+      page:
+        title: Account
+        subTitle: Manage your account settings
+        form:
+          email:
+            label: Email
+          firstName:
+            label: First Name
+          lastName:
+            label: Last Name
+          avatar: 
+            label: Avatar
+          background: 
+            label: Background
+          update_button:
+            label: Save Changes
+            reset: Reset
+        delete:
+          title: "Deactivate Account"
+          subTitle: "Once you deactivate your account, there is no going back. Please be certain."
+          # You can not add more than 3 lines!
+          lines: 
+            - "Once you deactivate your account, there is no going back. Please be certain."
+            - "Once you delete your account, there is a 30 days window for you to contact support to recover your account. After 30 days, your account will be permanently disabled."
+            - "This means that your account will be marked as deleted BUT we reserve the right to keep all the data for legal reasons. You may open a ticket for your data to be anonymized due to GDPR!"
+          button:
+            label: Deactivate Account
+            loading: Deactivating...
     billing:
       alerts:
         success:
