@@ -31,36 +31,52 @@
 
 namespace MythicalClient\Plugins;
 
-class PluginCompiler
-{
-    public string $plugins_dir = __DIR__ . '/../../storage/addons';
+use Symfony\Component\Yaml\Yaml;
 
-    public function __construct()
+class PluginHelper extends PluginTypes
+{
+    /**
+     * Get the plugins directory.
+     *
+     * @return string The plugins directory
+     */
+    public static function getPluginsDir(): string
     {
-        foreach ($this->getPluginsName() as $pluginName) {
-            new PluginReader($pluginName);
+        try {
+            $pluginsDir = APP_ADDONS_DIR;
+            if (is_dir($pluginsDir) && is_readable($pluginsDir) && is_writable($pluginsDir)) {
+                return $pluginsDir;
+            }
+
+            return '';
+
+        } catch (\Exception) {
+
+            return '';
         }
     }
 
     /**
-     * Get all the plugins name.
+     * Get the plugin config.
      *
-     * @return array The plugins name
+     * @param string $identifier The plugin identifier
+     *
+     * @return array The plugin config
      */
-    public function getPluginsName(): array
+    public static function getPluginConfig(string $identifier): array
     {
-        $plugins = [];
-        $directories = scandir($this->plugins_dir);
-        foreach ($directories as $directory) {
-            if ($directory === '.' || $directory === '..') {
-                continue;
+        $app = \MythicalClient\App::getInstance(true);
+        try {
+            $app->getLogger()->debug('Getting plugin config for: '. $identifier .'');
+            if (file_exists(self::getPluginsDir() . '/' . $identifier . '/conf.yml')) {
+                $app->getLogger()->debug('Got plugin config for: '. $identifier .'');
+                return Yaml::parseFile(self::getPluginsDir() . '/' . $identifier . '/conf.yml');
             }
-            $pluginPath = $this->plugins_dir . '/' . $directory;
-            if (is_dir($pluginPath) && file_exists($pluginPath . '/MythicalClient.yml')) {
-                $plugins[] = basename($directory);
-            }
+            $app->getLogger()->debug('Failed to get plugin config for: '. $identifier .'');
+            return [];
+        } catch (\Exception) {
+            $app->getLogger()->warning('Failed to get plugin config for: '. self::getPluginConfig($identifier) .'');
+            return [];
         }
-
-        return $plugins;
     }
 }

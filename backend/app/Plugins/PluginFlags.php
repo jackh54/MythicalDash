@@ -29,51 +29,47 @@
  * SOFTWARE.
  */
 
-namespace MythicalClient\Plugins\interfaces;
+namespace MythicalClient\Plugins;
 
-use MythicalClient\Plugins\PluginEvent;
-
-/**
- * Interface PluginTemplate.
- *
- * This interface defines the structure for plugin lifecycle events.
- */
-interface PluginTemplate
+class PluginFlags
 {
     /**
-     * Handle a plugin event.
-     *
-     * @param PluginEvent $event the event to handle
-     *
-     * @return void
+     * Get the flags.
      */
-    public function Event(PluginEvent $event);
+    public static function getFlags(): array
+    {
+        return [
+            'ignorePlaceholders',
+            'hasInstallScript',
+            'hasRemovalScript',
+            'hasUpdateScript',
+            'developerIgnoreInstallScript',
+            'developerEscalateInstallScript',
+        ];
+    }
 
     /**
-     * Called when the plugin is enabled.
+     * Check if the flags are valid.
      *
-     * @return void
+     * @param array $flags The flags
      */
-    public function onEnable();
-
-    /**
-     * Called when the plugin is disabled.
-     *
-     * @return void
-     */
-    public function onDisable();
-
-    /**
-     * Called when the plugin is installed.
-     *
-     * @return void
-     */
-    public function onInstall();
-
-    /**
-     * Called when the plugin is uninstalled.
-     *
-     * @return void
-     */
-    public function onUninstall();
+    public static function validFlags(array $flags): bool
+    {
+        $app = \MythicalClient\App::getInstance(true);
+        try {
+            $app->getLogger()->debug('Processing plugin flags');
+            $flagList = PluginFlags::getFlags();
+            foreach ($flagList as $flag) {
+                if (in_array($flag, $flags)) {
+                    $app->getLogger()->debug('Valid flag: ' . $flag);
+                    return true;
+                }
+            }
+            $app->getLogger()->debug('Invalid flags: ' . implode(', ', $flags));
+            return false;
+        } catch (\Exception $e) {
+            $app->getLogger()->error('Failed to validate flags: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

@@ -45,27 +45,34 @@ class LoggerFactory
 
     public function info(string $message): void
     {
-        $this->appendLog('[INFO] ' . $message);
+        $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
+        $this->appendLog('[INFO] ['. $caller .'] '. $message);
     }
 
     public function warning(string $message): void
     {
-        $this->appendLog('[WARNING] ' . $message);
+        $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
+        $this->appendLog('[WARNING] ['. $caller .'] '. $message);
     }
 
     public function error(string $message): void
     {
-        $this->appendLog('[ERROR] ' . $message);
+        $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
+        $this->appendLog('[ERROR] ['. $caller .'] '. $message);
     }
 
     public function critical(string $message): void
     {
-        $this->appendLog('[CRITICAL] ' . $message);
+        $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
+        $this->appendLog('[CRITICAL] ['. $caller .'] '. $message);
     }
 
     public function debug(string $message): void
     {
-        $this->appendLog('[DEBUG] ' . $message);
+        if (APP_DEBUG == true) {
+            $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
+            $this->appendLog('[DEBUG] [' . $caller . '] ' . $message);
+        }
     }
 
     private function getFormattedDate(): string

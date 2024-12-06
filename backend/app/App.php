@@ -36,7 +36,6 @@ use MythicalClient\Chat\Database;
 use MythicalSystems\Utils\XChaCha20;
 use MythicalClient\Config\ConfigFactory;
 use MythicalClient\Logger\LoggerFactory;
-use MythicalClient\Plugins\PluginCompiler;
 
 class App extends \MythicalSystems\Api\Api
 {
@@ -93,8 +92,12 @@ class App extends \MythicalSystems\Api\Api
             self::InternalServerError('Failed to connect to Redis', null);
         }
 
-        new PluginCompiler();
-
+        /**
+         * Initialize the plugin manager.
+         */
+        Plugins\PluginManager::loadKernel();
+        define('LOGGER', $this->getLogger());
+        
         $router = new rt();
         $this->registerApiRoutes($router);
 
@@ -257,11 +260,13 @@ class App extends \MythicalSystems\Api\Api
         return XChaCha20::decrypt($data, $_ENV['DATABASE_ENCRYPTION_KEY'], true);
     }
 
-    public function generateCode() : string {
+    public function generateCode(): string
+    {
         $code = base64_encode(random_bytes(64));
         $code = str_replace('=', '', $code);
-        $code = str_replace('+','', $code);
-        $code = str_replace('/','', $code);
+        $code = str_replace('+', '', $code);
+        $code = str_replace('/', '', $code);
+
         return $code;
     }
 }

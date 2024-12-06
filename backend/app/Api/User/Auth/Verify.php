@@ -52,12 +52,12 @@ $router->get('/api/user/auth/verify', function (): void {
                     setcookie('user_token', $token, time() + 3600, '/');
                     User::updateInfo(User::getTokenFromUUID(Verification::getUserUUID($code)), UserColumns::VERIFIED, 'true', false);
                     Verification::delete($code);
-                    die(header('location: /'));
-                } else {
-                    $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_USER','email_code' => $code]);
+                    exit(header('location: /'));
                 }
+                $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_USER', 'email_code' => $code]);
+
             } else {
-                $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_USER','email_code' => $code]);
+                $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_USER', 'email_code' => $code]);
             }
         } else {
             $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_CODE', 'email_code' => $code]);

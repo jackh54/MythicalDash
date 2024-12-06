@@ -29,15 +29,33 @@
  * SOFTWARE.
  */
 
-namespace MythicalClient\Plugins\interfaces;
+namespace MythicalClient\Plugins;
 
-interface PluginLicense
+class PluginTypes
 {
-    public const MIT_LICENSE = 'MIT License';
-    public const GPL_LICENSE = 'GNU General Public License (GPL)';
-    public const APACHE_LICENSE = 'Apache License 2.0';
-    public const LGPL_LICENSE = 'GNU Lesser General Public License (LGPL)';
-    public const IDGFK_LICENSE = 'I Don\'t Give a F**k';
-    public const GLWTS_LICENSE = 'Good Luck With That Shit';
-    public const OTHER = 'Other';
+    /**
+     * Get the types.
+     * 
+     * @return array The types
+     */
+    public static function getTypes(): array
+    {
+        return [
+            "event",
+            "gateway",
+            "theme",
+            "provider",
+        ];
+    }
+    /**
+     * Check if the type is allowed.
+     * 
+     * @param string $types The type
+     * 
+     * @return bool If the type is allowed
+     */
+    public static function isTypeAllowed(string $types): bool
+    {
+        return in_array($types, self::getTypes());
+    }
 }

@@ -34,7 +34,6 @@ namespace MythicalClient\Chat;
 use MythicalClient\App;
 use MythicalClient\Chat\columns\UserColumns;
 use MythicalClient\CloudFlare\CloudFlareRealIP;
-use MythicalSystems\CloudFlare\CloudFlare;
 
 class Session extends Database
 {
@@ -46,9 +45,9 @@ class Session extends Database
         if (isset($_COOKIE['user_token']) && !$_COOKIE['user_token'] == '') {
             if (User::exists(UserColumns::ACCOUNT_TOKEN, $_COOKIE['user_token'])) {
                 try {
-                    header("Access-Control-Allow-Origin: *");
-                    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-                    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+                    header('Access-Control-Allow-Origin: *');
+                    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+                    header('Access-Control-Allow-Headers: Content-Type, Authorization');
                     $this->app = $app;
                     $this->SESSION_KEY = $_COOKIE['user_token'];
                     $this->updateLastSeen();
@@ -92,7 +91,7 @@ class Session extends Database
             $ip = CloudFlareRealIP::getRealIP();
             $this->app->getLogger()->info('Updating last seen for ' . $this->SESSION_KEY . ' with IP: ' . $ip);
             $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_seen = NOW() WHERE token = "' . $this->SESSION_KEY . '";');
-            $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_ip = "'.$ip.'" WHERE token = "' . $this->SESSION_KEY . '";');
+            $con->exec('UPDATE ' . User::TABLE_NAME . ' SET last_ip = "' . $ip . '" WHERE token = "' . $this->SESSION_KEY . '";');
         } catch (\Exception $e) {
             $this->app->getLogger()->error('Failed to update last seen: ' . $e->getMessage());
         }

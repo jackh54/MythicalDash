@@ -31,12 +31,11 @@
 
 use MythicalClient\App;
 use MythicalClient\Chat\User;
-use MythicalClient\CloudFlare\CloudFlareRealIP;
 use MythicalClient\Mail\Mail;
 use MythicalSystems\CloudFlare\Turnstile;
 use MythicalClient\Config\ConfigInterface;
-use MythicalSystems\CloudFlare\CloudFlare;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\CloudFlare\CloudFlareRealIP;
 
 $router->add('/api/user/auth/login', function (): void {
     $appInstance = App::getInstance(true);

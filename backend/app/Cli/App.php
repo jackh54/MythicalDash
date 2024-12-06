@@ -118,7 +118,7 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
 
             exit;
         } elseif ($cmdName == 'frontend:watch') {
-            $process = popen('cd frontend && yarn watch 2>&1', 'r');
+            $process = popen('cd frontend && yarn dev 2>&1', 'r');
             if (is_resource($process)) {
                 while (!feof($process)) {
                     $output = fgets($process);
@@ -154,6 +154,42 @@ class App extends \MythicalSystems\Utils\BungeeChatApi
                 }
             } else {
                 $this->sendOutput($this->prefix . 'Failed to start lint process.');
+            }
+            exit;
+        } else if ($cmdName == "backend:watch") {
+            $process = popen("tail -f backend/storage/logs/mythicalclient.log backend/storage/logs/framework.log", "r");
+            $this->sendOutput("Please wait while we attach to the process...");
+            $this->sendOutput(message: "\n");
+            sleep(5);
+            if (is_resource($process)) {
+                $this->sendOutput("Attached to the process.");
+                $this->sendOutput(message: "\n");
+                while (!feof($process)) {
+                    $output = fgets($process);
+                    if (strpos($output, "[DEBUG]") !== false) {
+                        $this->sendOutput($this->prefix . "\e[34m" . $output . "\e[0m"); // Blue for DEBUG
+                    } elseif (strpos($output, "[INFO]") !== false) {
+                        $this->sendOutput($this->prefix . "\e[32m" . $output . "\e[0m"); // Green for INFO
+                    } elseif (strpos($output, "[WARNING]") !== false) {
+                        $this->sendOutput($this->prefix . "\e[33m" . $output . "\e[0m"); // Yellow for WARNING
+                    } elseif (strpos($output, "[ERROR]") !== false) {
+                        $this->sendOutput($this->prefix . "\e[31m" . $output . "\e[0m"); // Red for ERROR
+                    } elseif (strpos($output, "[CRITICAL]") !== false) {
+                        $this->sendOutput($this->prefix . "\e[35m" . $output . "\e[0m"); // Magenta for CRITICAL
+                    } else {
+                        $this->sendOutput($this->prefix . $output);
+                    }
+                }
+                $returnVar = pclose($process);
+                if ($returnVar !== 0) {
+                    $this->sendOutput('Failed to watch backend.');
+                    $this->sendOutput(message: "\n");
+                } else {
+                    $this->sendOutput('Backend is now being watched.');
+                    $this->sendOutput("\n");
+                }
+            } else {
+                $this->sendOutput($this->prefix . 'Failed to start watch process.');
             }
             exit;
         }

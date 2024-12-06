@@ -30,7 +30,6 @@
  */
 
 use MythicalClient\App;
-use MythicalClient\Plugins\PluginEvent;
 
 /**
  * Define the environment path.
@@ -50,8 +49,6 @@ define('APP_ROUTES_DIR', APP_SOURCECODE_DIR . '/Api');
  * Require the kernel.
  */
 require_once APP_DIR . '/boot/kernel.php';
-
-$event = new PluginEvent();
 
 /**
  * Start the APP.

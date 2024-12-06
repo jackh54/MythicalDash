@@ -32,11 +32,10 @@
 use MythicalClient\App;
 use MythicalClient\Chat\User;
 use MythicalClient\Chat\Verification;
-use MythicalClient\CloudFlare\CloudFlareRealIP;
 use MythicalSystems\CloudFlare\Turnstile;
 use MythicalClient\Config\ConfigInterface;
-use MythicalSystems\CloudFlare\CloudFlare;
 use MythicalClient\Chat\columns\UserColumns;
+use MythicalClient\CloudFlare\CloudFlareRealIP;
 use MythicalClient\Chat\columns\EmailVerificationColumns;
 
 $router->get('/api/user/auth/reset', function (): void {
