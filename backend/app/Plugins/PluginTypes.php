@@ -33,25 +33,31 @@ namespace MythicalClient\Plugins;
 
 class PluginTypes
 {
+    public static $event = 'event';
+    public static $gateway = 'gateway';
+    public static $provider = 'provider';
+    public static $components = 'components';
+
     /**
      * Get the types.
-     * 
+     *
      * @return array The types
      */
     public static function getTypes(): array
     {
         return [
-            "event",
-            "gateway",
-            "theme",
-            "provider",
+            'event',
+            'gateway',
+            'components',
+            'provider',
         ];
     }
+
     /**
      * Check if the type is allowed.
-     * 
+     *
      * @param string $types The type
-     * 
+     *
      * @return bool If the type is allowed
      */
     public static function isTypeAllowed(string $types): bool

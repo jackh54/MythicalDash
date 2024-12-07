@@ -40,7 +40,7 @@ const handleSubmit = async () => {
             form.username,
             form.email,
             form.password,
-            form.turnstileResponse
+            form.turnstileResponse,
         );
 
         if (!response.success) {
@@ -97,17 +97,36 @@ const handleSubmit = async () => {
     <Layout>
         <FormCard :title="t('auth.pages.register.page.subTitle')" @submit="handleSubmit">
             <div class="flex space-x-4">
-                <FormInput id="firstName" :label="t('auth.pages.register.page.form.firstName.label')"
-                    v-model="form.firstName" :placeholder="t('auth.pages.register.page.form.firstName.placeholder')"
-                    required />
-                <FormInput id="lastName" :label="t('auth.pages.register.page.form.lastName.label')"
-                    v-model="form.lastName" :placeholder="t('auth.pages.register.page.form.lastName.placeholder')"
-                    required />
+                <FormInput
+                    id="firstName"
+                    :label="t('auth.pages.register.page.form.firstName.label')"
+                    v-model="form.firstName"
+                    :placeholder="t('auth.pages.register.page.form.firstName.placeholder')"
+                    required
+                />
+                <FormInput
+                    id="lastName"
+                    :label="t('auth.pages.register.page.form.lastName.label')"
+                    v-model="form.lastName"
+                    :placeholder="t('auth.pages.register.page.form.lastName.placeholder')"
+                    required
+                />
             </div>
-            <FormInput id="username" :label="t('auth.pages.register.page.form.username.label')" v-model="form.username"
-                :placeholder="t('auth.pages.register.page.form.username.placeholder')" required />
-            <FormInput id="email" :label="t('auth.pages.register.page.form.email.label')" v-model="form.email"
-                :placeholder="t('auth.pages.register.page.form.email.placeholder')" type="email" required />
+            <FormInput
+                id="username"
+                :label="t('auth.pages.register.page.form.username.label')"
+                v-model="form.username"
+                :placeholder="t('auth.pages.register.page.form.username.placeholder')"
+                required
+            />
+            <FormInput
+                id="email"
+                :label="t('auth.pages.register.page.form.email.label')"
+                v-model="form.email"
+                :placeholder="t('auth.pages.register.page.form.email.placeholder')"
+                type="email"
+                required
+            />
 
             <div class="flex items-center justify-between mb-2">
                 <label class="block text-sm text-gray-400">{{
@@ -115,11 +134,18 @@ const handleSubmit = async () => {
                 }}</label>
             </div>
 
-            <FormInput id="password" type="password" v-model="form.password"
-                :placeholder="t('auth.pages.register.page.form.password.placeholder')" required />
-            <button type="submit"
+            <FormInput
+                id="password"
+                type="password"
+                v-model="form.password"
+                :placeholder="t('auth.pages.register.page.form.password.placeholder')"
+                required
+            />
+            <button
+                type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                :disabled="loading">
+                :disabled="loading"
+            >
                 {{
                     loading
                         ? t('auth.pages.register.page.form.register_button.loading')
@@ -127,8 +153,10 @@ const handleSubmit = async () => {
                 }}
             </button>
 
-            <div v-if="Settings.getSetting('turnstile_enabled') == 'true'"
-                style="display: flex; justify-content: center; margin-top: 20px">
+            <div
+                v-if="Settings.getSetting('turnstile_enabled') == 'true'"
+                style="display: flex; justify-content: center; margin-top: 20px"
+            >
                 <Turnstile :site-key="Settings.getSetting('turnstile_key_pub')" v-model="form.turnstileResponse" />
             </div>
 

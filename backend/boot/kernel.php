@@ -41,8 +41,6 @@ try {
     exit;
 }
 
-define('APP_DEBUG', true);
-
 ini_set('expose_php', 'off');
 header_remove('X-Powered-By');
 header_remove('Server');

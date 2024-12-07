@@ -43,7 +43,7 @@ interface CommandBuilder
     /**
      * The subcommands of the command.
      */
-    public static function getSubCommands(int $index): array;
+    public static function getSubCommands(): array;
 
     /**
      * Execute the command.

@@ -51,7 +51,7 @@ class Colors extends App implements CommandBuilder
         return '&c&l&n&oS&6&l&n&ou&e&l&n&op&a&l&n&op&3&l&n&oo&9&l&n&or&5&l&n&ot&c&l&n&oe&6&l&n&od&e&l&n&o &a&l&n&oC&3&l&n&oo&9&l&n&ol&5&l&n&oo&c&l&n&or&6&l&n&os&e&l&n&o &a&l&n&oB&3&l&n&oy&9&l&n&o &5&l&n&oO&c&l&n&ou&6&l&n&or&e&l&n&o &a&l&n&oA&3&l&n&ow&9&l&n&os&5&l&n&oo&c&l&n&om&6&l&n&oe&e&l&n&o &a&l&n&oC&3&l&n&oL&9&l&n&oI';
     }
 
-    public static function getSubCommands(int $index): array
+    public static function getSubCommands(): array
     {
         return [];
     }

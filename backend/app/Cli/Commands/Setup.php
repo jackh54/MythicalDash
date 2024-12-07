@@ -55,7 +55,7 @@ class Setup extends App implements CommandBuilder
         return 'Setup the application!';
     }
 
-    public static function getSubCommands(int $index): array
+    public static function getSubCommands(): array
     {
         return [];
     }

@@ -1,3 +1,4 @@
+---
 #-------------------------------------------------------------#
 #
 # Auth Pages (/auth/*)
@@ -6,182 +7,231 @@
 #
 #-------------------------------------------------------------#
 auth:
-  logic:
-    errors:
-      footer: Please contact support for assistance
-      title: Session Error
-      expired: Your session has expired
-  pages:
-    login:
-      components:
-        form:
-          support_center: Support Center
-      alerts:
-        success:
-          title: Success
-          login_success: You have successfully logged in
-          footer: Welcome back!
-        error:
-          title: Login Error
-          missing_fields: Please fill in all fields
-          invalid_credentials: Invalid credentials
-          generic: An error occurred. Please try again later
-          cloudflare_error: You have been blocked by Cloudflare Turnstile
-          footer: Please contact support for assistance
-          not_verified: Your email is not verified yet
-          banned: Your account was permanently banned
-          deleted: Your account was deleted either by you or an admin
-      page:
-        title: Login
-        subTitle: Login in to your account
-        form:
-          email:
-            label: Email or Username
-            placeholder: Enter your email or username
-          password:
-            label: Password
-            placeholder: Enter your password
-          forgot_password: Forgot password?
-          login_button:
-            label: Login
-            loading: Logging in...
-          register:
-            label: Don't have an account?
-            link: Register
-    register:
-      alerts:
-        success:
-          title: Success
-          register_success: You have successfully registered
-          footer: Thanks for choosing us!
-        error:
-          title: Registration Failed
-          csrf_error: CSRF token mismatch
-          username_exists: Username already exists
-          email_exists: Email already exists
-          generic: An error occurred. Please try again later
-          cloudflare_error: You have been blocked by Cloudflare Turnstile
-          footer: Please contact support for assistance
-      page:
-        title: Register
-        subTitle: Create a new account
-        form:
-          email:
-            label: Email
-            placeholder: Enter your email
-          firstName:
-            label: First Name
-            placeholder: Enter your first name
-          lastName:
-            label: Last Name
-            placeholder: Enter your last name
-          username:
-            label: Username
-            placeholder: Enter your username
-          password:
-            label: Password
-            placeholder: Enter your password
-          confirm_password:
-            label: Confirm Password
-            placeholder: Confirm your password
-          register_button:
-            label: Register
-            loading: Registering...
-          login:
-            label: Already have an account?
-            link: Login
-    forgot_password:
-      alerts:
-        success:
-          title: Success
-          reset_success: Password reset link sent
-          footer: Check your email!
-        error:
-          title: Error
-          missing_fields: Please fill in all fields
-          email_not_found: Email not found
-          generic: An error occurred. Please try again later
-          cloudflare_error: You have been blocked by Cloudflare Turnstile
-          footer: Please contact support for assistance
-      page:
-        title: Forgot Password
-        subTitle: Reset your password
-        form:
-          email:
-            label: Email
-            placeholder: Enter your email
-          reset_button:
-            label: Reset Password
-            loading: Sending reset link...
-          login:
-            label: Remembered your password?
-            link: Login
-    twofactor_setup:
-      alerts: ""
-      page:
-        title: Two Factor Authentication
-        subTitle: Setup Two Factor Authentication
-        form:
-          secret:
-            label: Secret
-            placeholder: Here is your secret key
-          code:
-            label: Code
-            placeholder: Enter the code from your authenticator app
-          setup_button:
-            label: Setup
-            loading: Setting up...
-    reset_password:
-      alerts:
-        success:
-          title: Success
-          reset_success: We have successfully reset your password
-          footer: Check your email!
-        error:
-          title: Error
-          missing_fields: Please fill in all fields
-          passwords_mismatch: Passwords do not match
-          generic: An error occurred. Please try again later
-          cloudflare_error: You have been blocked by Cloudflare Turnstile
-          footer: Please contact support for assistance
-          invalid_code: Invalid reset code
-      page:
-        title: Reset Password
-        subTitle: Reset your password
-        form:
-          password_new:
-            label: New Password
-            placeholder: Enter your new password
-          password_confirm:
-            label: Confirm Password
-            placeholder: Confirm your new password
-          reset_button:
-            label: Reset Password
-            loading: Applying changes...
-          login:
-            label: Remembered your password?
-            link: Login
-#-------------------------------------------------------------# 
+    logic:
+        errors:
+            footer: Please contact support for assistance
+            title: Session Error
+            expired: Your session has expired
+    pages:
+        sso:
+            page:
+                title: Single Sign-On
+                subTitle: Single Sign-On
+                form:
+                    name:
+                        label: Domain name
+                        placeholder: Organization Name
+                        description: This is an Enterprise feature. Please make sure you enter your company name or domain name.
+                    login_button:
+                        label: Login
+                        loading: Redirecting...
+                    normal_login:
+                        label: Not a organization or domain?
+                        link: Login
+        login:
+            components:
+                form:
+                    support_center: Support Center
+            alerts:
+                success:
+                    title: Success
+                    login_success: You have successfully logged in
+                    footer: Welcome back!
+                error:
+                    title: Login Error
+                    missing_fields: Please fill in all fields
+                    invalid_credentials: Invalid credentials
+                    generic: An error occurred. Please try again later
+                    cloudflare_error: You have been blocked by Cloudflare Turnstile
+                    footer: Please contact support for assistance
+                    not_verified: Your email is not verified yet
+                    banned: Your account was permanently banned
+                    deleted: Your account was deleted either by you or an admin
+            page:
+                title: Login
+                subTitle: Login in to your account
+                form:
+                    email:
+                        label: Email or Username
+                        placeholder: Enter your email or username
+                    password:
+                        label: Password
+                        placeholder: Enter your password
+                    forgot_password: Forgot password?
+                    login_button:
+                        label: Login
+                        loading: Logging in...
+                    register:
+                        label: Don't have an account?
+                        link: Register
+        register:
+            alerts:
+                success:
+                    title: Success
+                    register_success: You have successfully registered
+                    footer: Thanks for choosing us!
+                error:
+                    title: Registration Failed
+                    csrf_error: CSRF token mismatch
+                    username_exists: Username already exists
+                    email_exists: Email already exists
+                    generic: An error occurred. Please try again later
+                    cloudflare_error: You have been blocked by Cloudflare Turnstile
+                    footer: Please contact support for assistance
+            page:
+                title: Register
+                subTitle: Create a new account
+                form:
+                    email:
+                        label: Email
+                        placeholder: Enter your email
+                    firstName:
+                        label: First Name
+                        placeholder: Enter your first name
+                    lastName:
+                        label: Last Name
+                        placeholder: Enter your last name
+                    username:
+                        label: Username
+                        placeholder: Enter your username
+                    password:
+                        label: Password
+                        placeholder: Enter your password
+                    confirm_password:
+                        label: Confirm Password
+                        placeholder: Confirm your password
+                    register_button:
+                        label: Register
+                        loading: Registering...
+                    login:
+                        label: Already have an account?
+                        link: Login
+        forgot_password:
+            alerts:
+                success:
+                    title: Success
+                    reset_success: Password reset link sent
+                    footer: Check your email!
+                error:
+                    title: Error
+                    missing_fields: Please fill in all fields
+                    email_not_found: Email not found
+                    generic: An error occurred. Please try again later
+                    cloudflare_error: You have been blocked by Cloudflare Turnstile
+                    footer: Please contact support for assistance
+            page:
+                title: Forgot Password
+                subTitle: Reset your password
+                form:
+                    email:
+                        label: Email
+                        placeholder: Enter your email
+                    reset_button:
+                        label: Reset Password
+                        loading: Sending reset link...
+                    login:
+                        label: Remembered your password?
+                        link: Login
+        twofactor_verify:
+            alerts:
+                success:
+                    title: Success
+                    verify_success: Two Factor Authentication verified
+                    footer: You have successfully verified Two Factor Authentication
+                error:
+                    title: Error
+                    missing_fields: Please fill in all fields
+                    invalid_code: Invalid code
+                    generic: An error occurred. Please try again later
+                    cloudflare_error: You have been blocked by Cloudflare Turnstile
+                    footer: Please contact support for assistance
+            page:
+                title: Two Factor Authentication
+                subTitle: Verify Two Factor Authentication
+                form:
+                    code:
+                        label: Code
+                        placeholder: Enter the code from your authenticator app
+                    verify_button:
+                        label: Verify
+                        loading: Verifying...
+        twofactor_setup:
+            alerts:
+                success:
+                    title: Success
+                    setup_success: Two Factor Authentication setup
+                    footer: You have successfully setup Two Factor Authentication
+                error:
+                    title: Error
+                    missing_fields: Please fill in all fields
+                    invalid_code: Invalid code
+                    generic: An error occurred. Please try again later
+                    cloudflare_error: You have been blocked by Cloudflare Turnstile
+                    footer: Please contact support for assistance
+            page:
+                title: Two Factor Authentication
+                subTitle: Setup Two Factor Authentication
+                form:
+                    secret:
+                        label: Secret
+                        placeholder: Here is your secret key
+                    code:
+                        label: Code
+                        placeholder: Enter the code from your authenticator app
+                    setup_button:
+                        label: Setup
+                        loading: Setting up...
+        reset_password:
+            alerts:
+                success:
+                    title: Success
+                    reset_success: We have successfully reset your password
+                    footer: Check your email!
+                error:
+                    title: Error
+                    missing_fields: Please fill in all fields
+                    passwords_mismatch: Passwords do not match
+                    generic: An error occurred. Please try again later
+                    cloudflare_error: You have been blocked by Cloudflare Turnstile
+                    footer: Please contact support for assistance
+                    invalid_code: Invalid reset code
+            page:
+                title: Reset Password
+                subTitle: Reset your password
+                form:
+                    password_new:
+                        label: New Password
+                        placeholder: Enter your new password
+                    password_confirm:
+                        label: Confirm Password
+                        placeholder: Confirm your new password
+                    reset_button:
+                        label: Reset Password
+                        loading: Applying changes...
+                    login:
+                        label: Remembered your password?
+                        link: Login
+#-------------------------------------------------------------#
 #
-# Global Errors Pages 
+# Global Errors Pages
 #
 # @public
 #
-#-------------------------------------------------------------# 
+#-------------------------------------------------------------#
 errors:
-  forbidden:
-    title: 403 Forbidden
-    message: >-
-      Hold it right there, space traveler! You don't have the necessary
-      clearance to access this area.
-  notfound:
-    title: 404 Not Found
-    message: >-
-      We couldn't find the page you were looking for. It may have been moved or
-      deleted.
-  servererror:
-    title: 500 Server Error
-    message: An error occurred on our end. Please try again later.
+    forbidden:
+        title: 403 Forbidden
+        message: >-
+            Hold it right there, space traveler! You don't have the necessary
+            clearance to access this area.
+    notfound:
+        title: 404 Not Found
+        message: >-
+            We couldn't find the page you were looking for. It may have been moved or
+            deleted.
+    servererror:
+        title: 500 Server Error
+        message: An error occurred on our end. Please try again later.
 #-------------------------------------------------------------#
 #
 # Account Settings (/account/*)
@@ -190,87 +240,87 @@ errors:
 #
 #-------------------------------------------------------------#
 account:
-  pages:
-    settings:
-      alerts:
-        success:
-          title: Success
-          update_success: Account settings updated
-          footer: Your account settings have been updated
-        error:
-          title: Error
-          generic: An error occurred. Please try again later
-          email: Email already exists
-          footer: Please contact support for assistance
-      page:
-        title: Account
-        subTitle: Manage your account settings
-        form:
-          email:
-            label: Email
-          firstName:
-            label: First Name
-          lastName:
-            label: Last Name
-          avatar: 
-            label: Avatar
-          background: 
-            label: Background
-          update_button:
-            label: Save Changes
-            reset: Reset
-        delete:
-          title: "Deactivate Account"
-          subTitle: "Once you deactivate your account, there is no going back. Please be certain."
-          # You can not add more than 3 lines!
-          lines: 
-            - "Once you deactivate your account, there is no going back. Please be certain."
-            - "Once you delete your account, there is a 30 days window for you to contact support to recover your account. After 30 days, your account will be permanently disabled."
-            - "This means that your account will be marked as deleted BUT we reserve the right to keep all the data for legal reasons. You may open a ticket for your data to be anonymized due to GDPR!"
-          button:
-            label: Deactivate Account
-            loading: Deactivating...
-    billing:
-      alerts:
-        success:
-          title: Success
-          update_success: Billing information updated
-          footer: Your billing information has been updated
-        error:
-          title: Error
-          generic: An error occurred. Please try again later
-          footer: Please contact support for assistance
-      page:
-        title: Billing
-        subTitle: Manage your billing information
-        form:
-          company_name:
-            label: Company Name
-          vat_id:
-            label: VAT ID
-          address:
-            label: Address
-          city:
-            label: City
-          state:
-            label: State
-          zip:
-            label: Zip
-          country:
-            label: Country
-          address2:
-            label: Address 2
-          update_button:
-            label: Update
-            reset: Reset
+    pages:
+        settings:
+            alerts:
+                success:
+                    title: Success
+                    update_success: Account settings updated
+                    footer: Your account settings have been updated
+                error:
+                    title: Error
+                    generic: An error occurred. Please try again later
+                    email: Email already exists
+                    footer: Please contact support for assistance
+            page:
+                title: Account
+                subTitle: Manage your account settings
+                form:
+                    email:
+                        label: Email
+                    firstName:
+                        label: First Name
+                    lastName:
+                        label: Last Name
+                    avatar:
+                        label: Avatar
+                    background:
+                        label: Background
+                    update_button:
+                        label: Save Changes
+                        reset: Reset
+                delete:
+                    title: 'Deactivate Account'
+                    subTitle: 'Once you deactivate your account, there is no going back. Please be certain.'
+                    # You can not add more than 3 lines!
+                    lines:
+                        - 'Once you deactivate your account, there is no going back. Please be certain.'
+                        - 'Once you delete your account, there is a 30 days window for you to contact support to recover your account. After 30 days, your account will be permanently disabled.'
+                        - 'This means that your account will be marked as deleted BUT we reserve the right to keep all the data for legal reasons. You may open a ticket for your data to be anonymized due to GDPR!'
+                    button:
+                        label: Deactivate Account
+                        loading: Deactivating...
+        billing:
+            alerts:
+                success:
+                    title: Success
+                    update_success: Billing information updated
+                    footer: Your billing information has been updated
+                error:
+                    title: Error
+                    generic: An error occurred. Please try again later
+                    footer: Please contact support for assistance
+            page:
+                title: Billing
+                subTitle: Manage your billing information
+                form:
+                    company_name:
+                        label: Company Name
+                    vat_id:
+                        label: VAT ID
+                    address:
+                        label: Address
+                    city:
+                        label: City
+                    state:
+                        label: State
+                    zip:
+                        label: Zip
+                    country:
+                        label: Country
+                    address2:
+                        label: Address 2
+                    update_button:
+                        label: Update
+                        reset: Reset
 components:
-  sidebar:
-    dashboard: Dashboard
-    tickets: Tickets
-    eula: EULA
-    announcements: Announcements
-    addons: Addons
-    logs: Logs
-    settings: Settings
-    users: Users
-    apikeys: API Keys
+    sidebar:
+        dashboard: Dashboard
+        tickets: Tickets
+        eula: EULA
+        announcements: Announcements
+        addons: Addons
+        logs: Logs
+        settings: Settings
+        users: Users
+        apikeys: API Keys

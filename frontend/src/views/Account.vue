@@ -26,7 +26,6 @@
         <ActivitiesTab v-if="activeTab === 'Activities'" />
         <ApiKeysTab v-if="activeTab === 'API Keys'" />
         <BillingTab v-if="activeTab === 'Billing'" />
-
     </LayoutDashboard>
 </template>
 

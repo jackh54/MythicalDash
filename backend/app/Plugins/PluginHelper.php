@@ -67,15 +67,18 @@ class PluginHelper extends PluginTypes
     {
         $app = \MythicalClient\App::getInstance(true);
         try {
-            $app->getLogger()->debug('Getting plugin config for: '. $identifier .'');
+            $app->getLogger()->debug('Getting plugin config for: ' . $identifier . '');
             if (file_exists(self::getPluginsDir() . '/' . $identifier . '/conf.yml')) {
-                $app->getLogger()->debug('Got plugin config for: '. $identifier .'');
+                $app->getLogger()->debug('Got plugin config for: ' . $identifier . '');
+
                 return Yaml::parseFile(self::getPluginsDir() . '/' . $identifier . '/conf.yml');
             }
-            $app->getLogger()->debug('Failed to get plugin config for: '. $identifier .'');
+            $app->getLogger()->debug('Failed to get plugin config for: ' . $identifier . '');
+
             return [];
         } catch (\Exception) {
-            $app->getLogger()->warning('Failed to get plugin config for: '. self::getPluginConfig($identifier) .'');
+            $app->getLogger()->warning('Failed to get plugin config for: ' . self::getPluginConfig($identifier) . '');
+
             return [];
         }
     }

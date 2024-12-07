@@ -12,6 +12,7 @@ import DashboardAccount from '@/views/Account.vue';
 import TicketDashboard from '@/views/ticket/List.vue';
 import TicketDetail from '@/views/ticket/[id].vue';
 import TwoFactorSetup from '@/views/auth/TwoFactorSetup.vue';
+import TwoFactorVerify from '@/views/auth/TwoFactorVerify.vue';
 
 import AdminSettings from '@/views/admin/Settings.vue';
 import AdminUsers from '@/views/admin/Users.vue';
@@ -25,6 +26,8 @@ import AdminApikeys from '@/views/admin/Apikeys.vue';
 import AdminLogs from '@/views/admin/Logs.vue';
 import AdminLanguages from '@/views/admin/Languages.vue';
 import AdminRoles from '@/views/admin/Roles.vue';
+
+import SSO from '@/views/auth/sso.vue';
 
 const routes = [
     {
@@ -48,7 +51,7 @@ const routes = [
         component: ResetPassword,
     },
     {
-        path: '/auth/two-factor-setup',
+        path: '/auth/2fa/setup',
         name: 'Two Factor Setup',
         component: TwoFactorSetup,
     },
@@ -141,6 +144,30 @@ const routes = [
         path: '/admin/roles',
         name: 'Roles',
         component: AdminRoles,
+    },
+    {
+        path: '/auth/sso',
+        name: 'SSO',
+        component: SSO,
+    },
+    {
+        path: '/auth/2fa/setup/disband',
+        redirect: () => {
+            window.location.href = '/api/auth/2fa/setup/kill';
+            return '/api/auth/2fa/setup/kill';
+        },
+    },
+    {
+        path: '/auth/logout',
+        redirect: () => {
+            window.location.href = '/api/user/auth/logout';
+            return '/api/user/auth/logout';
+        },
+    },
+    {
+        path: '/auth/2fa/verify',
+        name: 'Two Factor Verify',
+        component: TwoFactorVerify,
     },
 ];
 

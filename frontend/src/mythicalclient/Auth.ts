@@ -1,17 +1,26 @@
 /* ---------------------------
  * Author: NaysKutzu Date: 2024-11-29
- * 
- * Changes: 
+ *
+ * Changes:
  * - Initial commit
  * - Added support for billing update
- * 
+ *
  * ---------------------------*/
 /* ---------------------------
  * Author: NaysKutzu Date: 2024-12-01
- * 
- * Changes: 
+ *
+ * Changes:
  * - Added support for changing the user info!
- * 
+ *
+ * ---------------------------*/
+
+/* ---------------------------
+ * Author: NaysKutzu Date: 2024-12-07
+ *
+ * Changes:
+ * - Add support for 2fa!
+ *
+ *
  * ---------------------------*/
 class Auth {
     /**
@@ -118,7 +127,7 @@ class Auth {
      * @param login The users email or username
      * @param password The users password
      * @param turnstileResponse The turnstile response
-     * 
+     *
      * @returns
      */
     static async login(login: string, password: string, turnstileResponse: string) {
@@ -136,7 +145,7 @@ class Auth {
 
     /**
      * Update the users billing information
-     * 
+     *
      * @param company_name The company name
      * @param vat_number The vat number
      * @param address1 The address line 1
@@ -145,8 +154,8 @@ class Auth {
      * @param country The country
      * @param state The state
      * @param postcode The postcode
-     * 
-     * @returns 
+     *
+     * @returns
      */
     static async updateBilling(
         company_name: string,
@@ -156,7 +165,7 @@ class Auth {
         city: string,
         country: string,
         state: string,
-        postcode: string
+        postcode: string,
     ) {
         const response = await fetch('/api/user/session/billing/update', {
             method: 'POST',
@@ -177,14 +186,14 @@ class Auth {
 
     /**
      * Update the users info
-     * 
-     * @param first_name The first name 
+     *
+     * @param first_name The first name
      * @param last_name The last name
      * @param email The email
      * @param avatar The avatar
      * @param background  The background
-     * 
-     * @returns  
+     *
+     * @returns
      */
     static async updateUserInfo(
         first_name: string,
@@ -201,6 +210,37 @@ class Auth {
                 email: email,
                 avatar: avatar,
                 background: background,
+            }),
+        });
+        const data = await response.json();
+        return data;
+    }
+    /**
+     * Setup 2fa
+     *
+     * @returns
+     */
+    static async getTwoFactorSecret() {
+        const response = await fetch('/api/user/auth/2fa/setup', {
+            method: 'GET',
+        });
+        const data = await response.json();
+        return data;
+    }
+
+    /**
+     * Verify 2fa
+     *
+     * @param code The code
+     *
+     * @returns
+     */
+    static async verifyTwoFactor(code: string, turnstileResponse: string) {
+        const response = await fetch('/api/user/auth/2fa/setup', {
+            method: 'POST',
+            body: new URLSearchParams({
+                code: code,
+                turnstileResponse: turnstileResponse,
             }),
         });
         const data = await response.json();

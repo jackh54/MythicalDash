@@ -45,7 +45,7 @@ const init = async () => {
     if (resetCode) {
         await checkResetCode(resetCode);
     } else {
-        alert("Missing reset code");
+        alert('Missing reset code');
     }
 };
 
@@ -57,8 +57,13 @@ const handleSubmit = async () => {
     const resetCode = urlParams.get('token');
     loading.value = true;
 
-    const response = await Auth.resetPassword(form.confirmPassword, form.password,resetCode || "", form.turnstileResponse);
-    
+    const response = await Auth.resetPassword(
+        form.confirmPassword,
+        form.password,
+        resetCode || '',
+        form.turnstileResponse,
+    );
+
     try {
         if (!response.success) {
             const error_code = response.error_code as keyof typeof errorMessages;
@@ -106,16 +111,28 @@ const handleSubmit = async () => {
 <template>
     <Layout>
         <FormCard :title="t('auth.pages.reset_password.page.subTitle')" @submit="handleSubmit">
-            <FormInput id="password" :label="$t('auth.pages.reset_password.page.form.password_new.label')"
-                v-model="form.password" type="password"
-                :placeholder="t('auth.pages.reset_password.page.form.password_new.placeholder')" required />
-            <FormInput id="confirmPassword" :label="$t('auth.pages.reset_password.page.form.password_confirm.label')"
-                v-model="form.confirmPassword" type="password"
-                :placeholder="t('auth.pages.reset_password.page.form.password_confirm.placeholder')" required />
+            <FormInput
+                id="password"
+                :label="$t('auth.pages.reset_password.page.form.password_new.label')"
+                v-model="form.password"
+                type="password"
+                :placeholder="t('auth.pages.reset_password.page.form.password_new.placeholder')"
+                required
+            />
+            <FormInput
+                id="confirmPassword"
+                :label="$t('auth.pages.reset_password.page.form.password_confirm.label')"
+                v-model="form.confirmPassword"
+                type="password"
+                :placeholder="t('auth.pages.reset_password.page.form.password_confirm.placeholder')"
+                required
+            />
 
-            <button type="submit"
+            <button
+                type="submit"
                 class="w-full mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
-                :disabled="loading">
+                :disabled="loading"
+            >
                 {{
                     loading
                         ? t('auth.pages.reset_password.page.form.reset_button.loading')
@@ -123,8 +140,10 @@ const handleSubmit = async () => {
                 }}
             </button>
 
-            <div v-if="Settings.getSetting('turnstile_enabled') == 'true'"
-                style="display: flex; justify-content: center; margin-top: 20px">
+            <div
+                v-if="Settings.getSetting('turnstile_enabled') == 'true'"
+                style="display: flex; justify-content: center; margin-top: 20px"
+            >
                 <Turnstile :site-key="Settings.getSetting('turnstile_key_pub')" v-model="form.turnstileResponse" />
             </div>
 

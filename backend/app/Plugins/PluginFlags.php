@@ -62,13 +62,16 @@ class PluginFlags
             foreach ($flagList as $flag) {
                 if (in_array($flag, $flags)) {
                     $app->getLogger()->debug('Valid flag: ' . $flag);
+
                     return true;
                 }
             }
             $app->getLogger()->debug('Invalid flags: ' . implode(', ', $flags));
+
             return false;
         } catch (\Exception $e) {
             $app->getLogger()->error('Failed to validate flags: ' . $e->getMessage());
+
             return false;
         }
     }

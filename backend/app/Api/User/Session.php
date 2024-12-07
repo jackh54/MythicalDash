@@ -147,9 +147,7 @@ $router->get('/api/user/session', function (): void {
     $appInstance->allowOnlyGET();
 
     $session = new Session($appInstance);
-    if (isset($_GET['ip']) && $_GET['ip'] != '') {
-        $session->setInfo(UserColumns::LAST_IP, $_GET['ip'], false);
-    }
+
     $accountToken = $session->SESSION_KEY;
     try {
         $billing = Billing::getBillingData(User::getInfo($accountToken, UserColumns::UUID, false));

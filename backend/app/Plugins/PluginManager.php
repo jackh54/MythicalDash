@@ -36,6 +36,7 @@ use MythicalClient\App;
 class PluginManager
 {
     private static $plugins = [];
+
     public static function loadKernel(): void
     {
         try {
@@ -54,7 +55,7 @@ class PluginManager
                                     $instance->getLogger()->debug('Plugin ' . $plugin . 'was loaded in the memory!');
                                     self::$plugins[] = $plugin;
                                 } else {
-                                    $instance->getLogger()->error('Duplicated plugin identifier: '. $plugin .'');
+                                    $instance->getLogger()->error('Duplicated plugin identifier: ' . $plugin . '');
                                 }
                             } else {
                                 $instance->getLogger()->warning('Invalid config for plugin: ' . $plugin);
@@ -72,7 +73,7 @@ class PluginManager
 
     /**
      * Get the loaded memory plugins.
-     * 
+     *
      * @return array The loaded memory plugins
      */
     public static function getLoadedMemoryPlugins(): array
@@ -82,6 +83,7 @@ class PluginManager
             return self::$plugins;
         } catch (\Exception $e) {
             $instance->getLogger()->error('Failed to get plugin names: ' . $e->getMessage());
+
             return [];
         }
     }

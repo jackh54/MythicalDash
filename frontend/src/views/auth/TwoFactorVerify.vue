@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 import Turnstile from 'vue-turnstile';
 import Settings from '@/mythicalclient/Settings';
 import { useRouter } from 'vue-router';
-import VueQrcode from 'vue-qrcode';
 import Session from '@/mythicalclient/Session';
 import StorageMonitor from '@/mythicalclient/StorageMonitor';
 import Auth from '@/mythicalclient/Auth';
@@ -23,57 +22,25 @@ const { play: playSuccess } = useSound(successAlertSfx);
 const router = useRouter();
 const { t } = useI18n();
 
-if (!Session.isSessionValid()) {
-    router.push('/auth/login');
-}
-
-try {
-    Session.startSession();
-} catch (error) {
-    console.error('Session failed:', error);
-}
-
-if (Session.getInfo('2fa_enabled') == 'true') {
+if (Session.getInfo('2fa_enabled') == 'true' && Session.getInfo('2fa_blocked') == 'true') {
     router.push('/');
 }
 
 const loading = ref(false);
 const form = reactive({
-    secret: '',
     code: '',
     turnstileResponse: '',
 });
 
-document.title = t('auth.pages.twofactor_setup.page.title');
-
-function onDataUrlChange(dataUrl: string) {
-    console.log(dataUrl);
-}
-
-const fetchSecret = async () => {
-    try {
-        loading.value = true;
-        const data = await Auth.getTwoFactorSecret();
-        if (data.success) {
-            form.secret = data.secret;
-        } else {
-            router.push('/');
-        }
-    } catch (error) {
-        console.error('Error fetching secret:', error);
-        router.push('/');
-    } finally {
-        loading.value = false;
-    }
-};
+document.title = t('auth.pages.twofactor_verify.page.title');
 
 const handleSubmit = async () => {
     if (!form.code) {
         playError();
         Swal.fire({
             icon: 'error',
-            title: t('auth.pages.twofactor_setup.alerts.missing_fields.title'),
-            text: t('auth.pages.twofactor_setup.alerts.missing_fields.text'),
+            title: t('auth.pages.twofactor_verify.alerts.missing_fields.title'),
+            text: t('auth.pages.twofactor_verify.alerts.missing_fields.text'),
         });
         return;
     }
@@ -85,8 +52,8 @@ const handleSubmit = async () => {
             playSuccess();
             Swal.fire({
                 icon: 'success',
-                title: t('auth.pages.twofactor_setup.alerts.success.title'),
-                text: t('auth.pages.twofactor_setup.alerts.success.setup_success'),
+                title: t('auth.pages.twofactor_verify.alerts.success.title'),
+                text: t('auth.pages.twofactor_verify.alerts.success.verify_success'),
             }).then(() => {
                 router.push('/');
             });
@@ -94,8 +61,8 @@ const handleSubmit = async () => {
             playError();
             Swal.fire({
                 icon: 'error',
-                title: t('auth.pages.twofactor_setup.alerts.error.title'),
-                text: t('auth.pages.twofactor_setup.alerts.error.invalid_code'),
+                title: t('auth.pages.twofactor_verify.alerts.error.title'),
+                text: t('auth.pages.twofactor_verify.alerts.error.invalid_code'),
             });
         }
     } catch (error) {
@@ -103,42 +70,24 @@ const handleSubmit = async () => {
         console.error('Error verifying code:', error);
         Swal.fire({
             icon: 'error',
-            title: t('auth.pages.twofactor_setup.alerts.error.title'),
-            text: t('auth.pages.twofactor_setup.alerts.error.generic'),
+            title: t('auth.pages.twofactor_verify.alerts.error.title'),
+            text: t('auth.pages.twofactor_verify.alerts.error.generic'),
         });
     } finally {
         loading.value = false;
     }
 };
-
-fetchSecret();
 </script>
 
 <template>
     <Layout>
-        <FormCard :title="t('auth.pages.twofactor_setup.page.subTitle')" @submit="handleSubmit">
-            <div style="display: flex; justify-content: center; margin-bottom: 20px">
-                <vue-qrcode
-                    :value="`otpauth://totp/NaysKutzu?secret=${form.secret}&issuer=${Settings.getSetting('app_name')}`"
-                    type="image/png"
-                    :color="{ dark: '#000000', light: '#ffffff' }"
-                    @change="onDataUrlChange"
-                />
-            </div>
-            <FormInput
-                id="secret"
-                :label="$t('auth.pages.twofactor_setup.page.form.secret.label')"
-                v-model="form.secret"
-                type="text"
-                :placeholder="t('auth.pages.twofactor_setup.page.form.secret.placeholder')"
-                locked
-            />
+        <FormCard :title="t('auth.pages.twofactor_verify.page.subTitle')" @submit="handleSubmit">
             <FormInput
                 id="code"
-                :label="$t('auth.pages.twofactor_setup.page.form.code.label')"
+                :label="$t('auth.pages.twofactor_verify.page.form.code.label')"
                 v-model="form.code"
                 type="number"
-                :placeholder="t('auth.pages.twofactor_setup.page.form.code.placeholder')"
+                :placeholder="t('auth.pages.twofactor_verify.page.form.code.placeholder')"
                 required
                 :maxChar="6"
             />
@@ -150,8 +99,8 @@ fetchSecret();
             >
                 {{
                     loading
-                        ? t('auth.pages.twofactor_setup.page.form.setup_button.loading')
-                        : t('auth.pages.twofactor_setup.page.form.setup_button.label')
+                        ? t('auth.pages.twofactor_verify.page.form.verify_button.loading')
+                        : t('auth.pages.twofactor_verify.page.form.verify_button.label')
                 }}
             </button>
 

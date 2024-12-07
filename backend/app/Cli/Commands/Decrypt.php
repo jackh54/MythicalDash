@@ -29,33 +29,27 @@
  * SOFTWARE.
  */
 
-use MythicalClient\App;
+namespace MythicalClient\Cli\Commands;
 
-/**
- * Define the environment path.
- */
-define('APP_START', microtime(true));
-define('APP_PUBLIC', $_SERVER['DOCUMENT_ROOT']);
-define('APP_DIR', APP_PUBLIC . '/../');
-define('APP_STORAGE_DIR', APP_DIR . 'storage/');
-define('APP_CACHE_DIR', APP_STORAGE_DIR . 'cache');
-define('APP_CRON_DIR', APP_STORAGE_DIR . 'cron');
-define('APP_LOGS_DIR', APP_STORAGE_DIR . 'logs');
-define('APP_ADDONS_DIR', APP_STORAGE_DIR . 'addons');
-define('APP_SOURCECODE_DIR', APP_DIR . 'app');
-define('APP_ROUTES_DIR', APP_SOURCECODE_DIR . '/Api');
-define('APP_DEBUG', true);
-/**
- * Require the kernel.
- */
-require_once APP_DIR . '/boot/kernel.php';
+use MythicalClient\Cli\App;
+use MythicalClient\Cli\CommandBuilder;
 
-/**
- * Start the APP.
- */
-try {
-    new App(false);
-} catch (Exception $e) {
-    echo $e->getMessage();
-    exit;
+class Decrypt extends App implements CommandBuilder
+{
+    public static function execute(array $args): void
+    {
+        $app = App::getInstance();
+        $string = readline('Enter the encrypted string: ');
+        $app->sendOutputWithNewLine('String: ' . \MythicalClient\App::getInstance(true)->decrypt($string) . '');
+    }
+
+    public static function getDescription(): string
+    {
+        return 'Decrypt a MythicalClient encrypted string';
+    }
+
+    public static function getSubCommands(): array
+    {
+        return [];
+    }
 }

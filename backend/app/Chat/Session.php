@@ -51,6 +51,9 @@ class Session extends Database
                     $this->app = $app;
                     $this->SESSION_KEY = $_COOKIE['user_token'];
                     $this->updateLastSeen();
+                    if ($this->getInfo(UserColumns::TWO_FA_BLOCKED, false) == 'true') {
+                        $app->Unauthorized('Please verify 2fa to access this endpoint.', ['error_code' => 'TW0_FA_BLOCKED']);
+                    }
                 } catch (\Exception) {
                     $app->Unauthorized('Bad Request', ['error_code' => 'INVALID_ACCOUNT_TOKEN']);
                 }

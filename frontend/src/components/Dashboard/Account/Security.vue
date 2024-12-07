@@ -2,19 +2,22 @@
 import { ref } from 'vue';
 import LayoutAccount from './Layout.vue';
 import CardComponent from '@/components/ui/Card/CardComponent.vue';
+import { useRouter } from 'vue-router';
+import Session from '@/mythicalclient/Session';
+const router = useRouter();
 
-const is2FAEnabled = ref(false);
+const is2FAEnabled = Session.getInfo('2fa_enabled') === 'true' ? ref(true) : ref(false);
 
 const enable2FA = () => {
     // Add logic to enable 2FA
     is2FAEnabled.value = true;
-    alert('2FA enabled successfully');
+    router.push('/auth/2fa/setup');
 };
 
 const disable2FA = () => {
     // Add logic to disable 2FA
     is2FAEnabled.value = false;
-    alert('2FA disabled successfully');
+    router.push('/auth/2fa/setup/disband');
 };
 </script>
 
@@ -39,12 +42,12 @@ const disable2FA = () => {
 
     <!-- Change Password -->
     <CardComponent cardTitle="Change your Password" cardDescription="You want to change the password of your account?">
-        <button
-            type="submit"
+        <router-link
+            to="/auth/forgot-password"
             class="px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded text-sm font-medium transition-colors"
         >
             Change Password
-        </button>
+        </router-link>
     </CardComponent>
     <br />
     <!-- Two-Factor Authentication (2FA) -->

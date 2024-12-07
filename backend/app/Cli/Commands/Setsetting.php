@@ -72,7 +72,7 @@ class Setsetting extends App implements CommandBuilder
         return 'Update a setting!';
     }
 
-    public static function getSubCommands(int $index): array
+    public static function getSubCommands(): array
     {
         return [];
     }

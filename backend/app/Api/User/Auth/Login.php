@@ -96,6 +96,9 @@ $router->add('/api/user/auth/login', function (): void {
             $appInstance->BadRequest('Account is deleted', ['error_code' => 'ACCOUNT_DELETED']);
         }
 
+        if (User::getInfo($login, UserColumns::TWO_FA_ENABLED, false) == 'true') {
+            User::updateInfo($login, UserColumns::TWO_FA_BLOCKED, 'true', false);
+        }
         $appInstance->OK('Successfully logged in', []);
     }
 });

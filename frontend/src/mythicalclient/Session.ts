@@ -40,18 +40,21 @@ class Session {
                 } else {
                     if (Session.isSessionValid()) {
                         Settings.initializeSettings();
-                        Swal.fire({
-                            title: t('auth.logic.errors.title'),
-                            text: t('auth.logic.errors.expired'),
-                            footer: t('auth.logic.errors.footer'),
-                            icon: 'error',
-                            confirmButtonText: 'OK',
-                        });
-                        router.push('/auth/login');
+                        if (data.error_code == 'TW0_FA_BLOCKED') {
+                            router.push('/auth/2fa/verify');
+                        } else {
+                            Swal.fire({
+                                title: t('auth.logic.errors.title'),
+                                text: t('auth.logic.errors.expired'),
+                                footer: t('auth.logic.errors.footer'),
+                                icon: 'error',
+                                confirmButtonText: 'OK',
+                            });
+                            router.push('/auth/login');
+                        }
                     } else {
                         console.warn('Session is not valid');
                     }
-
                 }
             } catch (error) {
                 console.error('Error fetching session:', error);
@@ -65,7 +68,6 @@ class Session {
         // Update session info every 1 minute
         setInterval(updateSessionInfo, 60000);
     }
-
 }
 
 export default Session;

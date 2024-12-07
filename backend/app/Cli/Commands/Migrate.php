@@ -135,7 +135,7 @@ class Migrate extends App implements CommandBuilder
         return 'Migrate the database to the latest version';
     }
 
-    public static function getSubCommands(int $index): array
+    public static function getSubCommands(): array
     {
         return [];
     }

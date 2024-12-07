@@ -68,12 +68,14 @@ class PluginConfig
             return false;
         }
         if (preg_match('/^[a-zA-Z0-9_]+$/', $identifier) === 1) {
-            App::getInstance(true)->getLogger()->debug('Plugin id is allowed: '. $identifier);
+            App::getInstance(true)->getLogger()->debug('Plugin id is allowed: ' . $identifier);
+
             return true;
-        } else {
-            App::getInstance(true)->getLogger()->warning('Plugin id is not allowed: '. $identifier);
-            return false;
         }
+        App::getInstance(true)->getLogger()->warning('Plugin id is not allowed: ' . $identifier);
+
+        return false;
+
     }
 
     /**
@@ -94,6 +96,7 @@ class PluginConfig
 
             if (!array_key_exists('identifier', $config)) {
                 $app->getLogger()->warning('Missing identifier for plugin.');
+
                 return false;
             }
 
@@ -119,20 +122,36 @@ class PluginConfig
 
             if (self::isValidIdentifier($config['identifier']) == false) {
                 $app->getLogger()->warning('Invalid identifier for plugin.');
+
                 return false;
-            }   
+            }
 
             if (PluginTypes::isTypeAllowed($config['type']) == false) {
                 $app->getLogger()->warning('Invalid type for plugin: ' . $config['identifier']);
+
                 return false;
-            }  
+            }
 
             $app->getLogger()->debug('Done processing: ' . $config['name']);
+
             return true;
 
         } catch (\Exception $e) {
             $app->getLogger()->error('Error processing plugin config: ' . $e->getMessage());
+
             return false;
         }
+    }
+
+    /**
+     * Get the plugin config.
+     *
+     * @param string $identifier The plugin identifier
+     *
+     * @return array The plugin config
+     */
+    public static function getConfig(string $identifier): array
+    {
+        return PluginHelper::getPluginConfig($identifier);
     }
 }

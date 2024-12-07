@@ -58,7 +58,7 @@ class Down extends App implements CommandBuilder
         return 'Put the server from maintenance mode';
     }
 
-    public static function getSubCommands(int $index): array
+    public static function getSubCommands(): array
     {
         return [];
     }

@@ -97,7 +97,7 @@ class App extends \MythicalSystems\Api\Api
          */
         Plugins\PluginManager::loadKernel();
         define('LOGGER', $this->getLogger());
-        
+
         $router = new rt();
         $this->registerApiRoutes($router);
 

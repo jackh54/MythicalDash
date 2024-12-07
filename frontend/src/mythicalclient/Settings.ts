@@ -53,9 +53,8 @@ class Settings {
             document.body.removeChild(loadingElement);
         } else {
             const item = localStorage.getItem(key);
-            return item ? JSON.parse(item) : "Fetching settings...";
+            return item ? JSON.parse(item) : 'Fetching settings...';
         }
-
     }
 }
 

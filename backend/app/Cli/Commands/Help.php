@@ -62,8 +62,15 @@ class Help extends App implements CommandBuilder
 
             $description = $commandClass::getDescription();
             $command = lcfirst($command);
-
+            $subCommands = $commandClass::getSubCommands();
             $cmdInstance->send("&b{$command} &8> &7{$description}");
+
+            if (!empty($subCommands)) {
+                foreach ($subCommands as $subCommand => $description) {
+                    $cmdInstance->send("    &8> &b{$command} {$subCommand} &8- &7{$description}");
+                }
+            }
+
         }
         $cmdInstance->send('');
         $cmdInstance->send($cmdInstance->bars);
@@ -74,7 +81,7 @@ class Help extends App implements CommandBuilder
         return 'Get help for all commands';
     }
 
-    public static function getSubCommands(int $index): array
+    public static function getSubCommands(): array
     {
         return [];
     }

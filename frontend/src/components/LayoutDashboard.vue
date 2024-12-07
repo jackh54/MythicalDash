@@ -4,15 +4,24 @@
             <div class="text-center">
                 <div class="w-16 h-16 mb-4 mx-auto">
                     <svg class="animate-spin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                        </circle>
-                        <path class="opacity-75" fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                        </path>
+                        <circle
+                            class="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            stroke-width="4"
+                        ></circle>
+                        <path
+                            class="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                     </svg>
                 </div>
                 <div
-                    class="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+                    class="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent"
+                >
                     Loading...
                 </div>
             </div>
@@ -20,12 +29,16 @@
 
         <!-- Mobile Sidebar Overlay -->
         <template v-if="!loading">
-            <div v-if="isSidebarOpen" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
-                @click="closeSidebar"></div>
+            <div
+                v-if="isSidebarOpen"
+                class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+                @click="closeSidebar"
+            ></div>
 
             <!-- Top Navigation Bar -->
             <nav
-                class="fixed top-0 left-0 right-0 h-16 bg-gray-900/50 backdrop-blur-sm border-b border-gray-700/50 z-30">
+                class="fixed top-0 left-0 right-0 h-16 bg-gray-900/50 backdrop-blur-sm border-b border-gray-700/50 z-30"
+            >
                 <div class="h-full px-4 flex items-center justify-between">
                     <!-- Left: Logo & Menu Button -->
                     <div class="flex items-center gap-3">
@@ -39,16 +52,21 @@
                                 <img :src="Settings.getSetting('app_logo')" alt="MythicalClient" class="h-6 w-6" />
                             </div>
                             <span
-                                class="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
+                                class="text-xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent"
+                            >
                                 {{ Settings.getSetting('app_name') }}
                             </span>
                             <!-- Search Bar (Desktop) -->
                             <div class="hidden lg:block absolute left-1/2 transform -translate-x-1/2">
                                 <div class="relative">
                                     <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                                    <input type="text" placeholder="Search (Ctrl + /)"
+                                    <input
+                                        type="text"
+                                        placeholder="Search (Ctrl + /)"
                                         class="px-10 py-2 w-64 bg-gray-800/50 border border-gray-700/50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                                        @click="toggleSearch" readonly />
+                                        @click="toggleSearch"
+                                        readonly
+                                    />
                                 </div>
                             </div>
                             <!-- Search Icon (Mobile) -->
@@ -75,7 +93,8 @@
             <!-- Sidebar -->
             <aside
                 class="fixed top-0 left-0 h-full w-64 bg-gray-900/50 backdrop-blur-sm border-r border-gray-700/50 transform transition-transform duration-200 ease-in-out z-50 lg:translate-x-0 lg:z-20"
-                :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+                :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            >
                 <!-- Sidebar Content -->
                 <div class="flex flex-col h-full pt-16">
                     <div class="flex-1 overflow-y-auto">
@@ -85,9 +104,13 @@
                                     {{ section.title }}
                                 </div>
                                 <div class="space-y-1">
-                                    <RouterLink v-for="item in section.items" :key="item.name" :to="item.href"
+                                    <RouterLink
+                                        v-for="item in section.items"
+                                        :key="item.name"
+                                        :to="item.href"
                                         class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-gray-800/50 transition-colors"
-                                        :class="{ 'bg-purple-500/10 text-purple-400': item.active }">
+                                        :class="{ 'bg-purple-500/10 text-purple-400': item.active }"
+                                    >
                                         <component :is="item.icon" class="w-5 h-5" />
                                         {{ item.name }}
                                     </RouterLink>
@@ -110,23 +133,33 @@
                 <div class="max-w-3xl mx-auto pt-32 px-4" @click.stop>
                     <div class="relative">
                         <SearchIcon class="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
-                        <input type="text" placeholder="Search (Ctrl+/)"
+                        <input
+                            type="text"
+                            placeholder="Search (Ctrl+/)"
                             class="w-full bg-gray-800/50 border border-gray-700/50 rounded-lg pl-11 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                            @keydown.esc="closeSearch" ref="searchInput" />
+                            @keydown.esc="closeSearch"
+                            ref="searchInput"
+                        />
                     </div>
                 </div>
             </div>
 
             <!-- Notifications Dropdown -->
-            <div v-if="isNotificationsOpen"
-                class="absolute top-16 right-4 w-80 bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl z-50 dropdown">
+            <div
+                v-if="isNotificationsOpen"
+                class="absolute top-16 right-4 w-80 bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl z-50 dropdown"
+            >
                 <div class="p-4">
                     <h3 class="font-semibold mb-4 text-purple-400">Notifications</h3>
                     <div class="space-y-4">
-                        <div v-for="notification in notifications" :key="notification.id"
-                            class="flex items-start gap-3 p-2 hover:bg-gray-800/50 rounded-lg transition-colors">
+                        <div
+                            v-for="notification in notifications"
+                            :key="notification.id"
+                            class="flex items-start gap-3 p-2 hover:bg-gray-800/50 rounded-lg transition-colors"
+                        >
                             <div
-                                class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0"
+                            >
                                 <component :is="notification.icon" class="h-4 w-4 text-purple-400" />
                             </div>
                             <div>
@@ -139,8 +172,10 @@
             </div>
 
             <!-- Profile Dropdown -->
-            <div v-if="isProfileOpen"
-                class="absolute top-16 right-4 w-64 bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl z-50 dropdown">
+            <div
+                v-if="isProfileOpen"
+                class="absolute top-16 right-4 w-64 bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-lg shadow-xl z-50 dropdown"
+            >
                 <div class="p-4">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="h-10 w-10 rounded-full bg-purple-500/20 flex items-center justify-center">
@@ -154,8 +189,12 @@
                         </div>
                     </div>
                     <div class="space-y-1">
-                        <RouterLink :to="item.href" v-for="item in profileMenu" :key="item.name"
-                            class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors flex items-center gap-3">
+                        <RouterLink
+                            :to="item.href"
+                            v-for="item in profileMenu"
+                            :key="item.name"
+                            class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-800/50 transition-colors flex items-center gap-3"
+                        >
                             <component :is="item.icon" class="h-5 w-5 text-purple-400" />
                             {{ item.name }}
                         </RouterLink>
@@ -166,7 +205,8 @@
             <br />
             <!-- Footer -->
             <footer
-                class="fixed bottom-0 left-0 right-0 bg-gray-900/50 backdrop-blur-sm border-t border-gray-700/50 py-4 z-50">
+                class="fixed bottom-0 left-0 right-0 bg-gray-900/50 backdrop-blur-sm border-t border-gray-700/50 py-4 z-50"
+            >
                 <div class="flex justify-between items-center text-gray-400 text-sm px-6">
                     <!-- Left side -->
                     <div class="flex items-center gap-4">
@@ -252,8 +292,18 @@ const menuSections = ref([
     {
         title: 'General',
         items: [
-            { name: Translation.getTranslation('components.sidebar.dashboard'), icon: LayoutDashboardIcon, href: '/', active: isActiveRoute(['/']) },
-            { name: Translation.getTranslation('components.sidebar.tickets'), icon: TicketIcon, href: '/ticket', active: isActiveRoute(['/ticket']) },
+            {
+                name: Translation.getTranslation('components.sidebar.dashboard'),
+                icon: LayoutDashboardIcon,
+                href: '/',
+                active: isActiveRoute(['/']),
+            },
+            {
+                name: Translation.getTranslation('components.sidebar.tickets'),
+                icon: TicketIcon,
+                href: '/ticket',
+                active: isActiveRoute(['/ticket']),
+            },
         ],
     },
     {
@@ -307,7 +357,7 @@ const menuSections = ref([
                 icon: SettingsIcon,
                 href: '/admin/settings',
                 active: isActiveRoute(['/admin/settings']),
-            }
+            },
         ],
     },
 ]);

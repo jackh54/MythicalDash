@@ -46,25 +46,25 @@ class LoggerFactory
     public function info(string $message): void
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
-        $this->appendLog('[INFO] ['. $caller .'] '. $message);
+        $this->appendLog('[INFO] [' . $caller . '] ' . $message);
     }
 
     public function warning(string $message): void
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
-        $this->appendLog('[WARNING] ['. $caller .'] '. $message);
+        $this->appendLog('[WARNING] [' . $caller . '] ' . $message);
     }
 
     public function error(string $message): void
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
-        $this->appendLog('[ERROR] ['. $caller .'] '. $message);
+        $this->appendLog('[ERROR] [' . $caller . '] ' . $message);
     }
 
     public function critical(string $message): void
     {
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['class'] ?? 'unknown';
-        $this->appendLog('[CRITICAL] ['. $caller .'] '. $message);
+        $this->appendLog('[CRITICAL] [' . $caller . '] ' . $message);
     }
 
     public function debug(string $message): void

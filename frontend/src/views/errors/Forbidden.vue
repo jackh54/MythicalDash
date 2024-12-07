@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import { ShieldAlertIcon } from 'lucide-vue-next';
 import ErrorPage from '@/components/Errors/ErrorPage.vue';

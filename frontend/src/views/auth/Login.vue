@@ -28,6 +28,7 @@ const form = reactive({
     password: '',
     turnstileResponse: '',
 });
+const domainName = localStorage.getItem('domain_name');
 
 const handleSubmit = async () => {
     try {
@@ -87,10 +88,19 @@ const handleSubmit = async () => {
         loading.value = false;
     }
 };
+
+const isEnterpriseLogin = localStorage.getItem('domain_name') !== null;
+
+if (isEnterpriseLogin) {
+    document.title = `${t('auth.pages.login.page.subTitle')} - ${localStorage.getItem('domain_name')}`;
+}
 </script>
 <template>
     <Layout>
-        <FormCard :title="$t('auth.pages.login.page.subTitle')" @submit="handleSubmit">
+        <FormCard
+            :title="`${$t('auth.pages.login.page.subTitle')} ${domainName ? ` - ${domainName}` : ''}`"
+            @submit="handleSubmit"
+        >
             <FormInput
                 id="email"
                 :label="$t('auth.pages.login.page.form.email.label')"
