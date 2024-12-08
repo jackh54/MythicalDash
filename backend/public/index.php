@@ -45,6 +45,10 @@ define('APP_ADDONS_DIR', APP_STORAGE_DIR . 'addons');
 define('APP_SOURCECODE_DIR', APP_DIR . 'app');
 define('APP_ROUTES_DIR', APP_SOURCECODE_DIR . '/Api');
 define('APP_DEBUG', true);
+define('SYSTEM_OS_NAME', gethostname().'/'.PHP_OS_FAMILY);
+define('SYSTEM_KERNEL_NAME', php_uname('s'));
+define('APP_VERSION', "dev");
+define("TELEMETRY", true);
 /**
  * Require the kernel.
  */

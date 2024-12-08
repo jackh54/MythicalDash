@@ -1,33 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '@/views/auth/Login.vue';
-import Register from '@/views/auth/Register.vue';
-import ForgotPassword from '@/views/auth/ForgotPassword.vue';
+import Login from '@/views/client/auth/Login.vue';
+import Register from '@/views/client/auth/Register.vue';
+import ForgotPassword from '@/views/client/auth/ForgotPassword.vue';
 
-import NotFound from '@/views/errors/NotFound.vue';
-import Forbidden from '@/views/errors/Forbidden.vue';
-import ServerError from '@/views/errors/ServerError.vue';
-import ResetPassword from '@/views/auth/ResetPassword.vue';
-import DashboardUi from '@/views/Home.vue';
-import DashboardAccount from '@/views/Account.vue';
-import TicketDashboard from '@/views/ticket/List.vue';
-import TicketDetail from '@/views/ticket/[id].vue';
-import TwoFactorSetup from '@/views/auth/TwoFactorSetup.vue';
-import TwoFactorVerify from '@/views/auth/TwoFactorVerify.vue';
+import NotFound from '@/views/client/errors/NotFound.vue';
+import Forbidden from '@/views/client/errors/Forbidden.vue';
+import ServerError from '@/views/client/errors/ServerError.vue';
+import ResetPassword from '@/views/client/auth/ResetPassword.vue';
+import DashboardUi from '@/views/client/Home.vue';
+import DashboardAccount from '@/views/client/Account.vue';
+import TicketDashboard from '@/views/client/ticket/List.vue';
+import TicketDetail from '@/views/client/ticket/[id].vue';
+import TwoFactorSetup from '@/views/client/auth/TwoFactorSetup.vue';
+import TwoFactorVerify from '@/views/client/auth/TwoFactorVerify.vue';
+import SSO from '@/views/client/auth/sso.vue';
 
-import AdminSettings from '@/views/admin/Settings.vue';
-import AdminUsers from '@/views/admin/Users.vue';
-import AdminTickets from '@/views/admin/Tickets.vue';
-import AdminDashboard from '@/views/admin/Home.vue';
-import AdminEula from '@/views/admin/Eula.vue';
-import Adminannouncements from '@/views/admin/announcements.vue';
-import AdminAddons from '@/views/admin/Addons.vue';
-import AdminBackups from '@/views/admin/Backups.vue';
-import AdminApikeys from '@/views/admin/Apikeys.vue';
-import AdminLogs from '@/views/admin/Logs.vue';
-import AdminLanguages from '@/views/admin/Languages.vue';
-import AdminRoles from '@/views/admin/Roles.vue';
-
-import SSO from '@/views/auth/sso.vue';
+import AdminHome from '@/views/admin/Home.vue';
 
 const routes = [
     {
@@ -66,7 +54,7 @@ const routes = [
         component: ServerError,
     },
     {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard',
         component: DashboardUi,
     },
@@ -84,66 +72,6 @@ const routes = [
         path: '/ticket/:id',
         name: 'Ticket Detail',
         component: TicketDetail,
-    },
-    {
-        path: '/admin/settings',
-        name: 'Settings',
-        component: AdminSettings,
-    },
-    {
-        path: '/admin/users',
-        name: 'Users',
-        component: AdminUsers,
-    },
-    {
-        path: '/admin/tickets',
-        name: 'Tickets',
-        component: AdminTickets,
-    },
-    {
-        path: '/admin',
-        name: 'Admin Dashboard',
-        component: AdminDashboard,
-    },
-    {
-        path: '/admin/eula',
-        name: 'Eula',
-        component: AdminEula,
-    },
-    {
-        path: '/admin/announcements',
-        name: 'announcements',
-        component: Adminannouncements,
-    },
-    {
-        path: '/admin/addons',
-        name: 'Addons',
-        component: AdminAddons,
-    },
-    {
-        path: '/admin/backups',
-        name: 'Backups',
-        component: AdminBackups,
-    },
-    {
-        path: '/admin/apikeys',
-        name: 'Apikeys',
-        component: AdminApikeys,
-    },
-    {
-        path: '/admin/logs',
-        name: 'Logs',
-        component: AdminLogs,
-    },
-    {
-        path: '/admin/languages',
-        name: 'Languages',
-        component: AdminLanguages,
-    },
-    {
-        path: '/admin/roles',
-        name: 'Roles',
-        component: AdminRoles,
     },
     {
         path: '/auth/sso',
@@ -168,6 +96,15 @@ const routes = [
         path: '/auth/2fa/verify',
         name: 'Two Factor Verify',
         component: TwoFactorVerify,
+    },
+    {
+        path: '/',
+        redirect: '/dashboard',
+    },
+    {
+        path: '/mc-admin',
+        name: 'Admin Home',
+        component: AdminHome,
     },
 ];
 

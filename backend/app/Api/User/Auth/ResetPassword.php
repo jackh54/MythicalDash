@@ -111,11 +111,12 @@ $router->post('/api/user/auth/reset', function (): void {
 
         if (User::updateInfo($userToken, UserColumns::PASSWORD, $password, true) == true) {
             Verification::delete($code);
+            $token = App::getInstance(true)->encrypt(date('Y-m-d H:i:s') . $uuid . random_bytes(16) . base64_encode($code));
+            User::updateInfo($userToken, UserColumns::ACCOUNT_TOKEN, $token, true);
             $appInstance->OK('Password has been reset', []);
         } else {
             $appInstance->BadRequest('Failed to reset password', ['error_code' => 'FAILED_TO_RESET_PASSWORD']);
         }
-
     } else {
         $appInstance->BadRequest('Bad Request', ['error_code' => 'INVALID_CODE']);
     }

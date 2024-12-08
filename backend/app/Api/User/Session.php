@@ -172,7 +172,7 @@ $router->get('/api/user/session', function (): void {
                 'first_seen' => User::getInfo($accountToken, UserColumns::FIRST_SEEN, false),
                 'background' => User::getInfo($accountToken, UserColumns::BACKGROUND, false),
                 'role_name' => Roles::getUserRoleName(User::getInfo($accountToken, UserColumns::UUID, false)),
-                'role_real_name' => Roles::getUserRoleName(User::getInfo($accountToken, UserColumns::UUID, false)),
+                'role_real_name' => strtolower(Roles::getUserRoleName(User::getInfo($accountToken, UserColumns::UUID, false))),
             ],
             'billing' => $billing,
         ]);

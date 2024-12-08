@@ -111,7 +111,7 @@ class User extends Database
                 ':banned' => 'NO',
                 ':verified' => 'false',
             ]);
-
+            \MythicalClient\MythicalSystems\Telemetry::send(\MythicalClient\MythicalSystems\TelemetryCollection::USER_NEW);
             /**
              * Check if the mail is enabled.
              *
