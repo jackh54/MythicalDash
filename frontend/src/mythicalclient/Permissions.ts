@@ -1,5 +1,3 @@
-class Permissions {
-
-}
+class Permissions {}
 
 export default Permissions;

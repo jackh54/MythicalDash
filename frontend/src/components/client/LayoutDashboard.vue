@@ -231,7 +231,6 @@ import {
     User as UserIcon,
     Menu as MenuIcon,
     X as XIcon,
-    HelpCircle as HelpIcon,
     Users as UsersIcon,
     Settings as SettingsIcon,
     LogOut as LogOutIcon,
@@ -240,11 +239,6 @@ import {
     Database as DatabaseIcon,
     AlertTriangle as AlertTriangleIcon,
     Ticket as TicketIcon,
-    Webhook as ApiKeysIcon,
-    Scale as ScaleIcon,
-    Antenna as RssIcon,
-    Blocks as AddonsIcon,
-    Logs as LogsIcon,
 } from 'lucide-vue-next';
 import Settings from '@/mythicalclient/Settings';
 import Session from '@/mythicalclient/Session';
@@ -305,11 +299,10 @@ const menuSections = ref([
                 active: isActiveRoute(['/ticket']),
             },
         ],
-    }
+    },
 ]);
 
 // Profile Menu
-
 
 interface ProfileMenuItem {
     name: string;
@@ -319,8 +312,8 @@ interface ProfileMenuItem {
 
 const profileMenu = ref<ProfileMenuItem[]>([]);
 
-const role = Session.getInfo('role_real_name'); 
-if (["admin", "administrator", "support", "supportbuddy"].includes(role)) {
+const role = Session.getInfo('role_real_name');
+if (['admin', 'administrator', 'support', 'supportbuddy'].includes(role)) {
     profileMenu.value = [
         { name: 'Settings', icon: SettingsIcon, href: '/account' },
         { name: 'Admin Area', icon: UsersIcon, href: '/mc-admin' },
@@ -332,7 +325,7 @@ if (["admin", "administrator", "support", "supportbuddy"].includes(role)) {
         { name: 'Settings', icon: SettingsIcon, href: '/account' },
         { name: 'Logout', icon: LogOutIcon, href: '/auth/logout' },
     ];
-    console.log('User is not Admin:' , role);
+    console.log('User is not Admin:', role);
 }
 
 // Sample Notifications

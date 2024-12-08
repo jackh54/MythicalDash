@@ -51,5 +51,4 @@
 <script setup lang="ts">
 import { CheckCircle, Heart, HelpCircle } from 'lucide-vue-next';
 import LayoutDashboard from '@/components/admin/LayoutDashboard.vue';
-
 </script>
