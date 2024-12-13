@@ -1,5 +1,7 @@
 <!-- src/components/Auth/Layout.vue -->
+<script setup lang="ts">
 
+</script>
 <template>
     <div class="min-h-screen bg-[#0a0a1f] relative overflow-hidden">
         <!-- Background elements -->
