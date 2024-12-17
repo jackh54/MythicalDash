@@ -31,7 +31,7 @@ echo -e "
 \x1b[35;1m┃  Welcome to MythicalClient
 \x1b[35;1m┃\x1b[0m
 \x1b[35;1m┃\x1b[0m Thanks for downloading MythicalClient! We're
-\x1b[35;1m┃\x1b[0m are so exited to have you here. If you have
+\x1b[35;1m┃\x1b[0m are so excited to have you here. If you have
 \x1b[35;1m┃\x1b[0m any questions or need help, feel free to reach
 \x1b[35;1m┃\x1b[0m us at any of the following:
 \x1b[35;1m┃\x1b[0m
